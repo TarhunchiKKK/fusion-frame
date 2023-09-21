@@ -1,9 +1,15 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, screen, devicePixelRatio } = require('electron');
 
 const createWindow = () => {
+    //const devicePixelRatio = devicePixelRatio();
+    // const window = new BrowserWindow({
+    //     width: screen.width / devicePixelRatio,
+    //     height: screen.height / devicePixelRatio
+    // });
+
     const window = new BrowserWindow({
-        width: 800,
-        height: 600
+        width: 1400,
+        height: 1100
     });
     window.loadFile('./pages/photos.html');
 }

@@ -1,11 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { Media } from "./interfaces/media.interface";
 import { KeywordsDto } from "./dto/keywords.dto";
+import { Media } from "./entities/media.entity";
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class MediaService{
     private paths: string[] = [];
     private readonly media: Media[] = [];
+
+    constructor(@InjectRepository(Media) private mediaRepository: Repository<Media>) {}
 
     public addPath(path: string): void{
 
@@ -34,3 +38,4 @@ export class MediaService{
 
     }
 }
+

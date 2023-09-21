@@ -42,6 +42,7 @@
     "mz": "^2.7.0",
     "nanoid": "^3.3.6",
     "normalize-path": "^3.0.0",
+    "normalize.css": "^8.0.1",
     "object-assign": "^4.1.1",
     "object-hash": "^3.0.0",
     "once": "^1.4.0",
