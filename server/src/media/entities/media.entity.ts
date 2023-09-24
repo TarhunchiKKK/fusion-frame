@@ -1,9 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
-import { Album } from './album.entity';
+import { Album } from 'src/albums/entities/album.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, OneToOne, JoinColumn } from 'typeorm';
+// import { Keywords } from './keywords.entity';
 
 @Entity()
 export class Media{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ name: 'media_id' })
     id: number;
 
     @Column()
@@ -15,15 +16,17 @@ export class Media{
     @Column()
     creationDate: Date;
 
-    @Column()
-    keywords: string[];
+    // ТРАБЛ
+    // Postgres не поддерживает массив строк
+    // так работает, но не понятно, что выйдет при считывании 
+    @Column({ type: 'text', array: true })
+    keywords: String[];
 
     @Column()
     duration: number | undefined;
 
-    //@Column({ default: null })
-    @ManyToMany(type => Album, album => album.media)
-    albums: Album[] | null;
+    @ManyToMany(() => Album, (album) => album.media, { onDelete: 'NO ACTION' })
+    albums: Album[];
 }
 
 
