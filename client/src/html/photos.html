@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Fusion Frame</title>
         <link rel="stylesheet" href="../node_modules/normalize.css/normalize.css">
-        <link rel="stylesheet" href="../styles/styles.css">
+        <link rel="stylesheet" href="../styles.css">
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body>
         <header class="mx-auto bg-slate-200">
@@ -31,7 +32,11 @@
                     <h3 class="date">28 июля</h3>
                     <hr class="bg-blue-900 mt-2 mb-1">
                     <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-0">
-                        <img class="w-full sm:h-72 md:h-60 lg:h-52 xl:h-44" src="../images/Picture1.jfif" alt="">
+                        <!-- <img class="w-full sm:h-72 md:h-60 lg:h-52 xl:h-44" src="../images/Picture1.jfif" alt=""> -->
+                        <div class="relative w-full sm:h-72 md:h-60 lg:h-52 xl:h-44">
+                            <img src="../images/Picture3.jfif" alt="" class="w-full h-full">
+                            <div class="w-6 h-6 rounded-full border-2 border-white absolute right-1 bottom-1""></div>
+                        </div>
                         <img class="w-full sm:h-72 md:h-60 lg:h-52 xl:h-44" src="../images/Picture2.jfif" alt="">
                         <img class="w-full sm:h-72 md:h-60 lg:h-52 xl:h-44" src="../images/Picture3.jfif" alt="">
                         <img class="w-full sm:h-72 md:h-60 lg:h-52 xl:h-44" src="../images/Picture4.jfif" alt="">
@@ -39,6 +44,7 @@
                         <img class="w-full sm:h-72 md:h-60 lg:h-52 xl:h-44" src="../images/Picture6.jfif" alt="">
                         <img class="w-full sm:h-72 md:h-60 lg:h-52 xl:h-44" src="../images/Picture7.jfif" alt="">
                         <img class="w-full sm:h-72 md:h-60 lg:h-52 xl:h-44" src="../images/Picture8.png" alt="">
+                        
                     </div>
                 </div>
             </div>

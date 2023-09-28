@@ -3,8 +3,12 @@ import { Repository } from "typeorm";
 import { Path } from "./entities/path.entity";
 export declare class PathService {
     private readonly pathRepository;
+    private formats;
     constructor(pathRepository: Repository<Path>);
     findAll(): Promise<Path[]>;
-    create(createPathDto: CreatePathDto): Promise<Path>;
-    remove(id: number): Promise<void>;
+    addPath(createPathDto: CreatePathDto): Promise<Path>;
+    removePath(id: number): Promise<void>;
+    openExplorer(): void;
+    openDirectoryInExplorer(directory: string): void;
+    checkForNewFiles(latestDate: Date): Promise<string[]>;
 }

@@ -1,12 +1,19 @@
 import { AlbumService } from "./album.service";
 import { Album } from "./entities/album.entity";
 import { CreateAlbumDto } from "./dto/create-album.dto";
+import { SearchAlbumDto } from "./dto/search-album.dto";
+import { UpdateAlbumDto } from "./dto/update-album.dto";
+import { AddOneMediaDto } from "./dto/add-one-media.dto";
+import { AddManyMediaDto } from "./dto/add-many-media.dto";
 export declare class AlbumController {
     private readonly albumService;
     constructor(albumService: AlbumService);
-    findAll(): Promise<Album[]>;
-    findOne(id: number): Promise<Album>;
-    findMany(name: string): Promise<Album[]>;
+    getAll(): Promise<Album[]>;
+    getOne(id: number): Promise<Album>;
+    getByName(searchAlbumDto: SearchAlbumDto): Promise<Album[]>;
     create(createAlbumDto: CreateAlbumDto): Promise<Album>;
+    updateAlbumName(updateAlbumDto: UpdateAlbumDto): void;
     remove(id: number): Promise<void>;
+    addOneMediaToAlbum(addMediaDto: AddOneMediaDto): void;
+    addManyMediaToAlbum(addMediaDto: AddManyMediaDto): void;
 }

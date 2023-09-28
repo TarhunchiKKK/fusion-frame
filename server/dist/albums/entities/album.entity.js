@@ -24,15 +24,10 @@ __decorate([
     __metadata("design:type", String)
 ], Album.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], Album.prototype, "mediaCount", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], Album.prototype, "size", void 0);
-__decorate([
-    (0, typeorm_1.ManyToMany)(() => media_entity_1.Media, (media) => media.albums, { onDelete: 'NO ACTION' }),
+    (0, typeorm_1.ManyToMany)(() => media_entity_1.Media, {
+        cascade: true,
+    }),
+    (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], Album.prototype, "media", void 0);
 exports.Album = Album = __decorate([

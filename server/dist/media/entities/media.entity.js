@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Media = void 0;
-const album_entity_1 = require("../../albums/entities/album.entity");
 const typeorm_1 = require("typeorm");
 let Media = class Media {
 };
@@ -39,10 +38,6 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], Media.prototype, "duration", void 0);
-__decorate([
-    (0, typeorm_1.ManyToMany)(() => album_entity_1.Album, (album) => album.media, { onDelete: 'NO ACTION' }),
-    __metadata("design:type", Array)
-], Media.prototype, "albums", void 0);
 exports.Media = Media = __decorate([
     (0, typeorm_1.Entity)()
 ], Media);

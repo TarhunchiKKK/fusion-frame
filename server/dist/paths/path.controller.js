@@ -16,18 +16,28 @@ exports.PathController = void 0;
 const common_1 = require("@nestjs/common");
 const path_service_1 = require("./path.service");
 const create_path_dto_1 = require("./dto/create-path.dto");
+const directory_dto_1 = require("./dto/directory.dto");
 let PathController = class PathController {
     constructor(pathService) {
         this.pathService = pathService;
     }
-    findAll() {
+    getAll() {
         return this.pathService.findAll();
     }
-    create(CreatePathDto) {
-        return this.pathService.create(CreatePathDto);
+    addPath(CreatePathDto) {
+        return this.pathService.addPath(CreatePathDto);
     }
-    remove(id) {
-        return this.pathService.remove(id);
+    removePath(id) {
+        return this.pathService.removePath(id);
+    }
+    openExplorer() {
+        this.pathService.openExplorer();
+    }
+    openDirectoryInExplorer(directoryDto) {
+        this.pathService.openDirectoryInExplorer(directoryDto.path);
+    }
+    checkForNewFiles(latestDate) {
+        return this.pathService.checkForNewFiles(latestDate);
     }
 };
 exports.PathController = PathController;
@@ -36,21 +46,41 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], PathController.prototype, "findAll", null);
+], PathController.prototype, "getAll", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_path_dto_1.CreatePathDto]),
     __metadata("design:returntype", void 0)
-], PathController.prototype, "create", null);
+], PathController.prototype, "addPath", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
-], PathController.prototype, "remove", null);
+], PathController.prototype, "removePath", null);
+__decorate([
+    (0, common_1.Post)('explorer'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PathController.prototype, "openExplorer", null);
+__decorate([
+    (0, common_1.Post)('openinexplorer'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [directory_dto_1.DirectoryDto]),
+    __metadata("design:returntype", void 0)
+], PathController.prototype, "openDirectoryInExplorer", null);
+__decorate([
+    (0, common_1.Get)('check'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Date]),
+    __metadata("design:returntype", Promise)
+], PathController.prototype, "checkForNewFiles", null);
 exports.PathController = PathController = __decorate([
     (0, common_1.Controller)('paths'),
     __metadata("design:paramtypes", [path_service_1.PathService])

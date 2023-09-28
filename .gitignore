@@ -1,7 +1,12 @@
 /client/node_modules/
 /client/package-lock.json
 /client/images/*
+/client/dist/
 
 /server/node_modules/
 /server/package-lock.json
+/server/dist/
 
+/electron/node_modules/
+/electron/package-lock.json
+/electron/out/

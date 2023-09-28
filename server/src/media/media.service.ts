@@ -1,15 +1,172 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, forwardRef } from "@nestjs/common";
 import { Media } from "./entities/media.entity";
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { KeywordsDto } from "./dto/keywords.dto";
+import { CreateMediaDto } from "./dto/create-media.dto";
+
+const fs = require('fs');
+const path = require('path');
+
+function keywordsIntersection(a: string[], b: string[]): boolean{
+    for(let word1 of a){
+        for(let word2 of b){
+            if(word1 == word2){
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 @Injectable()
 export class MediaService{
-    private paths: string[] = [];
-    private readonly media: Media[] = [];
 
-    constructor(@InjectRepository(Media) private mediaRepository: Repository<Media>) {}
+    // форматы фото и видео файлов
+    private formats: string[] = [
+        '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff',
+        '.mp4', '.avi', '.wmv'   
+    ];
+
+    constructor(
+        @InjectRepository(Media) private mediaRepository: Repository<Media>
+    ) {}
     
+    public async getAll(): Promise<Media[]> {
+        let count: number = await this.mediaRepository.count();
+        if(count == 0){
+            throw new BadRequestException('No photos and videos');
+        }
+        let media: Media[] = await this.mediaRepository.find();
+        return media.sort((a, b) => a.creationDate < b.creationDate ? -1 : 1);
+    }
+
+    public async getOne(id: number): Promise<Media> {
+        return await this.mediaRepository.findOne({
+            where:{
+                id: id,
+            },
+        });
+    }
+
+    public async updateKeywords(id: number, keywords: string[]){
+        let media: Media = await this.mediaRepository.findOne({
+            where:{
+                id: id,
+            }
+        });
+
+        media.keywords = keywords;
+        await this.mediaRepository.update(id, media);
+    }
+
+    public async getLatestDate(): Promise<Date> {
+        let media: Media[] = await this.mediaRepository.find();
+        if(media.length == 0) return new Date(1990, 1, 1, 0, 0, 0, 0);
+        else{
+            let latestDate: Date = media[0].creationDate;
+            for(let i = 1; i < media.length; i++){
+                if(media[i].creationDate > latestDate) latestDate = media[i].creationDate;
+            }
+            return latestDate;
+        }
+    }
+
+    public async findByKeywords(keywords: string[]): Promise<Media[]> {
+        let count: number = await this.mediaRepository.count();
+        if(count == 0){
+            throw new BadRequestException('No photos and videos');
+        }
+        return (await this.mediaRepository.find()).filter(a => keywordsIntersection(a.keywords, keywords));
+    }
+
+    // подразумевается, что путь уже проверен на существование и то, что он является каталогом
+    public async loadMediaFromDirectory(directory: string){
+
+        // получить файлы, которые являются фото или видео
+        let files: string[] = fs.readdirSync(directory).filter(file =>{
+            return this.formats.includes(path.extname(path.join(directory, file)));
+        });
+
+        // получить полные пути к файлам
+        files = files.map(file => path.join(directory, file));
+
+        // получить список готовых к сохранению объектов
+        let media: Media[] = files.map(file =>{
+            let m: Media = new Media();
+            let stat = fs.statSync(file);
+            m.path = file;
+            m.size = stat.size;
+            m.creationDate = stat.birthtime;
+            m.duration = undefined;
+            m.keywords = [];
+            //m.albums = [];
+            return m;
+        });
+
+        await this.mediaRepository.save(media);
+    }
+
+    // подразумевается, что пути уже проверены на существование и на то, что они являются каталогами
+    public async updateMediaFromDirectories(directories: string[], latestDate: Date){
+        let files: string[] = [];
+
+        // получить из каталогов файлы, которые являются файлами фото или видео
+        for(let directory of directories){
+            // получить названия нужных файлов
+            let filenames: string[] = fs.readdirSync(directory).filter(file =>{
+                return this.formats.includes(path.extname(path.join(directory, file)));
+            });
+
+            // получить полные пути к нужным файлам
+            let paths: string[] = filenames.map(file => path.join(directory, file));
+
+            // ищем новые файлы
+            let newFiles: string[] = paths.filter(file => {
+                let stat = fs.statSync(file);
+                if(stat.birthtime > latestDate) return true;
+                else return false;
+            })
+
+            // добавить названия нужных файлов в общий массив
+            files = [...files, ...newFiles];
+        }
+
+        // получить список готовых к сохранению объектов
+        let media: Media[] = files.map(file =>{
+            let m: Media = new Media();
+            let stat = fs.statSync(file);
+            m.path = file;
+            m.size = stat.size;
+            m.creationDate = stat.birthtime;
+            m.duration = undefined;
+            m.keywords = [];
+           // m.albums = [];
+            return m;
+        });
+
+        await this.mediaRepository.save(media);
+    }
+
+    public async removeOne(id: number){
+        await this.mediaRepository.delete(id);
+    }
+
+    public async removeMany(ids: number[]){
+        let media: Media[] = (await this.mediaRepository.find()).filter(m => ids.includes(m.id));
+        await this.mediaRepository.remove(media);
+    }
+
+
+    public async create(createMediaDto: CreateMediaDto){
+        let media: Media = new Media();
+
+        media.path = createMediaDto.path;
+        media.creationDate = new Date(2023, 12, 12, 0 , 0 , 0 , 0);
+        media.size = createMediaDto.size;
+        media.keywords = createMediaDto.keywords;
+        media.duration = createMediaDto.duration;
+
+        await this.mediaRepository.save(media);
+    }
 }
 

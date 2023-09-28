@@ -16,24 +16,37 @@ exports.AlbumController = void 0;
 const common_1 = require("@nestjs/common");
 const album_service_1 = require("./album.service");
 const create_album_dto_1 = require("./dto/create-album.dto");
+const search_album_dto_1 = require("./dto/search-album.dto");
+const update_album_dto_1 = require("./dto/update-album.dto");
+const add_one_media_dto_1 = require("./dto/add-one-media.dto");
+const add_many_media_dto_1 = require("./dto/add-many-media.dto");
 let AlbumController = class AlbumController {
     constructor(albumService) {
         this.albumService = albumService;
     }
-    findAll() {
-        return this.albumService.findAll();
+    getAll() {
+        return this.albumService.getAll();
     }
-    findOne(id) {
-        return this.albumService.findOne(id);
+    getOne(id) {
+        return this.albumService.getOne(id);
     }
-    findMany(name) {
-        return this.albumService.findMany(name);
+    getByName(searchAlbumDto) {
+        return this.albumService.findByName(searchAlbumDto.name);
     }
     create(createAlbumDto) {
         return this.albumService.create(createAlbumDto);
     }
+    updateAlbumName(updateAlbumDto) {
+        this.albumService.updateAlbumName(updateAlbumDto.id, updateAlbumDto.name);
+    }
     remove(id) {
         return this.albumService.remove(id);
+    }
+    addOneMediaToAlbum(addMediaDto) {
+        this.albumService.addOneMediaToAlbum(addMediaDto.id, addMediaDto.media);
+    }
+    addManyMediaToAlbum(addMediaDto) {
+        this.albumService.addManyMediaToAlbum(addMediaDto.id, addMediaDto.media);
     }
 };
 exports.AlbumController = AlbumController;
@@ -42,21 +55,21 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], AlbumController.prototype, "findAll", null);
+], AlbumController.prototype, "getAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], AlbumController.prototype, "findOne", null);
+], AlbumController.prototype, "getOne", null);
 __decorate([
-    (0, common_1.Get)(':name'),
-    __param(0, (0, common_1.Param)('name')),
+    (0, common_1.Get)('search'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [search_album_dto_1.SearchAlbumDto]),
     __metadata("design:returntype", Promise)
-], AlbumController.prototype, "findMany", null);
+], AlbumController.prototype, "getByName", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
@@ -65,12 +78,33 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AlbumController.prototype, "create", null);
 __decorate([
+    (0, common_1.Put)('updatename'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [update_album_dto_1.UpdateAlbumDto]),
+    __metadata("design:returntype", void 0)
+], AlbumController.prototype, "updateAlbumName", null);
+__decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], AlbumController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('addonemedia'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [add_one_media_dto_1.AddOneMediaDto]),
+    __metadata("design:returntype", void 0)
+], AlbumController.prototype, "addOneMediaToAlbum", null);
+__decorate([
+    (0, common_1.Post)('addmanymedia'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [add_many_media_dto_1.AddManyMediaDto]),
+    __metadata("design:returntype", void 0)
+], AlbumController.prototype, "addManyMediaToAlbum", null);
 exports.AlbumController = AlbumController = __decorate([
     (0, common_1.Controller)('albums'),
     __metadata("design:paramtypes", [album_service_1.AlbumService])

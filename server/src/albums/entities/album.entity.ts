@@ -1,5 +1,5 @@
 import { Media } from "src/media/entities/media.entity";
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Album{
@@ -9,12 +9,15 @@ export class Album{
     @Column()
     name: string;
 
-    @Column()
-    mediaCount: number;
+    // @Column()
+    // mediaCount: number;
 
-    @Column()
-    size: number;
+    // @Column()
+    // size: number;
 
-    @ManyToMany(() => Media, (media) => media.albums, { onDelete: 'NO ACTION' })
+    @ManyToMany(() => Media, {
+        cascade: true,
+    })
+    @JoinTable()
     media: Media[];
 }

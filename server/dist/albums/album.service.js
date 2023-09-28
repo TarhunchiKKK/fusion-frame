@@ -21,27 +21,38 @@ let AlbumService = class AlbumService {
     constructor(albumRepository) {
         this.albumRepository = albumRepository;
     }
-    async findAll() {
+    async getAll() {
         let count = await this.albumRepository.count();
         if (count == 0) {
             throw new common_1.BadRequestException('No albums');
         }
-        let albums = await this.albumRepository.find();
+        let albums = await this.albumRepository.find({
+            relations: {
+                media: false,
+            }
+        });
         return albums.sort((a, b) => a.name < b.name ? 1 : -1);
     }
-    async findOne(id) {
+    async getOne(id) {
         return await this.albumRepository.findOne({
             where: {
                 id: id,
             },
+            relations: {
+                media: true,
+            }
         });
     }
-    async findMany(name) {
+    async findByName(name) {
         let count = await this.albumRepository.count();
         if (count == 0) {
             throw new common_1.BadRequestException('No albums');
         }
-        let albums = await this.albumRepository.find();
+        let albums = await this.albumRepository.find({
+            relations: {
+                media: false,
+            }
+        });
         return albums.filter(album => album.name.includes(name)).sort((a, b) => a.name < b.name ? 1 : -1);
     }
     async create(createAlbumDto) {
@@ -50,16 +61,54 @@ let AlbumService = class AlbumService {
                 name: createAlbumDto.name,
             },
         });
-        if (exist) {
+        if (exist == null) {
             throw new common_1.BadRequestException('Album with such name already exists');
         }
         let album = new album_entity_1.Album();
         album.name = createAlbumDto.name;
-        album.media = createAlbumDto.media;
         return await this.albumRepository.save(album);
+    }
+    async updateAlbumName(id, name) {
+        let album = await this.albumRepository.findOne({
+            where: {
+                id: id,
+            }
+        });
+        album.name = name;
+        await this.albumRepository.update(id, album);
     }
     async remove(id) {
         await this.albumRepository.delete(id);
+    }
+    async addOneMediaToAlbum(id, media) {
+        let album = await this.albumRepository.findOne({
+            where: {
+                id: id,
+            },
+            relations: {
+                media: true,
+            }
+        });
+        if (!album.media.map(m => m.id).includes(media.id)) {
+            album.media.push(media);
+        }
+        await this.albumRepository.save(album);
+    }
+    async addManyMediaToAlbum(id, media) {
+        let album = await this.albumRepository.findOne({
+            where: {
+                id: id,
+            },
+            relations: {
+                media: true,
+            }
+        });
+        for (let i = 0; i < media.length; i++) {
+            if (!album.media.map(m => m.id).includes(media[i].id)) {
+                album.media.push(media[i]);
+            }
+        }
+        await this.albumRepository.save(album);
     }
 };
 exports.AlbumService = AlbumService;

@@ -17,9 +17,16 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const path_entity_1 = require("./entities/path.entity");
+const fs = require('fs');
+const path = require('path');
+const child_process = require('child_process');
 let PathService = class PathService {
     constructor(pathRepository) {
         this.pathRepository = pathRepository;
+        this.formats = [
+            '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff',
+            '.mp4', '.avi', '.wmv'
+        ];
     }
     async findAll() {
         let count = await this.pathRepository.count();
@@ -28,21 +35,64 @@ let PathService = class PathService {
         }
         return await this.pathRepository.find({});
     }
-    async create(createPathDto) {
+    async addPath(createPathDto) {
+        const directory = createPathDto.path;
         const exist = await this.pathRepository.findOne({
             where: {
-                path: createPathDto.path,
+                path: directory,
             },
         });
         if (exist) {
-            throw new common_1.BadRequestException('This path is already exists');
+            throw new common_1.BadRequestException('This path is already added');
         }
-        let path = new path_entity_1.Path();
-        path.path = createPathDto.path;
-        return await this.pathRepository.save(path);
+        if (fs.existsSync(directory)) {
+            const directoryStat = fs.statSync(directory);
+            if (!directoryStat.isDirectory()) {
+                throw new common_1.BadRequestException('This path is not a directory');
+            }
+            let new_path = new path_entity_1.Path();
+            new_path.path = directory;
+            return await this.pathRepository.save(new_path);
+        }
+        else {
+            throw new common_1.BadRequestException('Path is not exist');
+        }
     }
-    async remove(id) {
+    async removePath(id) {
         await this.pathRepository.delete(id);
+    }
+    openExplorer() {
+        try {
+            const result = child_process.execSync('explorer ', {
+                encoding: 'utf-8',
+            });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    openDirectoryInExplorer(directory) {
+        try {
+            const result = child_process.execSync(`explorer \"${directory}\"`, {
+                encoding: 'utf-8',
+            });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    async checkForNewFiles(latestDate) {
+        let directories = (await this.pathRepository.find()).map(p => p.path);
+        directories = directories.filter(directory => {
+            let files = fs.readdirSync(directory);
+            for (let file of files) {
+                let stat = fs.statSync(path.join(directory, file));
+                if (stat.birthtime > latestDate)
+                    return true;
+            }
+            return false;
+        });
+        return directories;
     }
 };
 exports.PathService = PathService;
