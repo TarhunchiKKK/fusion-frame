@@ -23,7 +23,7 @@ export class MediaService{
 
     // форматы фото и видео файлов
     private formats: string[] = [
-        '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff',
+        '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif',
         '.mp4', '.avi', '.wmv'   
     ];
 
@@ -106,44 +106,21 @@ export class MediaService{
         await this.mediaRepository.save(media);
     }
 
-    // подразумевается, что пути уже проверены на существование и на то, что они являются каталогами
-    public async updateMediaFromDirectories(directories: string[], latestDate: Date){
-        let files: string[] = [];
-
-        // получить из каталогов файлы, которые являются файлами фото или видео
-        for(let directory of directories){
-            // получить названия нужных файлов
-            let filenames: string[] = fs.readdirSync(directory).filter(file =>{
-                return this.formats.includes(path.extname(path.join(directory, file)));
-            });
-
-            // получить полные пути к нужным файлам
-            let paths: string[] = filenames.map(file => path.join(directory, file));
-
-            // ищем новые файлы
-            let newFiles: string[] = paths.filter(file => {
-                let stat = fs.statSync(file);
-                if(stat.birthtime > latestDate) return true;
-                else return false;
-            })
-
-            // добавить названия нужных файлов в общий массив
-            files = [...files, ...newFiles];
-        }
-
-        // получить список готовых к сохранению объектов
-        let media: Media[] = files.map(file =>{
+    // подразумевается, что пути уже проверены на существование
+    public async updateMediaFromDirectories(files: string[]){
+        let media: Media[] = [];
+        for(let file of files){
             let m: Media = new Media();
             let stat = fs.statSync(file);
+
             m.path = file;
             m.size = stat.size;
             m.creationDate = stat.birthtime;
             m.duration = undefined;
             m.keywords = [];
-           // m.albums = [];
-            return m;
-        });
 
+            media.push(m);
+        }
         await this.mediaRepository.save(media);
     }
 
@@ -157,6 +134,8 @@ export class MediaService{
     }
 
 
+
+    // POSTMAN
     public async create(createMediaDto: CreateMediaDto){
         let media: Media = new Media();
 
@@ -168,5 +147,9 @@ export class MediaService{
 
         await this.mediaRepository.save(media);
     }
+
+    public async clear(){
+        this.mediaRepository.clear();
+     }
 }
 

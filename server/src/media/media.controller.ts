@@ -52,7 +52,7 @@ export class MediaController{
     // добавить новые файлы из каталогов
     @Post('uploadmedia')
     public updateMediaFromDirectories(@Body() uploadMediaDto: UploadMediaDto){
-        this.mediaService.updateMediaFromDirectories(uploadMediaDto.paths, uploadMediaDto.latestDate);
+        this.mediaService.updateMediaFromDirectories(uploadMediaDto.paths);
     }
 
     // удалить медиафайл
@@ -75,5 +75,10 @@ export class MediaController{
     @Post('add')
     public async create(@Body() createMediaDto: CreateMediaDto){
         this.mediaService.create(createMediaDto);
+    }
+
+    @Post('clear')
+    public async clear(){
+        this.mediaService.clear();
     }
 }

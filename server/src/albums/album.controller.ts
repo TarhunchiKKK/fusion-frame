@@ -59,4 +59,14 @@ export class AlbumController{
     public addManyMediaToAlbum(@Body() addMediaDto: AddManyMediaDto){
         this.albumService.addManyMediaToAlbum(addMediaDto.id, addMediaDto.media);
     }
+
+
+
+
+
+    // POSTMAN
+    @Post('clear')
+    public async clear(){
+        this.albumService.clear();
+    }
 }

@@ -122,4 +122,15 @@ export class AlbumService{
 
         await this.albumRepository.save(album);
     }
+
+
+
+
+
+
+
+    // POSTMAN
+    public async clear(){
+        this.albumRepository.clear();
+    }
 }

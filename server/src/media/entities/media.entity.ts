@@ -22,7 +22,7 @@ export class Media{
     @Column({ type: 'text', array: true })
     keywords: string[];
 
-    @Column()
+    @Column({ nullable: true })
     duration: number | undefined;
 
     // @ManyToMany(() => Album, (album) => album.media, { onDelete: 'NO ACTION' })

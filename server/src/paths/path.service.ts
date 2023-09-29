@@ -8,11 +8,20 @@ const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process');
 
+function replaceSymbol(str: string, old_symbol: string, new_symbol: string) {
+    let new_str: string = "";
+    for(let c of str){
+        if(c == old_symbol) new_str += new_symbol;
+        else new_str += c;
+    }
+    return new_str;
+}
+
 @Injectable()
 export class PathService{
 
     private formats: string[] = [
-        '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff',
+        '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif',
         '.mp4', '.avi', '.wmv'   
     ];
 
@@ -36,7 +45,7 @@ export class PathService{
                 path: directory,
             },
         });
-        if(exist){
+        if(exist != null){
             throw new BadRequestException('This path is already added');
         }
 
@@ -72,8 +81,9 @@ export class PathService{
     }
 
     public openDirectoryInExplorer(directory: string){
-        // путь приходит из базы, поэтому его не надо проверять
+        // путь приходит из базы, поэтому его не надо проверять на существование
         try{
+            directory = replaceSymbol(directory, '/', '\\');
             const result = child_process.execSync(`explorer \"${directory}\"`, {
                 encoding: 'utf-8',
             });   
@@ -84,15 +94,27 @@ export class PathService{
 
     public async checkForNewFiles(latestDate: Date): Promise<string[]> {
         let directories: string[] = (await this.pathRepository.find()).map(p => p.path);
-        directories = directories.filter(directory => {
-            let files: string[] = fs.readdirSync(directory);
+        let newFiles: string[] = [];
+        for(let directory of directories){
+            let files = fs.readdirSync(directory);
             for(let file of files){
-                let stat = fs.statSync(path.join(directory, file));
-                if(stat.birthtime > latestDate) return true;
+                let fullpath: string = path.join(directory, file);
+                let stat = fs.statSync(fullpath);
+                let creationDate: Date = stat.birthtime;
+                let extension: string = path.extname(fullpath);
+                if(creationDate > latestDate && this.formats.includes(extension)){
+                    newFiles.push(fullpath);
+                }
             }
-            return false;
-        });
-        return directories;
+        }
+        return newFiles;
+    }
+
+
+
+    // POSTMAN
+    public async clear(){
+        this.pathRepository.clear();
     }
 
 }

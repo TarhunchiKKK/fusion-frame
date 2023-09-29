@@ -3,6 +3,7 @@ import { Path } from "./entities/path.entity";
 import { PathService } from "./path.service";
 import { CreatePathDto } from "./dto/create-path.dto";
 import { DirectoryDto } from "./dto/directory.dto";
+import { DateDto } from "./dto/date.dto";
 
 @Controller('paths')
 export class PathController{
@@ -40,7 +41,18 @@ export class PathController{
 
     // проверить хранимые каталоги на новые файлы
     @Get('check')
-    public checkForNewFiles(@Body() latestDate: Date): Promise<string[]> {
+    public checkForNewFiles(@Body() dateDto: DateDto): Promise<string[]> {
+        let latestDate: Date = new Date(dateDto.creationDate);
         return this.pathService.checkForNewFiles(latestDate);
+    }
+
+
+
+
+
+    // POSTMAN
+    @Post('clear')
+    public async clear(){
+        this.pathService.clear();
     }
 }
