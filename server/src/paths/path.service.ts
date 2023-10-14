@@ -117,4 +117,17 @@ export class PathService{
         this.pathRepository.clear();
     }
 
+    public async copy(){
+        //"C:\photo.jpg" "D:\Медиа"
+
+
+
+        try {
+            const result = child_process.execSync('copy \"C:/photo.jpg\" \"D:/Медиа\" ', {
+                encoding: 'utf-8',
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }

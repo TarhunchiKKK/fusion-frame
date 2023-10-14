@@ -4,9 +4,18 @@
 /client/dist/*
 
 /server/node_modules/
+/server/dist/*
 /server/package-lock.json
-/server/dist/
 
 /electron/node_modules/
 /electron/package-lock.json
 /electron/out/
+
+
+/docs/diagrams/*.bak*
+
+
+
+
+ /server/src/FileSystemManager.ts
+ /**/.metals

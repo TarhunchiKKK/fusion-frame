@@ -33,7 +33,7 @@ let MediaService = class MediaService {
     constructor(mediaRepository) {
         this.mediaRepository = mediaRepository;
         this.formats = [
-            '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff',
+            '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif',
             '.mp4', '.avi', '.wmv'
         ];
     }
@@ -43,7 +43,7 @@ let MediaService = class MediaService {
             throw new common_1.BadRequestException('No photos and videos');
         }
         let media = await this.mediaRepository.find();
-        return media.sort((a, b) => a.creationDate < b.creationDate ? -1 : 1);
+        return media.sort((a, b) => a.creationDate < b.creationDate ? 1 : -1);
     }
     async getOne(id) {
         return await this.mediaRepository.findOne({
@@ -79,7 +79,9 @@ let MediaService = class MediaService {
         if (count == 0) {
             throw new common_1.BadRequestException('No photos and videos');
         }
-        return (await this.mediaRepository.find()).filter(a => keywordsIntersection(a.keywords, keywords));
+        return (await this.mediaRepository.find())
+            .filter(a => keywordsIntersection(a.keywords, keywords))
+            .sort((a, b) => a.creationDate < b.creationDate ? 1 : -1);
     }
     async loadMediaFromDirectory(directory) {
         let files = fs.readdirSync(directory).filter(file => {
@@ -98,23 +100,9 @@ let MediaService = class MediaService {
         });
         await this.mediaRepository.save(media);
     }
-    async updateMediaFromDirectories(directories, latestDate) {
-        let files = [];
-        for (let directory of directories) {
-            let filenames = fs.readdirSync(directory).filter(file => {
-                return this.formats.includes(path.extname(path.join(directory, file)));
-            });
-            let paths = filenames.map(file => path.join(directory, file));
-            let newFiles = paths.filter(file => {
-                let stat = fs.statSync(file);
-                if (stat.birthtime > latestDate)
-                    return true;
-                else
-                    return false;
-            });
-            files = [...files, ...newFiles];
-        }
-        let media = files.map(file => {
+    async updateMediaFromDirectories(files) {
+        let media = [];
+        for (let file of files) {
             let m = new media_entity_1.Media();
             let stat = fs.statSync(file);
             m.path = file;
@@ -122,8 +110,8 @@ let MediaService = class MediaService {
             m.creationDate = stat.birthtime;
             m.duration = undefined;
             m.keywords = [];
-            return m;
-        });
+            media.push(m);
+        }
         await this.mediaRepository.save(media);
     }
     async removeOne(id) {
@@ -141,6 +129,9 @@ let MediaService = class MediaService {
         media.keywords = createMediaDto.keywords;
         media.duration = createMediaDto.duration;
         await this.mediaRepository.save(media);
+    }
+    async clear() {
+        this.mediaRepository.clear();
     }
 };
 exports.MediaService = MediaService;

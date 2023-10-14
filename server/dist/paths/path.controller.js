@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const path_service_1 = require("./path.service");
 const create_path_dto_1 = require("./dto/create-path.dto");
 const directory_dto_1 = require("./dto/directory.dto");
+const date_dto_1 = require("./dto/date.dto");
 let PathController = class PathController {
     constructor(pathService) {
         this.pathService = pathService;
@@ -36,26 +37,33 @@ let PathController = class PathController {
     openDirectoryInExplorer(directoryDto) {
         this.pathService.openDirectoryInExplorer(directoryDto.path);
     }
-    checkForNewFiles(latestDate) {
+    checkForNewFiles(dateDto) {
+        let latestDate = new Date(dateDto.creationDate);
         return this.pathService.checkForNewFiles(latestDate);
+    }
+    async clear() {
+        this.pathService.clear();
+    }
+    async copy() {
+        this.pathService.copy();
     }
 };
 exports.PathController = PathController;
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)('get'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], PathController.prototype, "getAll", null);
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('add'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_path_dto_1.CreatePathDto]),
     __metadata("design:returntype", void 0)
 ], PathController.prototype, "addPath", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
+    (0, common_1.Delete)('delete/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -78,9 +86,21 @@ __decorate([
     (0, common_1.Get)('check'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Date]),
+    __metadata("design:paramtypes", [date_dto_1.DateDto]),
     __metadata("design:returntype", Promise)
 ], PathController.prototype, "checkForNewFiles", null);
+__decorate([
+    (0, common_1.Post)('clear'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PathController.prototype, "clear", null);
+__decorate([
+    (0, common_1.Post)('copy'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PathController.prototype, "copy", null);
 exports.PathController = PathController = __decorate([
     (0, common_1.Controller)('paths'),
     __metadata("design:paramtypes", [path_service_1.PathService])

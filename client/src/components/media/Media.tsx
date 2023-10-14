@@ -1,7 +1,7 @@
-import { IMedia } from "../models";
+import { IMedia } from "../../models"
 
 interface MediaProps{
-    media: IMedia;
+    media: IMedia
 }
 
 export function Media({media}: MediaProps){
@@ -10,5 +10,5 @@ export function Media({media}: MediaProps){
             <img src="../images/Picture3.jfif" alt="" className="w-full h-full"></img>
             <div className="w-6 h-6 rounded-full border-2 border-white absolute right-1 bottom-1"></div>
         </div>
-    );
+    )
 }

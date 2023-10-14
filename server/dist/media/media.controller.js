@@ -44,7 +44,7 @@ let MediaController = class MediaController {
         this.mediaService.loadMediaFromDirectory(directory.path);
     }
     updateMediaFromDirectories(uploadMediaDto) {
-        this.mediaService.updateMediaFromDirectories(uploadMediaDto.paths, uploadMediaDto.latestDate);
+        this.mediaService.updateMediaFromDirectories(uploadMediaDto.paths);
     }
     remoeOne(id) {
         this.mediaService.removeOne(id);
@@ -54,6 +54,9 @@ let MediaController = class MediaController {
     }
     async create(createMediaDto) {
         this.mediaService.create(createMediaDto);
+    }
+    async clear() {
+        this.mediaService.clear();
     }
 };
 exports.MediaController = MediaController;
@@ -125,6 +128,12 @@ __decorate([
     __metadata("design:paramtypes", [create_media_dto_1.CreateMediaDto]),
     __metadata("design:returntype", Promise)
 ], MediaController.prototype, "create", null);
+__decorate([
+    (0, common_1.Post)('clear'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], MediaController.prototype, "clear", null);
 exports.MediaController = MediaController = __decorate([
     (0, common_1.Controller)('media'),
     __metadata("design:paramtypes", [media_service_1.MediaService])

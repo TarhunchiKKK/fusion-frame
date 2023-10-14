@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { IAlbum } from "../models";
+import { IAlbum, ICreateAlbumDto } from "../../models";
 import axios from "axios";
-import { ErrorMessage } from "./ErrorMesage";
+import { ErrorMessage } from "../other/ErrorMesage";
 
 const album: ICreateAlbumDto = {
     name: 'empty'

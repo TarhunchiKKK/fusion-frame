@@ -2,6 +2,7 @@ import { Path } from "./entities/path.entity";
 import { PathService } from "./path.service";
 import { CreatePathDto } from "./dto/create-path.dto";
 import { DirectoryDto } from "./dto/directory.dto";
+import { DateDto } from "./dto/date.dto";
 export declare class PathController {
     private readonly pathService;
     constructor(pathService: PathService);
@@ -10,5 +11,7 @@ export declare class PathController {
     removePath(id: number): Promise<void>;
     openExplorer(): void;
     openDirectoryInExplorer(directoryDto: DirectoryDto): void;
-    checkForNewFiles(latestDate: Date): Promise<string[]>;
+    checkForNewFiles(dateDto: DateDto): Promise<string[]>;
+    clear(): Promise<void>;
+    copy(): Promise<void>;
 }

@@ -110,6 +110,9 @@ let AlbumService = class AlbumService {
         }
         await this.albumRepository.save(album);
     }
+    async clear() {
+        this.albumRepository.clear();
+    }
 };
 exports.AlbumService = AlbumService;
 exports.AlbumService = AlbumService = __decorate([

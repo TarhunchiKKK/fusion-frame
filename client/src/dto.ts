@@ -1,3 +1,0 @@
-interface ICreateAlbumDto{
-    name: string;
-}

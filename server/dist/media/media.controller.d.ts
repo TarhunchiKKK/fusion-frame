@@ -19,4 +19,5 @@ export declare class MediaController {
     remoeOne(id: number): void;
     removeMany(removeMediaDto: RemoveMediasDto): void;
     create(createMediaDto: CreateMediaDto): Promise<void>;
+    clear(): Promise<void>;
 }

@@ -1,56 +1,56 @@
 // Entities
 
 export interface IMedia{
-    id?: number;
-    path: string;
-    size: number;
-    creationDate: Date;
-    keywords: string[];
-    duration: number | undefined;
+    id?: number
+    path: string
+    size: number
+    creationDate: Date
+    keywords: string[]
+    duration: number | undefined
 }
 
 export interface IAlbum{
-    id?: number;
-    name: string;
-    mediaCount: number;
-    size: number;
-    media: IMedia[];
+    id?: number
+    name: string
+    mediaCount: number
+    size: number
+    media: IMedia[]
 }
 
 export interface IMediaGroup{
-    media: IMedia[];
-    creationDate: Date;
+    media: IMedia[]
+    creationDate: Date
 }
 
 export interface IPath{
-    id?: number;
-    path: string;
+    id: number
+    path: string
 }
 
 /*--------------------------------------------------*/
 // DTO
 
 export interface ICreateAlbumDto{
-    name: string;
+    name: string
 }
 
 export interface ISearchAlbumDto{
-    name: string;
+    name: string
 }
 
 export interface IUpdateAlbumDto{
-    id: number;
-    name: string;
+    id: number
+    name: string
 }
 
 export interface IAddOneMediaDto{
-    id: number;
-    media: IMedia;
+    id: number
+    media: IMedia
 }
 
 export interface IAddManyMediaDto{
-    id: number;
-    media: IMedia[];
+    id: number
+    media: IMedia[]
 }
 
 
@@ -58,25 +58,25 @@ export interface IAddManyMediaDto{
 
 
 export interface IKeywordsDto{
-    keywords: string[];
+    keywords: string[]
 }
 
 export interface ILoadMediaDto{
-    path: string;
+    path: string
 }
 
 export interface IRemoveMediasDto{
-    ids: number[];
+    ids: number[]
 }
 
 export interface IUpdateKeywordsDto{
-    id: number;
-    keywords: string[];
+    id: number
+    keywords: string[]
 }
 
 export interface IUploadMediaDto{
-    paths: string[];
-    latestDate: Date;
+    paths: string[]
+    latestDate: Date
 }
 
 
@@ -84,9 +84,9 @@ export interface IUploadMediaDto{
 
 
 export interface ICreatePathDto{
-    path: string;
+    path: string
 }
 
 export interface IDirectoryDto{
-    path: string;
+    path: string
 }

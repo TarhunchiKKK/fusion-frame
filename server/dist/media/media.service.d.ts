@@ -11,8 +11,9 @@ export declare class MediaService {
     getLatestDate(): Promise<Date>;
     findByKeywords(keywords: string[]): Promise<Media[]>;
     loadMediaFromDirectory(directory: string): Promise<void>;
-    updateMediaFromDirectories(directories: string[], latestDate: Date): Promise<void>;
+    updateMediaFromDirectories(files: string[]): Promise<void>;
     removeOne(id: number): Promise<void>;
     removeMany(ids: number[]): Promise<void>;
     create(createMediaDto: CreateMediaDto): Promise<void>;
+    clear(): Promise<void>;
 }

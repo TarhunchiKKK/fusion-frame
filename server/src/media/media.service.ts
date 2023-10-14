@@ -37,7 +37,7 @@ export class MediaService{
             throw new BadRequestException('No photos and videos');
         }
         let media: Media[] = await this.mediaRepository.find();
-        return media.sort((a, b) => a.creationDate < b.creationDate ? -1 : 1);
+        return media.sort((a, b) => a.creationDate < b.creationDate ? 1 : -1);
     }
 
     public async getOne(id: number): Promise<Media> {
@@ -76,7 +76,9 @@ export class MediaService{
         if(count == 0){
             throw new BadRequestException('No photos and videos');
         }
-        return (await this.mediaRepository.find()).filter(a => keywordsIntersection(a.keywords, keywords));
+        return (await this.mediaRepository.find())
+                        .filter(a => keywordsIntersection(a.keywords, keywords))
+                        .sort((a, b) => a.creationDate < b.creationDate ? 1 : -1);
     }
 
     // подразумевается, что путь уже проверен на существование и то, что он является каталогом

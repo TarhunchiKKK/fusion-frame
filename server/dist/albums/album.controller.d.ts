@@ -16,4 +16,5 @@ export declare class AlbumController {
     remove(id: number): Promise<void>;
     addOneMediaToAlbum(addMediaDto: AddOneMediaDto): void;
     addManyMediaToAlbum(addMediaDto: AddManyMediaDto): void;
+    clear(): Promise<void>;
 }

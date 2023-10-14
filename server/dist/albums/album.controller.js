@@ -48,16 +48,19 @@ let AlbumController = class AlbumController {
     addManyMediaToAlbum(addMediaDto) {
         this.albumService.addManyMediaToAlbum(addMediaDto.id, addMediaDto.media);
     }
+    async clear() {
+        this.albumService.clear();
+    }
 };
 exports.AlbumController = AlbumController;
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)('get'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AlbumController.prototype, "getAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
+    (0, common_1.Get)('get/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -71,7 +74,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AlbumController.prototype, "getByName", null);
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('create'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_album_dto_1.CreateAlbumDto]),
@@ -85,7 +88,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AlbumController.prototype, "updateAlbumName", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
+    (0, common_1.Delete)('delete/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -105,6 +108,12 @@ __decorate([
     __metadata("design:paramtypes", [add_many_media_dto_1.AddManyMediaDto]),
     __metadata("design:returntype", void 0)
 ], AlbumController.prototype, "addManyMediaToAlbum", null);
+__decorate([
+    (0, common_1.Post)('clear'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AlbumController.prototype, "clear", null);
 exports.AlbumController = AlbumController = __decorate([
     (0, common_1.Controller)('albums'),
     __metadata("design:paramtypes", [album_service_1.AlbumService])

@@ -20,11 +20,21 @@ const path_entity_1 = require("./entities/path.entity");
 const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process');
+function replaceSymbol(str, old_symbol, new_symbol) {
+    let new_str = "";
+    for (let c of str) {
+        if (c == old_symbol)
+            new_str += new_symbol;
+        else
+            new_str += c;
+    }
+    return new_str;
+}
 let PathService = class PathService {
     constructor(pathRepository) {
         this.pathRepository = pathRepository;
         this.formats = [
-            '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff',
+            '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif',
             '.mp4', '.avi', '.wmv'
         ];
     }
@@ -42,7 +52,7 @@ let PathService = class PathService {
                 path: directory,
             },
         });
-        if (exist) {
+        if (exist != null) {
             throw new common_1.BadRequestException('This path is already added');
         }
         if (fs.existsSync(directory)) {
@@ -73,6 +83,7 @@ let PathService = class PathService {
     }
     openDirectoryInExplorer(directory) {
         try {
+            directory = replaceSymbol(directory, '/', '\\');
             const result = child_process.execSync(`explorer \"${directory}\"`, {
                 encoding: 'utf-8',
             });
@@ -83,16 +94,33 @@ let PathService = class PathService {
     }
     async checkForNewFiles(latestDate) {
         let directories = (await this.pathRepository.find()).map(p => p.path);
-        directories = directories.filter(directory => {
+        let newFiles = [];
+        for (let directory of directories) {
             let files = fs.readdirSync(directory);
             for (let file of files) {
-                let stat = fs.statSync(path.join(directory, file));
-                if (stat.birthtime > latestDate)
-                    return true;
+                let fullpath = path.join(directory, file);
+                let stat = fs.statSync(fullpath);
+                let creationDate = stat.birthtime;
+                let extension = path.extname(fullpath);
+                if (creationDate > latestDate && this.formats.includes(extension)) {
+                    newFiles.push(fullpath);
+                }
             }
-            return false;
-        });
-        return directories;
+        }
+        return newFiles;
+    }
+    async clear() {
+        this.pathRepository.clear();
+    }
+    async copy() {
+        try {
+            const result = child_process.execSync('copy \"C:/photo.jpg\" \"D:/Медиа\" ', {
+                encoding: 'utf-8',
+            });
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 };
 exports.PathService = PathService;
