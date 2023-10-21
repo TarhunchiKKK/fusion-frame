@@ -45,7 +45,7 @@ export class AlbumController{
     // удалить альбом (БЕЗ УДАЛЕНИЯ ЕГО МЕДИАФАЙЛОВ)
     @Delete('delete/:id')
     public remove(@Param('id')id: number){
-        return this.albumService.remove(id);
+        this.albumService.remove(id);
     }
 
     // добавить 1 медиафайл в альбом

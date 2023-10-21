@@ -57,7 +57,7 @@ export class MediaController{
 
     // удалить медиафайл
     @Delete('delete/:id')
-    public remoeOne(@Param('id') id: number){
+    public removeOne(@Param('id') id: number){
         this.mediaService.removeOne(id);
     }
 

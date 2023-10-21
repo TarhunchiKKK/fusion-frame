@@ -46,7 +46,7 @@ let MediaController = class MediaController {
     updateMediaFromDirectories(uploadMediaDto) {
         this.mediaService.updateMediaFromDirectories(uploadMediaDto.paths);
     }
-    remoeOne(id) {
+    removeOne(id) {
         this.mediaService.removeOne(id);
     }
     removeMany(removeMediaDto) {
@@ -113,7 +113,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
-], MediaController.prototype, "remoeOne", null);
+], MediaController.prototype, "removeOne", null);
 __decorate([
     (0, common_1.Delete)('delete'),
     __param(0, (0, common_1.Body)()),

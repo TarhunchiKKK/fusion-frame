@@ -4,10 +4,11 @@ export interface IMedia{
     id?: number
     path: string
     size: number
-    creationDate: Date
+    creationDate: string
     keywords: string[]
     duration: number | undefined
 }
+
 
 export interface IAlbum{
     id?: number
@@ -89,4 +90,9 @@ export interface ICreatePathDto{
 
 export interface IDirectoryDto{
     path: string
+}
+
+
+export interface IDateDto{
+    creationDate: string;
 }

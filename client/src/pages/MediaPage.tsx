@@ -5,23 +5,40 @@ import { useMedia } from "../hooks/media"
 import { Loader } from "../components/other/Loader"
 import { ErrorMessage } from "../components/other/ErrorMesage"
 
-function splitMediaByDate(media: IMedia[]): IMedia[][]{
+
+function trimMediaDates(media: IMedia[]): IMedia[] {
+    for (let m of media){
+        m.creationDate = m.creationDate.substring(0, 10)
+        m.path = '../src/images/Picture1.jfif'
+    }
+    return media
+}
+
+
+function splitMediaByDate(media: IMedia[]): IMedia[][]{    
+    media = trimMediaDates(media)
+
+    console.log('Media:')
+    console.log(media)
+
+
+    let dates: string[] = []
+    for(let m of media){
+        if (!dates.includes(m.creationDate)){
+            dates.push(m.creationDate)
+        }
+    }
+   
     // массив медиа, разбитый по времени создания
-    let mediaByDate: IMedia[][] = []
-    let date: Date = new Date()
- 
-    // разбиение массива медиафайлов на руппы по дате создания
-    for(let i: number = 0; i < media.length; i++){
-        date = media[i].creationDate
-        //let nextPosition: number = media.findLastIndex(m => m.creationDate === date)
-        let nextPosition: number = i;
-        while(media[nextPosition].creationDate === date) nextPosition++
-        mediaByDate.push(media.filter(m => m.creationDate === date))
-        i = nextPosition - 1
+    let splitedMedia: IMedia[][] = []
+    for(let date of dates){
+        let mediaByDate: IMedia[] = media.filter(m => m.creationDate === date);
+        splitedMedia.push(mediaByDate)
     }
 
-    return mediaByDate
+    return splitedMedia
 }
+
 
 export  function MediaPage(){
     const { media, error, loading } = useMedia()
@@ -47,7 +64,7 @@ export  function MediaPage(){
 
                 { loading && <Loader></Loader> }
 
-                { mediaByDate.map(m => <MediaGroup media={m} creationDate={m[0].creationDate}></MediaGroup>) }
+                { mediaByDate.map(m => <MediaGroup media={m} creationDate={new Date(m[0].creationDate)}  key={m[0].id}></MediaGroup>) }
 
                 </div>
             </main>

@@ -13,7 +13,7 @@ export declare class AlbumController {
     getByName(searchAlbumDto: SearchAlbumDto): Promise<Album[]>;
     create(createAlbumDto: CreateAlbumDto): Promise<Album>;
     updateAlbumName(updateAlbumDto: UpdateAlbumDto): void;
-    remove(id: number): Promise<void>;
+    remove(id: number): void;
     addOneMediaToAlbum(addMediaDto: AddOneMediaDto): void;
     addManyMediaToAlbum(addMediaDto: AddManyMediaDto): void;
     clear(): Promise<void>;

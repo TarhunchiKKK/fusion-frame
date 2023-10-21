@@ -40,7 +40,7 @@ let AlbumController = class AlbumController {
         this.albumService.updateAlbumName(updateAlbumDto.id, updateAlbumDto.name);
     }
     remove(id) {
-        return this.albumService.remove(id);
+        this.albumService.remove(id);
     }
     addOneMediaToAlbum(addMediaDto) {
         this.albumService.addOneMediaToAlbum(addMediaDto.id, addMediaDto.media);

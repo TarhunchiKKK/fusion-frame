@@ -7,6 +7,9 @@ import { CreateMediaDto } from "./dto/create-media.dto";
 const fs = require('fs');
 const path = require('path');
 
+
+// const ImageStore: string = __dirname.substring(0, __dirname.length - 10) + 'client\\public'
+
 function keywordsIntersection(a: string[], b: string[]): boolean{
     for(let word1 of a){
         for(let word2 of b){
@@ -20,6 +23,8 @@ function keywordsIntersection(a: string[], b: string[]): boolean{
 
 @Injectable()
 export class MediaService{
+
+    private ImageStore: string = path.join(__dirname, '../../client/public')
 
     // форматы фото и видео файлов
     private formats: string[] = [

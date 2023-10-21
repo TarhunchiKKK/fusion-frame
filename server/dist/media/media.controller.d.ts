@@ -16,7 +16,7 @@ export declare class MediaController {
     getLatestDate(): Promise<Date>;
     loadMediaFromDirectory(directory: LoadMediaDto): void;
     updateMediaFromDirectories(uploadMediaDto: UploadMediaDto): void;
-    remoeOne(id: number): void;
+    removeOne(id: number): void;
     removeMany(removeMediaDto: RemoveMediasDto): void;
     create(createMediaDto: CreateMediaDto): Promise<void>;
     clear(): Promise<void>;

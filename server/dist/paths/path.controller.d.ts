@@ -7,8 +7,8 @@ export declare class PathController {
     private readonly pathService;
     constructor(pathService: PathService);
     getAll(): Promise<Path[]>;
-    addPath(CreatePathDto: CreatePathDto): Promise<Path>;
-    removePath(id: number): Promise<void>;
+    addPath(createPathDto: CreatePathDto): Promise<Path>;
+    removePath(id: number): void;
     openExplorer(): void;
     openDirectoryInExplorer(directoryDto: DirectoryDto): void;
     checkForNewFiles(dateDto: DateDto): Promise<string[]>;

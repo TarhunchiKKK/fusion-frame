@@ -8,41 +8,41 @@ interface MediaGroupProps{
 
 // преобразование даты в формат "число месяц_буквами год"
 function parseDate(date: Date): string{
-    let day: number = date.getDay()
+    let day: number = date.getDate()
     let year: number = date.getFullYear()
     let month: string = ''
     switch(date.getMonth()) {
-        case 1:
+        case 0:
             month = 'Января'
             break
-        case 2:
+        case 1:
             month = 'Февраля'
             break
-        case 3:
+        case 2:
             month = 'Марта'
             break
-        case 4:
+        case 3:
             month = 'Апреля'
             break
-        case 5:
+        case 4:
             month = 'Мая'
             break
-        case 6:
+        case 5:
             month = 'Июня'
             break
-        case 7:
+        case 6:
             month = 'Июля'
             break
-        case 8:
+        case 7:
             month = 'Августа'
             break
-        case 9:
+        case 8:
             month = 'Сентября'
             break
-        case 10:
+        case 9:
             month = 'Октября'
             break
-        case 11:
+        case 10:
             month = 'Ноября'
             break
         default:

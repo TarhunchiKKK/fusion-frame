@@ -25,11 +25,11 @@ let PathController = class PathController {
     getAll() {
         return this.pathService.findAll();
     }
-    addPath(CreatePathDto) {
-        return this.pathService.addPath(CreatePathDto);
+    addPath(createPathDto) {
+        return this.pathService.addPath(createPathDto);
     }
     removePath(id) {
-        return this.pathService.removePath(id);
+        this.pathService.removePath(id);
     }
     openExplorer() {
         this.pathService.openExplorer();
@@ -60,7 +60,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_path_dto_1.CreatePathDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PathController.prototype, "addPath", null);
 __decorate([
     (0, common_1.Delete)('delete/:id'),

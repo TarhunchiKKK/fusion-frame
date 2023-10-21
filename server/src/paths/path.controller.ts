@@ -17,14 +17,14 @@ export class PathController{
 
     // добавить еще 1 путь
     @Post('add')
-    public addPath(@Body() CreatePathDto: CreatePathDto){
-        return this.pathService.addPath(CreatePathDto);
+    public addPath(@Body() createPathDto: CreatePathDto): Promise<Path> {
+        return this.pathService.addPath(createPathDto);
     }
 
     // удалить 1 путь
     @Delete('delete/:id')
     public removePath(@Param('id') id: number){
-        return this.pathService.removePath(id);
+        this.pathService.removePath(id);
     }
 
     // открыть проводник
