@@ -26,7 +26,7 @@ function keywordsIntersection(a: string[], b: string[]): boolean{
 @Injectable()
 export class MediaService{
 
-    private ImageStore: string = path.join(__dirname, '../../../client/public/images')
+    private ImageStore: string = path.join(__dirname, '../../../client/public/images/')
 
     // форматы фото и видео файлов
     private formats: string[] = [
@@ -103,19 +103,17 @@ export class MediaService{
         let media: Media[] = files.map(file =>{
             let m: Media = new Media();
             let stat = fs.statSync(file);
-            m.path = file.replaceAll('/', '\\');
+            //m.path = file.replaceAll('/', '\\');
+            m.path = file
 
             // new
-            let lastSlashIndex: number = m.path.lastIndexOf('\\');
+            let lastSlashIndex: number = m.path.lastIndexOf('/');
+            // let lastSlashIndex: number = m.path.lastIndexOf('\\');
             m.name = m.path.substring(lastSlashIndex + 1)
-            try{
-                child_process.execSync(`copy \"${m.path}\" \"${this.ImageStore}\"`, {
-                    encoding: 'utf-8',
-                })
-            }
-            catch(err){
-                console.log(err);
-            }
+            
+            fs.copyFile(m.path, this.ImageStore + m.name, (err) => {
+                if(err) console.error(err)
+            })
             // new
 
             m.size = stat.size;
@@ -136,18 +134,16 @@ export class MediaService{
             let m: Media = new Media();
             let stat = fs.statSync(file);
 
-            m.path = file.replaceAll('/', '\\');
+            //m.path = file.replaceAll('/', '\\');
+            m.path = file
 
             // new
-            let lastSlashIndex: number = m.path.lastIndexOf('\\');
+            // let lastSlashIndex: number = m.path.lastIndexOf('\\');
+            let lastSlashIndex: number = m.path.lastIndexOf('/');
             m.name = m.path.substring(lastSlashIndex + 1)
-            try{
-                child_process.execSync(`copy \"${m.path}\" \"${this.ImageStore}\"`, {
-                    encoding: 'utf-8',
-                })
-            } catch(err){
-                console.log(err);
-            }
+            fs.copyFile(m.path, this.ImageStore + m.name, (err) => {
+                if (err) console.error(err)
+            })
             // new
 
             m.size = stat.size;
@@ -161,11 +157,37 @@ export class MediaService{
     }
 
     public async removeOne(id: number){
+        let media: Media = await this.mediaRepository.findOne({
+            where:{
+                id: id,
+            }
+        })
+        // mnew
+        fs.rm(media.path, (err) => {
+            if (err) console.error(err)
+        })
+        fs.rm(this.ImageStore + media.name, (err) => {
+            if (err) console.error(err)
+        })
+        // new 
+
         await this.mediaRepository.delete(id);
     }
 
     public async removeMany(ids: number[]){
         let media: Media[] = (await this.mediaRepository.find()).filter(m => ids.includes(m.id));
+
+        // new
+        for(let m of media){
+            fs.rm(m.path, (err) => {
+                if (err) console.error(err)
+            })
+            fs.rm(this.ImageStore + m.name, (err) => {
+                if (err) console.error(err)
+            })
+        }
+        // new 
+
         await this.mediaRepository.remove(media);
     }
 
