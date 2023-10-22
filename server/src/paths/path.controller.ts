@@ -29,8 +29,8 @@ export class PathController{
 
     // открыть проводник
     @Post('explorer')
-    public openExplorer(): void{
-        this.pathService.openExplorer();
+    public openExplorer(): string{
+        return this.pathService.openExplorer();
     }
 
     // открыть папку в проводнике
@@ -45,6 +45,7 @@ export class PathController{
         let latestDate: Date = new Date(dateDto.creationDate);
         return this.pathService.checkForNewFiles(latestDate);
     }
+
 
 
 

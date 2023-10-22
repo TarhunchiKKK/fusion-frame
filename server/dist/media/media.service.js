@@ -118,8 +118,8 @@ let MediaService = class MediaService {
             let m = new media_entity_1.Media();
             let stat = fs.statSync(file);
             m.path = file.replaceAll('/', '\\');
-            let lastSlashIndex = file.lastIndexOf('\\');
-            m.name = file.substring(lastSlashIndex + 1);
+            let lastSlashIndex = m.path.lastIndexOf('\\');
+            m.name = m.path.substring(lastSlashIndex + 1);
             try {
                 child_process.execSync(`copy \"${m.path}\" \"${this.ImageStore}\"`, {
                     encoding: 'utf-8',

@@ -25,9 +25,17 @@ export class PathService{
         '.mp4', '.avi', '.wmv'   
     ];
 
+    
+    private ExplorerHelper = {
+        script: path.join(__dirname, '../../../helpers/explorer.py'),
+        file: path.join(__dirname, '../../../helpers/explorer.txt')
+    }
+
+
     constructor(
         @InjectRepository(Path) private readonly pathRepository: Repository<Path>
     ) {}
+
 
     public async findAll(): Promise<Path[]>{
         let count: number = await this.pathRepository.count();
@@ -70,28 +78,6 @@ export class PathService{
         await this.pathRepository.delete(id);
     }
 
-    public openExplorer(){
-        try{
-            const result = child_process.execSync('explorer ', {
-                encoding: 'utf-8',
-            });   
-        } catch(err){
-            console.log(err);
-        }
-    }
-
-    public openDirectoryInExplorer(directory: string){
-        // путь приходит из базы, поэтому его не надо проверять на существование
-        try{
-            //directory = replaceSymbol(directory, '/', '\\');
-            directory = directory.replaceAll('/', '\\');
-            const result = child_process.execSync(`explorer \"${directory}\"`, {
-                encoding: 'utf-8',
-            });   
-        } catch(err){
-            console.log(err);
-        }
-    }
 
     public async checkForNewFiles(latestDate: Date): Promise<string[]> {
         let directories: string[] = (await this.pathRepository.find()).map(p => p.path);
@@ -110,6 +96,39 @@ export class PathService{
         }
         return newFiles;
     }
+
+
+    public openExplorer(): string{
+        try{
+            const result = child_process.execSync(`python ${this.ExplorerHelper.script}`, {
+                encoding: 'utf-8',
+            })
+            let newDirectory: string = fs.readFileSync(this.ExplorerHelper.file, 'utf-8')
+            return newDirectory
+        } catch(err){
+            console.log(err)
+        }
+        return ''
+    }
+
+
+
+    public async openDirectoryInExplorer(directory: string){
+        // путь приходит из базы, поэтому его не надо проверять на существование
+        try{
+            directory = directory.replaceAll('/', '\\');
+            const result = await child_process.exec(`python ${this.ExplorerHelper.script} ${directory}`, {
+                encoding: 'utf-8',
+            });   
+        } catch(err){
+            console.log(err);
+        }
+    }
+
+
+
+
+
 
 
 

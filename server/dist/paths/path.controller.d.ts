@@ -9,7 +9,7 @@ export declare class PathController {
     getAll(): Promise<Path[]>;
     addPath(createPathDto: CreatePathDto): Promise<Path>;
     removePath(id: number): void;
-    openExplorer(): void;
+    openExplorer(): string;
     openDirectoryInExplorer(directoryDto: DirectoryDto): void;
     checkForNewFiles(dateDto: DateDto): Promise<string[]>;
     clear(): Promise<void>;

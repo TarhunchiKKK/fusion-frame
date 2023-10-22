@@ -27,6 +27,10 @@ let PathService = class PathService {
             '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif',
             '.mp4', '.avi', '.wmv'
         ];
+        this.ExplorerHelper = {
+            script: path.join(__dirname, '../../../helpers/explorer.py'),
+            file: path.join(__dirname, '../../../helpers/explorer.txt')
+        };
     }
     async findAll() {
         let count = await this.pathRepository.count();
@@ -61,27 +65,6 @@ let PathService = class PathService {
     async removePath(id) {
         await this.pathRepository.delete(id);
     }
-    openExplorer() {
-        try {
-            const result = child_process.execSync('explorer ', {
-                encoding: 'utf-8',
-            });
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
-    openDirectoryInExplorer(directory) {
-        try {
-            directory = directory.replaceAll('/', '\\');
-            const result = child_process.execSync(`explorer \"${directory}\"`, {
-                encoding: 'utf-8',
-            });
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
     async checkForNewFiles(latestDate) {
         let directories = (await this.pathRepository.find()).map(p => p.path);
         let newFiles = [];
@@ -98,6 +81,30 @@ let PathService = class PathService {
             }
         }
         return newFiles;
+    }
+    openExplorer() {
+        try {
+            const result = child_process.execSync(`python ${this.ExplorerHelper.script}`, {
+                encoding: 'utf-8',
+            });
+            let newDirectory = fs.readFileSync(this.ExplorerHelper.file, 'utf-8');
+            return newDirectory;
+        }
+        catch (err) {
+            console.log(err);
+        }
+        return '';
+    }
+    async openDirectoryInExplorer(directory) {
+        try {
+            directory = directory.replaceAll('/', '\\');
+            const result = await child_process.exec(`python ${this.ExplorerHelper.script} ${directory}`, {
+                encoding: 'utf-8',
+            });
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
     async clear() {
         this.pathRepository.clear();

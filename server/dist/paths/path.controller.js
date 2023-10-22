@@ -32,7 +32,7 @@ let PathController = class PathController {
         this.pathService.removePath(id);
     }
     openExplorer() {
-        this.pathService.openExplorer();
+        return this.pathService.openExplorer();
     }
     openDirectoryInExplorer(directoryDto) {
         this.pathService.openDirectoryInExplorer(directoryDto.path);
@@ -73,7 +73,7 @@ __decorate([
     (0, common_1.Post)('explorer'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", String)
 ], PathController.prototype, "openExplorer", null);
 __decorate([
     (0, common_1.Post)('openinexplorer'),
