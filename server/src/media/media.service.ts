@@ -6,6 +6,8 @@ import { CreateMediaDto } from "./dto/create-media.dto";
 
 const fs = require('fs');
 const path = require('path');
+const child_process = require('child_process');
+
 
 
 // const ImageStore: string = __dirname.substring(0, __dirname.length - 10) + 'client\\public'
@@ -24,7 +26,7 @@ function keywordsIntersection(a: string[], b: string[]): boolean{
 @Injectable()
 export class MediaService{
 
-    private ImageStore: string = path.join(__dirname, '../../client/public')
+    private ImageStore: string = path.join(__dirname, '../../../client/public/images')
 
     // форматы фото и видео файлов
     private formats: string[] = [
@@ -101,7 +103,21 @@ export class MediaService{
         let media: Media[] = files.map(file =>{
             let m: Media = new Media();
             let stat = fs.statSync(file);
-            m.path = file;
+            m.path = file.replaceAll('/', '\\');
+
+            // new
+            let lastSlashIndex: number = m.path.lastIndexOf('\\');
+            m.name = m.path.substring(lastSlashIndex + 1)
+            try{
+                child_process.execSync(`copy \"${m.path}\" \"${this.ImageStore}\"`, {
+                    encoding: 'utf-8',
+                })
+            }
+            catch(err){
+                console.log(err);
+            }
+            // new
+
             m.size = stat.size;
             m.creationDate = stat.birthtime;
             m.duration = undefined;
@@ -120,7 +136,20 @@ export class MediaService{
             let m: Media = new Media();
             let stat = fs.statSync(file);
 
-            m.path = file;
+            m.path = file.replaceAll('/', '\\');
+
+            // new
+            let lastSlashIndex: number = m.path.lastIndexOf('\\');
+            m.name = m.path.substring(lastSlashIndex + 1)
+            try{
+                child_process.execSync(`copy \"${m.path}\" \"${this.ImageStore}\"`, {
+                    encoding: 'utf-8',
+                })
+            } catch(err){
+                console.log(err);
+            }
+            // new
+
             m.size = stat.size;
             m.creationDate = stat.birthtime;
             m.duration = undefined;

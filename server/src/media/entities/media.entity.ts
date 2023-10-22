@@ -11,6 +11,9 @@ export class Media{
     path: string;
 
     @Column()
+    name: string;
+
+    @Column()
     size: number;
 
     @Column()
@@ -25,6 +28,7 @@ export class Media{
     @Column({ nullable: true })
     duration: number | undefined;
 
+    
     // @ManyToMany(() => Album, (album) => album.media, { onDelete: 'NO ACTION' })
     // albums: Album[];
 }

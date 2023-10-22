@@ -8,14 +8,14 @@ const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process');
 
-function replaceSymbol(str: string, old_symbol: string, new_symbol: string) {
-    let new_str: string = "";
-    for(let c of str){
-        if(c == old_symbol) new_str += new_symbol;
-        else new_str += c;
-    }
-    return new_str;
-}
+// function replaceSymbol(str: string, old_symbol: string, new_symbol: string) {
+//     let new_str: string = "";
+//     for(let c of str){
+//         if(c == old_symbol) new_str += new_symbol;
+//         else new_str += c;
+//     }
+//     return new_str;
+// }
 
 @Injectable()
 export class PathService{
@@ -83,7 +83,8 @@ export class PathService{
     public openDirectoryInExplorer(directory: string){
         // путь приходит из базы, поэтому его не надо проверять на существование
         try{
-            directory = replaceSymbol(directory, '/', '\\');
+            //directory = replaceSymbol(directory, '/', '\\');
+            directory = directory.replaceAll('/', '\\');
             const result = child_process.execSync(`explorer \"${directory}\"`, {
                 encoding: 'utf-8',
             });   

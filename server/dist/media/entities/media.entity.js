@@ -24,6 +24,10 @@ __decorate([
 ], Media.prototype, "path", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Media.prototype, "name", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], Media.prototype, "size", void 0);
 __decorate([

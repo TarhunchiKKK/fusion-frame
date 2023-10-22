@@ -19,6 +19,7 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const fs = require('fs');
 const path = require('path');
+const child_process = require('child_process');
 function keywordsIntersection(a, b) {
     for (let word1 of a) {
         for (let word2 of b) {
@@ -32,6 +33,7 @@ function keywordsIntersection(a, b) {
 let MediaService = class MediaService {
     constructor(mediaRepository) {
         this.mediaRepository = mediaRepository;
+        this.ImageStore = path.join(__dirname, '../../../client/public/images');
         this.formats = [
             '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif',
             '.mp4', '.avi', '.wmv'
@@ -91,7 +93,17 @@ let MediaService = class MediaService {
         let media = files.map(file => {
             let m = new media_entity_1.Media();
             let stat = fs.statSync(file);
-            m.path = file;
+            m.path = file.replaceAll('/', '\\');
+            let lastSlashIndex = m.path.lastIndexOf('\\');
+            m.name = m.path.substring(lastSlashIndex + 1);
+            try {
+                child_process.execSync(`copy \"${m.path}\" \"${this.ImageStore}\"`, {
+                    encoding: 'utf-8',
+                });
+            }
+            catch (err) {
+                console.log(err);
+            }
             m.size = stat.size;
             m.creationDate = stat.birthtime;
             m.duration = undefined;
@@ -105,7 +117,17 @@ let MediaService = class MediaService {
         for (let file of files) {
             let m = new media_entity_1.Media();
             let stat = fs.statSync(file);
-            m.path = file;
+            m.path = file.replaceAll('/', '\\');
+            let lastSlashIndex = file.lastIndexOf('\\');
+            m.name = file.substring(lastSlashIndex + 1);
+            try {
+                child_process.execSync(`copy \"${m.path}\" \"${this.ImageStore}\"`, {
+                    encoding: 'utf-8',
+                });
+            }
+            catch (err) {
+                console.log(err);
+            }
             m.size = stat.size;
             m.creationDate = stat.birthtime;
             m.duration = undefined;

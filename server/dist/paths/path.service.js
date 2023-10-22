@@ -20,16 +20,6 @@ const path_entity_1 = require("./entities/path.entity");
 const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process');
-function replaceSymbol(str, old_symbol, new_symbol) {
-    let new_str = "";
-    for (let c of str) {
-        if (c == old_symbol)
-            new_str += new_symbol;
-        else
-            new_str += c;
-    }
-    return new_str;
-}
 let PathService = class PathService {
     constructor(pathRepository) {
         this.pathRepository = pathRepository;
@@ -83,7 +73,7 @@ let PathService = class PathService {
     }
     openDirectoryInExplorer(directory) {
         try {
-            directory = replaceSymbol(directory, '/', '\\');
+            directory = directory.replaceAll('/', '\\');
             const result = child_process.execSync(`explorer \"${directory}\"`, {
                 encoding: 'utf-8',
             });

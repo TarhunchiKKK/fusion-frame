@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { CreateMediaDto } from "./dto/create-media.dto";
 export declare class MediaService {
     private mediaRepository;
+    private ImageStore;
     private formats;
     constructor(mediaRepository: Repository<Media>);
     getAll(): Promise<Media[]>;
