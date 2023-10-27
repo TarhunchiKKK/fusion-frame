@@ -22,8 +22,10 @@ export function CreateAlbumModal({ onCreate, onClose }: CreateAlbumProps ){
             setError('Album name connot contains some symbols')
             return
         }
+    }
 
-        
+    function changeHandler(event: React.ChangeEvent<HTMLInputElement>){
+        setAlbumName(event.target.value)
     }
 
     return(
@@ -32,13 +34,12 @@ export function CreateAlbumModal({ onCreate, onClose }: CreateAlbumProps ){
             <div className="container w-[500]px mx-auto mt-2 mb-4 w-2/5 p-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white">
                 <div className="flex flex-row justify-between w-full">
                     <span className="font-bold ml-6">Создание альбома</span>
-
-                    <img src="../../public/icons/exit.svg" alt="Закрыть" className="w-8 h-8 mr-2 rounded-full hover:bg-gray-300"/>
+                    <img src="/icons/exit.svg" title="Закрыть" className="w-8 h-8 mr-2 rounded-full hover:bg-gray-300"/>
                 </div>
                     
                 <div className="mx-auto w-11/12 mt-2">
                     <form action="" onSubmit={submitHandler}>
-                        <input type="text" readOnly={true} placeholder="  Название альбома" className="mx-auto w-full h-8 rounded-xl border-2 border-blue-700 active:border-blue-700"/>
+                        <input type="text" readOnly={true} onChange={changeHandler} placeholder="  Название альбома" className="mx-auto w-full h-8 rounded-xl border-2 border-blue-700 active:border-blue-700"/>
                         { error && <ErrorMessage error={error}></ErrorMessage> }
                         <div className="flex flex-row justify-center mt-2">
                             <button type="submit" className="w-1/2 h-8 border-2 rounded-xl text-white bg-red-600 hover:bg-red-400">Создать</button>

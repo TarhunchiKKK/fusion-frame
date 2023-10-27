@@ -8,6 +8,7 @@ export interface IMedia{
     creationDate: string
     keywords: string[]
     duration: number | undefined
+    albums: IAlbum[]
 }
 
 export function getDefaultMedia(): IMedia{
@@ -18,14 +19,15 @@ export function getDefaultMedia(): IMedia{
         size: 0,
         creationDate: '',
         keywords: [],
-        duration: undefined
+        duration: undefined,
+        albums: []
     }
     return media
 }
 
 
 export interface IAlbum{
-    id?: number
+    id: number
     name: string
     mediaCount: number
     size: number
@@ -66,6 +68,11 @@ export interface IAddOneMediaDto{
 export interface IAddManyMediaDto{
     id: number
     media: IMedia[]
+}
+
+export interface IRemoveMediaFromAlbumDto{
+    albumId: number
+    media: IMedia
 }
 
 

@@ -52,6 +52,9 @@ export class MediaService{
             where:{
                 id: id,
             },
+            relations:{
+                albums: true,
+            }
         });
     }
 

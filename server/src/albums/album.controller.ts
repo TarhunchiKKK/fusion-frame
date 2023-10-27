@@ -7,6 +7,7 @@ import { SearchAlbumDto } from "./dto/search-album.dto";
 import { UpdateAlbumDto } from "./dto/update-album.dto";
 import { AddOneMediaDto } from "./dto/add-one-media.dto";
 import { AddManyMediaDto } from "./dto/add-many-media.dto";
+import { RemoveMediaFromAlbumDto } from "./dto/remove-media-from-album.dto";
 
 @Controller('albums')
 export class AlbumController{
@@ -58,6 +59,14 @@ export class AlbumController{
     @Post('addmanymedia')
     public addManyMediaToAlbum(@Body() addMediaDto: AddManyMediaDto){
         this.albumService.addManyMediaToAlbum(addMediaDto.id, addMediaDto.media);
+    }
+
+
+
+    // НЕ ТЕСТИЛ
+    @Delete('removemedia')
+    public removeMediaFromAlbum(@Body() removeMediaFromAlbumDto: RemoveMediaFromAlbumDto){
+        this.albumService.removeMediaFromAlbum(removeMediaFromAlbumDto.albumId, removeMediaFromAlbumDto.media);
     }
 
 

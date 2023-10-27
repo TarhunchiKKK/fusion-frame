@@ -1,20 +1,29 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { IAlbum, IMedia } from "../../models";
 
-interface IHeaderProps{
 
+interface HeaderProps{
+    searchByMediaKeywords: (keywords: string[]) => Promise<IMedia[]> | undefined
+    searchByAlbumName (name: string): Promise<IAlbum[]> | undefined
 }
 
-export function Header(){
+export function Header({ searchByMediaKeywords, searchByAlbumName }: HeaderProps){
+    let searchedObjects: string = searchByMediaKeywords !== undefined ? 'Media' : 'Albums'
+    const [searchModal, setSearchModal] = useState<boolean>(false)
+
+
     return(
-        <header className="bg-slate-700 mx-auto">
+        <header className="mx-auto bg-gradient-to-r from-indigo-500 to-blue-500">
             <nav className="pt-6 pb-4 flex justify-between">
-                <img src="../../images/search.svg" alt=""></img> 
+                <img src="/icons/search.svg" title="Поиск" onClick={() => setSearchModal(true)}></img> 
                     <div className="space-x-8">
-                        <Link to="/" className="bg-red-600 px-4 py-2 rounded-2xl hover:border-2 hover:border-purple-500">Фото</Link>
-                        <Link to="/albums" className="bg-red-600 px-4 py-2 rounded-2xl hover:border-2 hover:border-purple-500  border-2 border-purple-500">Альбомы</Link>
+                        <Link to="/" className="bg-gradient-to-r from-pink-500 to-yellow-500 px-4 py-2 rounded-2xl hover:border-2 hover:border-purple-500 hover:opacity-75">Фото</Link>
+                        <Link to="/albums" className="bg-gradient-to-r from-pink-500 to-yellow-500 px-4 py-2 rounded-2xl hover:border-2 hover:border-purple-500  border-2 border-purple-500 hover:opacity-75">Альбомы</Link>
                     </div>
-                <img src="../../icons/dots.svg" alt=""></img>
+                <img src="icons/dots.svg" alt=""></img>
             </nav>
+            {/* { searchModal &&  } */}
         </header>
     )
 }

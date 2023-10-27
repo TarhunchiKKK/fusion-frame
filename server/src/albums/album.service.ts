@@ -125,6 +125,23 @@ export class AlbumService{
 
 
 
+    public async removeMediaFromAlbum(albumId: number, media: Media){
+        let album: Album = await this.albumRepository.findOne({
+            where:{
+                id: albumId,
+            },
+            relations:{
+                media: true,
+            }
+        });
+        if(album === undefined){
+            return;
+        }
+        album.media = album.media.filter(m => m.id == media.id)
+        await this.albumRepository.update(albumId, album)
+    }
+
+
 
 
 
