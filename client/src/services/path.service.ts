@@ -1,0 +1,33 @@
+import { API } from "../api/axios.api";
+import { ICreatePathDto, IDateDto, IDirectoryDto, IPath } from "../models";
+
+export const PathService = {
+    async getAll(): Promise<IPath[]> {
+        const { data } = await API.get<IPath[]>('paths/get')
+        return data
+    },
+
+    async addPath(path: string): Promise<string> {
+        let createPathDto: ICreatePathDto = { path: path }
+        const { data } = await API.post<string>('paths/add', createPathDto)
+        return data
+    },
+
+    async removePath(id: number): Promise<void> {
+        await API.delete<void>(`paths/delete/${id}`)
+    },
+
+    async openExplorer(): Promise<string> {
+        return await API.post('paths/explorer')
+    },
+
+    async openDirectoryInExplorer(path: string): Promise<void> {
+        let directoryDto: IDirectoryDto = { path: path }
+        await API.post('paths/openinexplorer')
+    },
+
+    async checkForNewFiles(dateDto: IDateDto): Promise<string[]> {
+        const { data } = await API.get<string[]>('paths/check')
+        return data
+    }
+}

@@ -2,6 +2,7 @@
 /client/package-lock.json
 /client/images/*
 /client/dist/*
+/client/html/*
 
 /server/node_modules/
 /server/dist/*
@@ -17,8 +18,8 @@
 
 
 
- /server/src/FileSystemManager.ts
- /**/.metals
+/server/src/FileSystemManager.ts
+/**/.metals
 
 /**/test.ts
 /**/test.py

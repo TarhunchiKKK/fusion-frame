@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body>
+        <div>
+            <div class="fixed bg-black/50 top-0 left-0 right-0 bottom-0"></div>
+            <div class="container w-[500]px mx-auto mt-2 mb-4 w-2/5 p-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white">
+                <div class="flex flex-row justify-between w-full">
+                    <span class="font-bold ml-6">Отслеживаемые каталоги</span>
+                    <img src="../../public/icons/exit.svg" alt="" class="w-8 h-8 mr-0 rounded-full hover:bg-gray-300">
+                </div>
+                <div class="flex flex-col justify-around mx-auto border w-11/12 pb-2 mt-2 mb-3 bg-gray-200 rounded-lg">
+                    <div class="flex flex-row justify-between items-center h-10 pt-2 hover:bg-red-400 hover:text-white">
+                        <span>Album name</span>
+                        <div class="flex flex-row items-center">
+                            <img src="../../public/icons/eye.svg" alt="" class="w-8 h-8 rounded-full hover:bg-red-500">
+                            <img src="../../public/icons/basket.svg" alt="" class="w-8 h-8 rounded-full ml-4 hover:bg-red-500">
+                        </div>
+                    </div>
+                    <div class="flex flex-row justify-between items-center h-10 pt-2 hover:bg-red-400 hover:text-white">
+                        <span>Album name</span>
+                        <div class="flex flex-row items-center">
+                            <img src="../../public/icons/eye.svg" alt="" class="w-8 h-8 rounded-full hover:bg-red-500">
+                            <img src="../../public/icons/basket.svg" alt="" class="w-8 h-8 rounded-full ml-4 hover:bg-red-500">
+                        </div>
+                    </div>
+                    <div class="flex flex-row justify-between items-center h-10 pt-2 hover:bg-red-400 hover:text-white">
+                        <span>Album name</span>
+                        <div class="flex flex-row items-center">
+                            <img src="../../public/icons/eye.svg" alt="" class="w-8 h-8 rounded-full hover:bg-red-500">
+                            <img src="../../public/icons/basket.svg" alt="" class="w-8 h-8 rounded-full ml-4 hover:bg-red-500">
+                        </div>
+                    </div>
+                    <div class="flex flex-row justify-between items-center h-10 pt-2 hover:bg-red-400 hover:text-white">
+                        <span>Album name</span>
+                        <div class="flex flex-row items-center">
+                            <img src="../../public/icons/eye.svg" alt="" class="w-8 h-8 rounded-full hover:bg-red-500">
+                            <img src="../../public/icons/basket.svg" alt="" class="w-8 h-8 rounded-full ml-4 hover:bg-red-500">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mx-auto w-11/12 mt-2 mb-2">
+                    <form action="">
+                        <input type="text" readonly placeholder="  Путь к каталогу" class="mx-auto w-full h-8 rounded-xl border-2 border-blue-700 active:border-blue-700">
+                        <div class="flex flex-row mt-2">
+                            <button type="submit" class="grow h-8 border-2 rounded-xl text-white bg-red-600 hover:bg-red-400">Проводник</button>
+                            <button type="submit" class="grow h-8 border-2 rounded-xl text-white bg-red-600 hover:bg-red-400">Добавить</button>    
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
