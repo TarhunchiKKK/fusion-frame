@@ -1,20 +1,28 @@
 import { useEffect, useState } from "react";
 import { IMedia } from "../models";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { MediaService } from "../services/media.service";
 
 
-export function useMedia(){
+export function useMedia(keywords: string[] = []) {
     const [media, setMedia] = useState<IMedia[]>([])
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
+    const [loading, setLoading] = useState<boolean>(false)
+    const [error, setError] = useState<string>('')
 
     async function fetchMedia(){
         try{
             setError('')
             setLoading(true)
-            let allMedia: IMedia[] = await MediaService.getAll()
-            setMedia(allMedia)
+
+            let data: IMedia[] = []
+            if (keywords.length == 0) {
+                data = await MediaService.getAll()
+            }
+            else {
+                data = await MediaService.findByKeywords(keywords)
+            }
+
+            setMedia(data)
             setLoading(false)
         } catch (error: unknown){
             setLoading(false)

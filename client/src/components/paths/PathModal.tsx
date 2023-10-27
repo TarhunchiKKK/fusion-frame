@@ -1,86 +1,77 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { ICreatePathDto, IPath } from "../../models"
 import axios, { AxiosError } from "axios"
 import { Path } from "./Path"
+import { PathsModalContext, PathsModalState } from "../../context/PathsModalContext"
+import { usePaths } from "../../hooks/paths"
+import { Loader } from "../other/Loader"
+import { ErrorMessage } from "../other/ErrorMesage"
+import { PathService } from "../../services/path.service"
 
-function replaceSymbol(str: string, old_symbol: string, new_symbol: string) {
-    let new_str: string = ""
-    for(let c of str){
-        if(c == old_symbol) new_str += new_symbol
-        else new_str += c
-    }
-    return new_str
+interface  PathModalProps{
+    close: () => void
 }
 
-interface PathModalProps{
-    paths: IPath[]
-    children: React.ReactNode
-    onSubmit: () => void
-    onAdd: () => void
-    onClose: () => void
-}
 
-const pathData: ICreatePathDto = {
-    path: '',
-}
 
-export function PathModal({ children, paths, onClose }: PathModalProps){
-    const [plus, setPlus] = useState(false)
-    const [path, setPath] = useState('')
-    const [error, setError] = useState('')
+export function PathModal({ close }: PathModalProps){
+    const [err, setErr] = useState<string>('')
+    const [path, setPath] = useState<string>('')
+    const { paths, error, loading } = usePaths()
 
-    function onPlusClick(){
-        setPlus(true)
-    }
 
-    function onChangeHandler(event: React.ChangeEvent<HTMLInputElement>){
-        setPath(event.target.value)
-    }
-
-    async function onAddPath(){
+    async function addPathHandler(event: React.FormEvent){
+        event.preventDefault()
         try{
-            setError('')
-            if(path.trim().length == 0){
-                setError('Enter valid path')
-                return
+            setErr('')
+            await PathService.addPath(path)
+        } catch(err: unknown){
+            setErr((err as AxiosError).message)
+        }    
+    }
+
+    async function chooseDirectoryHandler(){
+        try{
+            setErr('')
+            let directory: string = await PathService.openExplorer()
+            if(directory === undefined || directory === ''){
+                setPath('')
             }
-           
-            pathData.path =  replaceSymbol(path, '\\', '/')
-            const response = await axios.post<IPath>('localhost:3000/paths/add', pathData)
-            setPlus(false)
-        } catch(e: unknown){
-            setError((e as AxiosError).message)
-        }
-        
+            else{
+                setPath(directory)
+            }
+            return directory
+        } catch (err: unknown){
+            setErr((err as AxiosError).message)
+        }        
     }
 
     return (
         <>
-            <div className="fixed bg-black/50 top-0 left-0 right-0 bottom-0" onClick={onClose}></div>
-            <div className="container rounded-3xl bg-white w-3/5">
-                {/*  */}
-                <div className="flex flex-row justify-end pt-6 pb-4 w-4/5">
-                    <div className="rounded-full h-4 w-4">
-                        <img src="../icons/plus.svg" alt="" onClick={onPlusClick} />
-                    </div>
-                    <div className="rounded-full h-4 w-4">
-                        <img src="../icons/plus.svg" alt="" />
-                    </div>
-                </div>       
-
-                {/* прямоугольный контейнер с путями */}
-                <div className="container flex flex-col justify-start bg-slate-500 w-4/5">
-                    { paths.map((p) => <Path path={p} key={p.id}></Path>)}
-
-                    {/* поле ввода пути и кнопка появляются когда был нажат плюс*/}
-                    { plus && <div className="container w-4/5">
-                        <form className="flex flex-row" action="" onSubmit={onAddPath}>
-                            <input type="text" placeholder="Paste path here..." onChange={onChangeHandler} value={path}/>
-                            <button type="submit" className="rounded-3xl p-2 bg-red-400" ></button>
-                        </form>
-                    </div> }
+            <div className="fixed bg-black/50 top-0 left-0 right-0 bottom-0" onClick={close}></div>
+            <div className="container w-[500]px mx-auto mt-2 mb-4 w-2/5 p-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white">
+                <div className="flex flex-row justify-between w-full">
+                    <span className="font-bold ml-6">Отслеживаемые каталоги</span>
+                    <img src="icons/exit.svg" onClick={close} className="w-8 h-8 mr-0 rounded-full hover:bg-gray-300"/>
                 </div>
 
+                { loading && <Loader></Loader> }
+                { error && <ErrorMessage error={error}></ErrorMessage> }
+
+                <div className="flex flex-col justify-around mx-auto border w-11/12 pb-2 mt-2 mb-3 bg-gray-200 rounded-lg">
+                                  
+                    { paths.map(p => <Path path={p} key={p.id}></Path>) }
+                </div>
+
+                <div className="mx-auto w-11/12 mt-2 mb-2">
+                    <form action="" onSubmit={addPathHandler}>
+                        <input type="text" readOnly={true} value={path} placeholder="  Путь к каталогу" className="mx-auto w-full h-8 rounded-xl border-2 border-blue-700 active:border-blue-700"/>
+                        <div className="flex flex-row mt-2">
+                            <button onClick={() => chooseDirectoryHandler()} className="grow h-8 border-2 rounded-xl text-white bg-red-600 hover:bg-red-400">Проводник</button>
+                            <button type="submit" className="grow h-8 border-2 rounded-xl text-white bg-red-600 hover:bg-red-400">Добавить</button>    
+                        </div>
+                    </form>
+                </div>
             </div>
         </>   
     )

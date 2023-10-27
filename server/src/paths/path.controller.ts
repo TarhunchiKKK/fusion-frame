@@ -56,9 +56,4 @@ export class PathController{
     public async clear(){
         this.pathService.clear();
     }
-
-    @Post('copy')
-    public async copy(){
-        this.pathService.copy();
-    }
 }

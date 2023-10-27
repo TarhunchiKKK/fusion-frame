@@ -30,7 +30,7 @@ export class MediaService{
 
     // форматы фото и видео файлов
     private formats: string[] = [
-        '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif',
+        '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif', '.webp',
         '.mp4', '.avi', '.wmv'   
     ];
 

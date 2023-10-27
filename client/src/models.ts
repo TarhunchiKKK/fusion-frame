@@ -1,12 +1,26 @@
 // Entities
 
 export interface IMedia{
-    id?: number
+    id: number
+    name: string
     path: string
     size: number
     creationDate: string
     keywords: string[]
     duration: number | undefined
+}
+
+export function getDefaultMedia(): IMedia{
+    let media: IMedia = {
+        id: 0,
+        name: '',
+        path: '',
+        size: 0,
+        creationDate: '',
+        keywords: [],
+        duration: undefined
+    }
+    return media
 }
 
 

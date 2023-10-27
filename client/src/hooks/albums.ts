@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import axios, { AxiosError } from "axios"
 import { IAlbum } from "../models"
+import { AlbumService } from "../services/album.service"
 
 
 
 // получение альбомов
-export function useAlbums(){
+export function useAlbums(name: string = ''){
     const [albums, setAlbums] = useState<IAlbum[]>([])                                 // альбомы
     const [loading, setLoading] = useState(false)                                      // флаг загрузки альбомов
     const [error, setError] = useState('')                                             // ошибка загрузки
@@ -15,8 +16,16 @@ export function useAlbums(){
         try{
             setError('')
             setLoading(true)
-            let response = await axios.get<IAlbum[]>('http://localhost:3000/albums')
-            setAlbums(response.data)
+
+            let data: IAlbum[] = []
+            if (name.length == 0){
+                data = await AlbumService.getAll()
+            }
+            else {
+                data = await AlbumService.getByName(name)
+            }
+
+            setAlbums(data)
             setLoading(false)
         } catch(error: unknown){
             setLoading(false)
