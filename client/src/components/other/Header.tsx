@@ -2,6 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IAlbum, IMedia } from "../../models";
 
+enum SearchedObjects {
+    Media = 1,
+    Albums = 2
+}
 
 interface HeaderProps{
     searchByMediaKeywords: (keywords: string[]) => Promise<IMedia[]> | undefined
@@ -9,7 +13,7 @@ interface HeaderProps{
 }
 
 export function Header({ searchByMediaKeywords, searchByAlbumName }: HeaderProps){
-    let searchedObjects: string = searchByMediaKeywords !== undefined ? 'Media' : 'Albums'
+    let searchedObjects: SearchedObjects = searchByMediaKeywords !== undefined ? SearchedObjects.Media : SearchedObjects.Albums
     const [searchModal, setSearchModal] = useState<boolean>(false)
 
 
