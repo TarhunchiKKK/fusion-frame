@@ -39,9 +39,10 @@ export class PathService{
 
     public async findAll(): Promise<Path[]>{
         let count: number = await this.pathRepository.count();
-        if(count ==  0) {
-            throw new BadRequestException('Np paths');
-        }
+        // чтобы не было екзепшена при добавлении каталога
+        // if(count ==  0) {
+        //     throw new BadRequestException('Np paths');
+        // }
 
         return await this.pathRepository.find({});
     } 

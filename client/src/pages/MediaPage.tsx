@@ -7,6 +7,8 @@ import { ErrorMessage } from "../components/other/ErrorMesage"
 import { Header } from "../components/other/Header"
 import { useState } from "react"
 import { MediaModal } from "../components/media/MediaModal"
+import { SearchModal } from "../components/other/SearchModal"
+import { PathsModal } from "../components/paths/PathsModal"
 
 
 
@@ -38,23 +40,25 @@ export  function MediaPage(){
     const { mediaByDate, error, loading } = useMedia(keywordsToSearch)
 
     const [currentMedia, setCurrentMedia] = useState<IMedia>(getDefaultMedia())
-
-
-
    
 
     const [mediaModal, setMediaModal] = useState<boolean>(false)
+
+
+    const [searchModal, setSearchModal] = useState<boolean>(false)
+    const [pathsModal, setPathsModal] = useState<boolean>(false)
+
 
     return(
         <>
             { error && <ErrorMessage error={error}></ErrorMessage> }
 
-            <Header searchedValue={keywordsToSearch.join('; ')} searchedObjects={"Media"} setValueToSearch={setKeywordsToSearch}></Header>
+            <Header openSearchModal={() => setSearchModal(true)} openPathsModal={() => setPathsModal(true)}></Header>
 
             {/* { loading &&  } */}
 
             <main className="mx-auto px-0">
-                <div className="flex bg-indigo-400 flex-col pt-6">
+                <div className="flex bg-indigo-600 flex-col pt-6">
                     { loading && <Loader></Loader> }
                     { mediaByDate.map(m => <MediaGroup media={m} creationDate={new Date(m[0].creationDate)} openMediaModal={() => setMediaModal(true)} setCurrentMedia={setCurrentMedia} key={m[0].id}></MediaGroup>) }
                 </div>
@@ -62,6 +66,9 @@ export  function MediaPage(){
                 { mediaModal && <MediaModal id={currentMedia.id} close={() => setMediaModal(false)}></MediaModal>}
 
                 { keywordsToSearch.length != 0 && <div className="fixed top-1/2 left-1/2 w-15 h-15 bg-red-400 rounded-full" onClick={() => keywordsToSearch = []}></div> }
+
+                { searchModal &&  <SearchModal searchedObjects={"Media"} setValueToSearch={setKeywordsToSearch} close={() => setSearchModal(false)}></SearchModal>}
+                { pathsModal && <PathsModal close={() => setPathsModal(false)}></PathsModal> }
             </main>
         </>  
     )

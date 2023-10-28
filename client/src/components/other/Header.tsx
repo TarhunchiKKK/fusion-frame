@@ -9,26 +9,21 @@ enum SearchedObjects {
 }
 
 interface HeaderProps{
-    searchedValue: string
-    searchedObjects: 'Albums' | 'Media'
-    setValueToSearch: (value: string) => void
+    openSearchModal: () => void
+    openPathsModal: () => void
 }
 
-export function Header({ searchedValue, searchedObjects, setValueToSearch }: HeaderProps){
-    const [searchModal, setSearchModal] = useState<boolean>(false)
-
-
+export function Header({ openSearchModal, openPathsModal }: HeaderProps){
     return(
         <header className="mx-auto bg-gradient-to-r from-indigo-500 to-blue-500">
-            <nav className="pt-6 pb-4 flex justify-between">
-                <img src="/icons/search.svg" title="Поиск" onClick={() => setSearchModal(true)} className="w-15 h-15 rounded-full hover:bg-gray-300"></img> 
+            <nav className="py-4 flex justify-between items-center">
+                <img src="/icons/search_icon.svg" title="Поиск" onClick={openSearchModal} className="w-12 h-12 ml-4 rounded-full hover:bg-indigo-700"></img> 
                 <div className="space-x-8">
-                    <Link to="/" className="bg-gradient-to-r from-pink-500 to-yellow-500 px-4 py-2 rounded-2xl hover:border-2 hover:border-purple-500 hover:opacity-75">Фото</Link>
+                    <Link to="/" className="bg-gradient-to-r from-pink-500 to-yellow-500 px-4 py-2 rounded-2xl hover:border-2 hover:border-purple-500 hover:opacity-75"> Фото  </Link>
                     <Link to="/albums" className="bg-gradient-to-r from-pink-500 to-yellow-500 px-4 py-2 rounded-2xl hover:border-2 hover:border-purple-500  border-2 border-purple-500 hover:opacity-75">Альбомы</Link>
                 </div>
-                <img src="/icons/dots.svg" alt=""></img>
+                <img src="/icons/plus_bold.svg" title="Добавить каталог" onClick={openPathsModal} className="w-10 h-10 mr-4 rounded-full hover:bg-blue-700"></img>
             </nav>
-            { searchModal &&  <SearchModal input={searchedValue} searchedObjects={searchedObjects} setValueToSearch={setValueToSearch} close={() => setSearchModal(false)}></SearchModal>}
         </header>
     )
 }

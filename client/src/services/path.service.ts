@@ -7,9 +7,9 @@ export const PathService = {
         return data
     },
 
-    async addPath(path: string): Promise<string> {
+    async addPath(path: string): Promise<IPath> {
         let createPathDto: ICreatePathDto = { path: path }
-        const { data } = await API.post<string>('paths/add', createPathDto)
+        const { data } = await API.post<IPath>('paths/add', createPathDto)
         return data
     },
 
@@ -18,12 +18,13 @@ export const PathService = {
     },
 
     async openExplorer(): Promise<string> {
-        return await API.post('paths/explorer')
+        const { data } =  await API.post('paths/explorer')
+        return data
     },
 
     async openDirectoryInExplorer(path: string): Promise<void> {
         let directoryDto: IDirectoryDto = { path: path }
-        await API.post('paths/openinexplorer')
+        await API.post('paths/openinexplorer', directoryDto)
     },
 
     async checkForNewFiles(dateDto: IDateDto): Promise<string[]> {

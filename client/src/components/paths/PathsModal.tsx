@@ -14,17 +14,26 @@ interface  PathModalProps{
 
 
 
-export function PathModal({ close }: PathModalProps){
+export function PathsModal({ close }: PathModalProps){
     const [err, setErr] = useState<string>('')
     const [path, setPath] = useState<string>('')
-    const { paths, error, loading } = usePaths()
+    const { paths, setPaths, error, loading } = usePaths()
+
+    const [pathsCount, setPathsCount] = useState<number>(paths.length)
 
 
     async function addPathHandler(event: React.FormEvent){
         event.preventDefault()
         try{
+            if(path == ''){
+                setErr('Выберите какой-нибудь каталог')
+                return
+            }
             setErr('')
-            await PathService.addPath(path)
+            let newPath: IPath = await PathService.addPath(path)
+            setPaths([...paths, newPath])
+            setPath('')
+            setPathsCount(pathsCount + 1)
         } catch(err: unknown){
             setErr((err as AxiosError).message)
         }    
@@ -34,6 +43,7 @@ export function PathModal({ close }: PathModalProps){
         try{
             setErr('')
             let directory: string = await PathService.openExplorer()
+            console.log('')
             if(directory === undefined || directory === ''){
                 setPath('')
             }
@@ -46,7 +56,13 @@ export function PathModal({ close }: PathModalProps){
         }        
     }
 
+    function onRemovePath(){
+        setPathsCount(pathsCount - 1)
+    }
+
+
     return (
+
         <>
             <div className="fixed bg-black/50 top-0 left-0 right-0 bottom-0" onClick={close}></div>
             <div className="container w-[500]px mx-auto mt-2 mb-4 w-2/5 p-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white">
@@ -58,10 +74,10 @@ export function PathModal({ close }: PathModalProps){
                 { loading && <Loader></Loader> }
                 { error && <ErrorMessage error={error}></ErrorMessage> }
 
-                <div className="flex flex-col justify-around mx-auto border w-11/12 pb-2 mt-2 mb-3 bg-gray-200 rounded-lg">
-                                  
-                    { paths.map(p => <Path path={p} key={p.id}></Path>) }
-                </div>
+                { pathsCount != 0 && 
+                    <div className="flex flex-col justify-around mx-auto border w-11/12 pb-2 mt-2 mb-3 bg-gray-200 rounded-lg">           
+                        { paths.map(p => <Path path={p} onRemove={onRemovePath} key={p.id}></Path>) }
+                    </div> }
 
                 <div className="mx-auto w-11/12 mt-2 mb-2">
                     <form action="" onSubmit={addPathHandler}>

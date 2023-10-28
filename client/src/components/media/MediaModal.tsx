@@ -16,6 +16,7 @@ export function MediaModal({ id, close }: MediaModalProps){
     const [editKeywordsModal, setEditKeywordsModal] = useState<boolean>(false)
     const [chooseAlbumModal, setChooseAlbumModal] = useState<boolean>(false)
 
+    
     return(
         <>
             <div className="fixed bg-black/50 top-0 left-0 right-0 bottom-0" onClick={close}></div>

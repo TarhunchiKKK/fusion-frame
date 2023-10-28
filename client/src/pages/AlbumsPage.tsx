@@ -4,6 +4,9 @@ import { useAlbums } from "../hooks/albums"
 import { Loader } from "../components/other/Loader"
 import { ErrorMessage } from "../components/other/ErrorMesage"
 import { Header } from "../components/other/Header"
+import { useState } from "react"
+import { PathsModal } from "../components/paths/PathsModal"
+import { SearchModal } from "../components/other/SearchModal"
 
 function SetSearchValueClosure(searchValue: ISearchValue){
     const inner = (value: string) =>{
@@ -16,17 +19,21 @@ function SetSearchValueClosure(searchValue: ISearchValue){
 export function AlbumsPage(){
     let valueToSearch: ISearchValue = { value: '' }
 
+    let albumName: string = valueToSearch.value
+
     const setAlbumNameToSearch = SetSearchValueClosure(valueToSearch)     
     
-    const { albums, error, loading } = useAlbums(valueToSearch.value)
+    const { albums, error, loading } = useAlbums(albumName)
 
-    // let albumsCount = albums.length
+    const [searchModal, setSearchModal] = useState<boolean>(false)
+    const [pathsModal, setPathsModal] = useState<boolean>(false)
+
 
     return(
         <>
             { error && <ErrorMessage error={error}></ErrorMessage> }
 
-            <Header searchedValue={valueToSearch.value} searchedObjects={"Albums"} setValueToSearch={setAlbumNameToSearch}></Header>
+            <Header openSearchModal={() => setSearchModal(true)} openPathsModal={() => setPathsModal(true)}></Header>
 
             {/* { !loading && <div id="info-pannel" className="py-3 bg-slate-100">
                 <p className="text-center italic">
@@ -42,7 +49,10 @@ export function AlbumsPage(){
                 <div className="flex bg-slate-700 flex-col pt-6">
                     { loading && <Loader></Loader> }
                 </div>
-                { valueToSearch.value != '' && <div className="fixed top-15 left-15 w-15 h-15 bg-red-400 rounded-full" onClick={() => valueToSearch.value = ''}></div> }
+                { albumName != '' && <div className="fixed top-15 left-15 w-15 h-15 bg-red-400 rounded-full" onClick={() => valueToSearch.value = ''}></div> }
+
+                { searchModal &&  <SearchModal searchedObjects={"Media"} setValueToSearch={setAlbumNameToSearch} close={() => setSearchModal(false)}></SearchModal>}
+                { pathsModal && <PathsModal close={() => setPathsModal(false)}></PathsModal> }
             </main>
         </>
     )

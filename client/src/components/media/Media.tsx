@@ -12,8 +12,6 @@ interface MediaProps{
 export function Media({media, openMediaModal, setCurrentMedia}: MediaProps){
     // const [modal, setModal] = useState<boolean>(false)
 
-    console.log("Media id in MediaModal:")
-    console.log(media.id)
 
     return(
         <div className="relative w-full sm:h-72 md:h-60 lg:h-52 xl:h-44">

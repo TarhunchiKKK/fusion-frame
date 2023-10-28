@@ -34,9 +34,6 @@ let PathService = class PathService {
     }
     async findAll() {
         let count = await this.pathRepository.count();
-        if (count == 0) {
-            throw new common_1.BadRequestException('Np paths');
-        }
         return await this.pathRepository.find({});
     }
     async addPath(createPathDto) {

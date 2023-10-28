@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useAlbums } from "../../hooks/albums"
 import { IMedia } from "../../models"
 import { AlbumName } from "./AlbumName"
@@ -9,7 +10,7 @@ interface ChooseAlbumModalProps{
 
 export function ChooseAlbumModal({ media, close }: ChooseAlbumModalProps){
     const { albums, error, loading } = useAlbums()
-
+    
     return(
         <>
             <div className="fixed bg-black/50 top-0 left-0 right-0 bottom-0" onClick={close}></div>

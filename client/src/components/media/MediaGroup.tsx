@@ -56,8 +56,8 @@ function parseDate(date: Date): string{
 
 export function MediaGroup({media, creationDate, openMediaModal, setCurrentMedia}: MediaGroupProps){
     return(
-        <div className="pt-4">
-            <h3 className="date">{ parseDate(creationDate) }</h3>
+        <div className="mb-8">
+            <h3 className="date font-semibold ml-3 mb-2">{ parseDate(creationDate) }</h3>
             {/* <hr className="bg-blue-900 mt-2 mb-1"></hr> */}
             <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-0">
                 { media.map(m => <Media media={m} openMediaModal={openMediaModal} setCurrentMedia={setCurrentMedia} key={m.id}></Media>) }

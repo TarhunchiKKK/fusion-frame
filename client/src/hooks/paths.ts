@@ -25,5 +25,5 @@ export function usePaths() {
         fetchPaths()
     }, [])
    
-    return { paths, error, loading }
+    return { paths, setPaths, error, loading }
 }

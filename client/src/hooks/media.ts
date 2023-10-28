@@ -47,11 +47,9 @@ export function useMedia(keywords: string[] = []) {
             let data: IMedia[] = []
             if (keywords.length == 0) {
                 data = await MediaService.getAll()
-                console.log("MediaService.getAll()")
             }
             else {
                 data = await MediaService.findByKeywords(keywords)
-                console.log("MediaService.findByKeywords()")
             }
 
             setMedia(data)

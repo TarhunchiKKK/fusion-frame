@@ -122,8 +122,8 @@ let AlbumService = class AlbumService {
         if (album === undefined) {
             return;
         }
-        album.media = album.media.filter(m => m.id == media.id);
-        await this.albumRepository.update(albumId, album);
+        album.media = album.media.filter(m => m.id != media.id);
+        await this.albumRepository.save(album);
     }
     async clear() {
         this.albumRepository.clear();

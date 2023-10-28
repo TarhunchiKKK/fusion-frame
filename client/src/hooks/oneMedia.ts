@@ -8,6 +8,8 @@ export function useOneMedia(id: number) {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>('')
 
+    console.log("USe one media")
+
     async function fetchOneMedia(){
         try{
             setError('')

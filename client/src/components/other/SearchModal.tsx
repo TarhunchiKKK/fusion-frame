@@ -3,13 +3,12 @@ import { ErrorMessage } from "./ErrorMesage"
 
 interface SearchModalProps {
     searchedObjects: "Albums" | "Media"
-    input: string
     setValueToSearch: (value: string) => void 
     close: () => void
 }
 
 
-export function SearchModal({  searchedObjects, input, setValueToSearch, close }: SearchModalProps){
+export function SearchModal({  searchedObjects, setValueToSearch, close }: SearchModalProps){
     const [error, setError] = useState<string>('')
     const [value, setValue] = useState<string>('')
 
