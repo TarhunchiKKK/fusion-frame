@@ -9,9 +9,6 @@ export function useMedia(keywords: string[] = []) {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>('')
 
-    console.log("keywords in useMedia")
-    console.log(keywords)
-
     async function fetchMedia(){
         try{
             setError('')

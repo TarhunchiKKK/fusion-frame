@@ -115,7 +115,6 @@ export class MediaService{
 
             // new
             let lastSlashIndex: number = m.path.lastIndexOf('\\');
-            // let lastSlashIndex: number = m.path.lastIndexOf('\\');
             m.name = m.path.substring(lastSlashIndex + 1)
             
             fs.copyFile(m.path, this.ImageStore + m.name, (err) => {
@@ -145,7 +144,6 @@ export class MediaService{
             m.path = file
 
             // new
-            // let lastSlashIndex: number = m.path.lastIndexOf('\\');
             let lastSlashIndex: number = m.path.lastIndexOf('\\');
             m.name = m.path.substring(lastSlashIndex + 1)
             fs.copyFile(m.path, this.ImageStore + m.name, (err) => {

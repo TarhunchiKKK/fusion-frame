@@ -13,7 +13,7 @@ export interface IMedia{
 
 export function getDefaultMedia(): IMedia{
     let media: IMedia = {
-        id: 0,
+        id: -1,
         name: '',
         path: '',
         size: 0,

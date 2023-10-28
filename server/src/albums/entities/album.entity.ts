@@ -16,7 +16,7 @@ export class Album{
     // size: number;
 
     @ManyToMany(() => Media, (media) => media.albums, {
-        cascade: true,
+        cascade: false,
     })
     @JoinTable()
     media: Media[];
