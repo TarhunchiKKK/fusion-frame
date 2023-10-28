@@ -1,3 +1,4 @@
+import { Album } from 'src/albums/entities/album.entity';
 export declare class Media {
     id: number;
     path: string;
@@ -6,4 +7,5 @@ export declare class Media {
     creationDate: Date;
     keywords: string[];
     duration: number | undefined;
+    albums: Album[];
 }

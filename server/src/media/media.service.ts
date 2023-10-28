@@ -43,7 +43,11 @@ export class MediaService{
         if(count == 0){
             throw new BadRequestException('No photos and videos');
         }
-        let media: Media[] = await this.mediaRepository.find();
+        let media: Media[] = await this.mediaRepository.find({
+            relations:{
+                albums: false,
+            }
+        });
         return media.sort((a, b) => a.creationDate < b.creationDate ? 1 : -1);
     }
 
@@ -110,7 +114,7 @@ export class MediaService{
             m.path = file
 
             // new
-            let lastSlashIndex: number = m.path.lastIndexOf('/');
+            let lastSlashIndex: number = m.path.lastIndexOf('\\');
             // let lastSlashIndex: number = m.path.lastIndexOf('\\');
             m.name = m.path.substring(lastSlashIndex + 1)
             
@@ -142,7 +146,7 @@ export class MediaService{
 
             // new
             // let lastSlashIndex: number = m.path.lastIndexOf('\\');
-            let lastSlashIndex: number = m.path.lastIndexOf('/');
+            let lastSlashIndex: number = m.path.lastIndexOf('\\');
             m.name = m.path.substring(lastSlashIndex + 1)
             fs.copyFile(m.path, this.ImageStore + m.name, (err) => {
                 if (err) console.error(err)

@@ -8,6 +8,10 @@ export const MediaService = {
     async getAll(): Promise<IMedia[]>{
         //const { data } = await axios.get<IMedia[]>('http://localhost:3001/media/get')
         const { data } = await API.get<IMedia[]>('media/get')
+        
+        console.log("Media in MediaService.getAll():")
+        console.log(data)
+
         return data
     },
 

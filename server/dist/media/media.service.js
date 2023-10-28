@@ -33,9 +33,9 @@ function keywordsIntersection(a, b) {
 let MediaService = class MediaService {
     constructor(mediaRepository) {
         this.mediaRepository = mediaRepository;
-        this.ImageStore = path.join(__dirname, '../../../client/public/images');
+        this.ImageStore = path.join(__dirname, '../../../client/public/images/');
         this.formats = [
-            '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif',
+            '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif', '.webp',
             '.mp4', '.avi', '.wmv'
         ];
     }
@@ -44,7 +44,11 @@ let MediaService = class MediaService {
         if (count == 0) {
             throw new common_1.BadRequestException('No photos and videos');
         }
-        let media = await this.mediaRepository.find();
+        let media = await this.mediaRepository.find({
+            relations: {
+                albums: false,
+            }
+        });
         return media.sort((a, b) => a.creationDate < b.creationDate ? 1 : -1);
     }
     async getOne(id) {
@@ -52,6 +56,9 @@ let MediaService = class MediaService {
             where: {
                 id: id,
             },
+            relations: {
+                albums: true,
+            }
         });
     }
     async updateKeywords(id, keywords) {
@@ -93,17 +100,13 @@ let MediaService = class MediaService {
         let media = files.map(file => {
             let m = new media_entity_1.Media();
             let stat = fs.statSync(file);
-            m.path = file.replaceAll('/', '\\');
+            m.path = file;
             let lastSlashIndex = m.path.lastIndexOf('\\');
             m.name = m.path.substring(lastSlashIndex + 1);
-            try {
-                child_process.execSync(`copy \"${m.path}\" \"${this.ImageStore}\"`, {
-                    encoding: 'utf-8',
-                });
-            }
-            catch (err) {
-                console.log(err);
-            }
+            fs.copyFile(m.path, this.ImageStore + m.name, (err) => {
+                if (err)
+                    console.error(err);
+            });
             m.size = stat.size;
             m.creationDate = stat.birthtime;
             m.duration = undefined;
@@ -117,17 +120,13 @@ let MediaService = class MediaService {
         for (let file of files) {
             let m = new media_entity_1.Media();
             let stat = fs.statSync(file);
-            m.path = file.replaceAll('/', '\\');
+            m.path = file;
             let lastSlashIndex = m.path.lastIndexOf('\\');
             m.name = m.path.substring(lastSlashIndex + 1);
-            try {
-                child_process.execSync(`copy \"${m.path}\" \"${this.ImageStore}\"`, {
-                    encoding: 'utf-8',
-                });
-            }
-            catch (err) {
-                console.log(err);
-            }
+            fs.copyFile(m.path, this.ImageStore + m.name, (err) => {
+                if (err)
+                    console.error(err);
+            });
             m.size = stat.size;
             m.creationDate = stat.birthtime;
             m.duration = undefined;
@@ -137,10 +136,33 @@ let MediaService = class MediaService {
         await this.mediaRepository.save(media);
     }
     async removeOne(id) {
+        let media = await this.mediaRepository.findOne({
+            where: {
+                id: id,
+            }
+        });
+        fs.rm(media.path, (err) => {
+            if (err)
+                console.error(err);
+        });
+        fs.rm(this.ImageStore + media.name, (err) => {
+            if (err)
+                console.error(err);
+        });
         await this.mediaRepository.delete(id);
     }
     async removeMany(ids) {
         let media = (await this.mediaRepository.find()).filter(m => ids.includes(m.id));
+        for (let m of media) {
+            fs.rm(m.path, (err) => {
+                if (err)
+                    console.error(err);
+            });
+            fs.rm(this.ImageStore + m.name, (err) => {
+                if (err)
+                    console.error(err);
+            });
+        }
         await this.mediaRepository.remove(media);
     }
     async create(createMediaDto) {

@@ -13,5 +13,4 @@ export declare class PathService {
     openExplorer(): string;
     openDirectoryInExplorer(directory: string): Promise<void>;
     clear(): Promise<void>;
-    copy(): Promise<void>;
 }

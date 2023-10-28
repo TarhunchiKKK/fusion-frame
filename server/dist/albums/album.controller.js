@@ -20,6 +20,7 @@ const search_album_dto_1 = require("./dto/search-album.dto");
 const update_album_dto_1 = require("./dto/update-album.dto");
 const add_one_media_dto_1 = require("./dto/add-one-media.dto");
 const add_many_media_dto_1 = require("./dto/add-many-media.dto");
+const remove_media_from_album_dto_1 = require("./dto/remove-media-from-album.dto");
 let AlbumController = class AlbumController {
     constructor(albumService) {
         this.albumService = albumService;
@@ -47,6 +48,9 @@ let AlbumController = class AlbumController {
     }
     addManyMediaToAlbum(addMediaDto) {
         this.albumService.addManyMediaToAlbum(addMediaDto.id, addMediaDto.media);
+    }
+    removeMediaFromAlbum(removeMediaFromAlbumDto) {
+        this.albumService.removeMediaFromAlbum(removeMediaFromAlbumDto.albumId, removeMediaFromAlbumDto.media);
     }
     async clear() {
         this.albumService.clear();
@@ -108,6 +112,13 @@ __decorate([
     __metadata("design:paramtypes", [add_many_media_dto_1.AddManyMediaDto]),
     __metadata("design:returntype", void 0)
 ], AlbumController.prototype, "addManyMediaToAlbum", null);
+__decorate([
+    (0, common_1.Delete)('removemedia'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [remove_media_from_album_dto_1.RemoveMediaFromAlbumDto]),
+    __metadata("design:returntype", void 0)
+], AlbumController.prototype, "removeMediaFromAlbum", null);
 __decorate([
     (0, common_1.Post)('clear'),
     __metadata("design:type", Function),

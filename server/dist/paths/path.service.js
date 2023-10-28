@@ -24,7 +24,7 @@ let PathService = class PathService {
     constructor(pathRepository) {
         this.pathRepository = pathRepository;
         this.formats = [
-            '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif',
+            '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif', '.webp',
             '.mp4', '.avi', '.wmv'
         ];
         this.ExplorerHelper = {
@@ -108,16 +108,6 @@ let PathService = class PathService {
     }
     async clear() {
         this.pathRepository.clear();
-    }
-    async copy() {
-        try {
-            const result = child_process.execSync('copy \"C:/photo.jpg\" \"D:/Медиа\" ', {
-                encoding: 'utf-8',
-            });
-        }
-        catch (err) {
-            console.log(err);
-        }
     }
 };
 exports.PathService = PathService;

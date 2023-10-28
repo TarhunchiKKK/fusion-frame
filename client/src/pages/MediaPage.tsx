@@ -1,9 +1,10 @@
 import axios from "axios"
 import { MediaGroup } from "../components/media/MediaGroup"
-import { IMedia } from "../models"
+import { IMedia, ISearchValue } from "../models"
 import { useMedia } from "../hooks/media"
 import { Loader } from "../components/other/Loader"
 import { ErrorMessage } from "../components/other/ErrorMesage"
+import { Header } from "../components/other/Header"
 
 
 function trimMediaDates(media: IMedia[]): IMedia[] {
@@ -17,9 +18,6 @@ function trimMediaDates(media: IMedia[]): IMedia[] {
 
 function splitMediaByDate(media: IMedia[]): IMedia[][]{    
     media = trimMediaDates(media)
-
-    console.log('Media:')
-    console.log(media)
 
 
     let dates: string[] = []
@@ -39,9 +37,34 @@ function splitMediaByDate(media: IMedia[]): IMedia[][]{
     return splitedMedia
 }
 
+function getKeywordsToSearch(valueToSearch: ISearchValue): string[]{
+    if(valueToSearch.value == '') return []
+    let keywords: string[] = valueToSearch.value.split(';')
+    for(let i = 0; i < keywords.length; i++){
+        keywords[i] = keywords[i].trim()
+    }
+    return keywords
+}
+
+function SetSearchValueClosure(searchValue: ISearchValue){
+    const inner = (value: string) =>{
+        searchValue.value = value
+    }
+    return inner
+}
 
 export  function MediaPage(){
-    const { media, error, loading } = useMedia()
+    let valueToSearch: ISearchValue = { value: '' }
+
+    let keywordsToSearch: string[] = getKeywordsToSearch(valueToSearch)
+
+    const setKeywordsToSearch = SetSearchValueClosure(valueToSearch)     
+    
+    const { media, error, loading } = useMedia(keywordsToSearch)
+
+    console.log("Media in MediaPage:")
+    console.log(media)
+    
 
     // подсчет кол-ва фото и видео
     let mediaCount: number = media.length
@@ -49,26 +72,28 @@ export  function MediaPage(){
     // массив медиа, разбитый по времени создания
     let mediaByDate: IMedia[][] = splitMediaByDate(media);
 
+    console.log("MeidaByDate in MediaPage:")
+    console.log(mediaByDate)
+
     return(
         <>
             { error && <ErrorMessage error={error}></ErrorMessage> }
 
-            { !loading && <div id="info-pannel" className="py-3 bg-slate-100">
+            <Header searchedValue={keywordsToSearch.join('; ')} searchedObjects={"Media"} setValueToSearch={setKeywordsToSearch}></Header>
+
+            {/* { !loading && <div id="info-pannel" className="py-3 bg-slate-100">
                 <p className="text-center italic">
                     <span id="media-count">{ mediaCount } элементов</span>
                 </p>
-            </div> }
+            </div> } */}
 
             <main className="mx-auto px-0">
                 <div className="flex bg-slate-700 flex-col pt-6">
-
-                { loading && <Loader></Loader> }
-
-                { mediaByDate.map(m => <MediaGroup media={m} creationDate={new Date(m[0].creationDate)}  key={m[0].id}></MediaGroup>) }
-
+                    { loading && <Loader></Loader> }
+                    { mediaByDate.map(m => <MediaGroup media={m} creationDate={new Date(m[0].creationDate)}  key={m[0].id}></MediaGroup>) }
                 </div>
+                { keywordsToSearch.length != 0 && <div className="fixed top-1/2 left-1/2 w-15 h-15 bg-red-400 rounded-full" onClick={() => keywordsToSearch = []}></div> }
             </main>
-
         </>  
     )
 }

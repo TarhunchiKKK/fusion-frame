@@ -18,7 +18,7 @@ export function useAlbums(name: string = ''){
             setLoading(true)
 
             let data: IAlbum[] = []
-            if (name.length == 0){
+            if (name == ''){
                 data = await AlbumService.getAll()
             }
             else {

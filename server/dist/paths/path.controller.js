@@ -44,9 +44,6 @@ let PathController = class PathController {
     async clear() {
         this.pathService.clear();
     }
-    async copy() {
-        this.pathService.copy();
-    }
 };
 exports.PathController = PathController;
 __decorate([
@@ -95,12 +92,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], PathController.prototype, "clear", null);
-__decorate([
-    (0, common_1.Post)('copy'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], PathController.prototype, "copy", null);
 exports.PathController = PathController = __decorate([
     (0, common_1.Controller)('paths'),
     __metadata("design:paramtypes", [path_service_1.PathService])

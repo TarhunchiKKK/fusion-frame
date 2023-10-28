@@ -30,7 +30,7 @@ export class Media{
 
     
     // @ManyToMany(() => Album, (album) => album.media, { onDelete: 'NO ACTION' })
-    @ManyToMany(() => Album)
+    @ManyToMany(() => Album, (album) => album.media)
     albums: Album[];
 }
 

@@ -12,12 +12,10 @@ export function Media({media}: MediaProps){
 
     return(
         <div className="relative w-full sm:h-72 md:h-60 lg:h-52 xl:h-44">
-            <img src = {"/images/" + media.name} alt="" className="w-full h-full"></img>
-            <div className="w-6 h-6 rounded-full border-2 border-white absolute right-1 bottom-1"></div>
+            <img src = {"/images/" + media.name} onClick={() => setModal(true)} className="w-full h-full"></img>
+            {/* <div className="w-6 h-6 rounded-full border-2 border-white absolute right-1 bottom-1"></div> */}
 
-            {modal && <MediaModal id={media.id} close={() => setModal(false)} >
-                
-                </MediaModal>}
+            {modal && <MediaModal id={media.id} close={() => setModal(false)}></MediaModal>}
         </div>
     )
 }

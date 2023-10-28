@@ -24,7 +24,7 @@ __decorate([
     __metadata("design:type", String)
 ], Album.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => media_entity_1.Media, {
+    (0, typeorm_1.ManyToMany)(() => media_entity_1.Media, (media) => media.albums, {
         cascade: true,
     }),
     (0, typeorm_1.JoinTable)(),

@@ -110,6 +110,21 @@ let AlbumService = class AlbumService {
         }
         await this.albumRepository.save(album);
     }
+    async removeMediaFromAlbum(albumId, media) {
+        let album = await this.albumRepository.findOne({
+            where: {
+                id: albumId,
+            },
+            relations: {
+                media: true,
+            }
+        });
+        if (album === undefined) {
+            return;
+        }
+        album.media = album.media.filter(m => m.id == media.id);
+        await this.albumRepository.update(albumId, album);
+    }
     async clear() {
         this.albumRepository.clear();
     }

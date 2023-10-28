@@ -117,3 +117,9 @@ export interface IDirectoryDto{
 export interface IDateDto{
     creationDate: string;
 }
+
+
+
+export interface ISearchValue{
+    value: string
+}

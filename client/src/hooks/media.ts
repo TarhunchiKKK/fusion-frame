@@ -9,6 +9,9 @@ export function useMedia(keywords: string[] = []) {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>('')
 
+    console.log("keywords in useMedia")
+    console.log(keywords)
+
     async function fetchMedia(){
         try{
             setError('')
@@ -17,9 +20,11 @@ export function useMedia(keywords: string[] = []) {
             let data: IMedia[] = []
             if (keywords.length == 0) {
                 data = await MediaService.getAll()
+                console.log("MediaService.getAll()")
             }
             else {
                 data = await MediaService.findByKeywords(keywords)
+                console.log("MediaService.findByKeywords()")
             }
 
             setMedia(data)
@@ -33,6 +38,9 @@ export function useMedia(keywords: string[] = []) {
     useEffect(() => {
         fetchMedia()
     }, [])
+
+    console.log("Media in useMedia:")
+    console.log(media)
 
     return { media, error, loading }
 }

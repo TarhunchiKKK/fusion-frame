@@ -6,13 +6,10 @@ import { AlbumsPage } from './pages/AlbumsPage'
 function App() { 
   
   return (
-    <>
-      <Header></Header>
-      <Routes>
+    <Routes>
         <Route path="/" element={<MediaPage></MediaPage>}></Route>
         <Route path="/albums" element={<AlbumsPage></AlbumsPage>}></Route>
-      </Routes> 
-    </>
+    </Routes> 
   )
 }
 
