@@ -133,6 +133,31 @@ export class MediaService{
         await this.mediaRepository.save(media);
     }
 
+    // НОВОЕ
+    // НЕ ТЕСТИЛ
+    public async removeDirectoryMedia(directory: string){
+        // получить файлы, которые являются фото или видео
+        let files: string[] = fs.readdirSync(directory).filter(file =>{
+            return this.formats.includes(path.extname(path.join(directory, file)));
+        });
+
+        // получить полные пути к файлам
+        files = files.map(file => path.join(directory, file));
+
+        let media: Media[] = await this.mediaRepository.find()
+        let mediaToRemove: Media[] = []
+        for(let m of media){
+            if(files.includes(m.path)){
+                mediaToRemove.push(m)
+
+                fs.rm(this.ImageStore + m.name, (err) => {
+                    if(err) console.log(err)
+                })
+            }
+        }
+        await this.mediaRepository.remove(mediaToRemove)
+    }
+
     // подразумевается, что пути уже проверены на существование
     public async updateMediaFromDirectories(files: string[]){
         let media: Media[] = [];

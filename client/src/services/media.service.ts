@@ -1,6 +1,6 @@
 import { Collection } from "typescript";
 import { API } from "../api/axios.api";
-import { IMedia, IKeywordsDto, IUpdateKeywordsDto, ILoadMediaDto, IUploadMediaDto, IRemoveMediasDto} from "../models";
+import { IMedia, IKeywordsDto, IUpdateKeywordsDto, ILoadMediaDto, IUploadMediaDto, IRemoveMediasDto, IDirectoryDto} from "../models";
 import axios from "axios";
 import { useState } from "react";
 
@@ -34,8 +34,16 @@ export const MediaService = {
         return data
     },
 
-    async loadMediaFromDirectory(directory: ILoadMediaDto): Promise<void>{
-        await API.post('media/', directory)
+    async loadMediaFromDirectory(path: string): Promise<void>{
+        let loadMediaDto: ILoadMediaDto = { path: path}
+        await API.post('media/', loadMediaDto)
+    },
+
+    async removeDirectoryMedia(path: string): Promise<void>{
+        let directoryDto:IDirectoryDto = { path: path }
+        await API.delete('media/removedirectorymedia',{
+            data: directoryDto
+        })
     },
 
     async updateMediaFromDirectories(uploadMediaDto: IUploadMediaDto): Promise<void>{

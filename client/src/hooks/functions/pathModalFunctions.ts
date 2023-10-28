@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IPath } from "../../models";
 import { PathService } from "../../services/path.service";
 import { AxiosError } from "axios";
+import { MediaService } from "../../services/media.service";
 
 export function usePathFunctions(path: IPath){
     const [error, setError] = useState<string>('')
@@ -19,11 +20,12 @@ export function usePathFunctions(path: IPath){
         return inner
     }
     
-    function RemovePathClosure(id: number){
+    function RemovePathClosure(path: IPath){
         const inner = async () => {
             try{
                 setError('')
-                await PathService.removePath(id)
+                //await MediaService.removeDirectoryMedia(path.path)
+                await PathService.removePath(path.id)
             } catch(error: unknown){
                 setError((error as AxiosError).message)
             }
@@ -33,7 +35,7 @@ export function usePathFunctions(path: IPath){
     }
 
     const openInExplorer = OpenInExplorerClosure(path.path)
-    const removePath = RemovePathClosure(path.id)
+    const removePath = RemovePathClosure(path)
 
     return { openInExplorer, removePath } 
 }

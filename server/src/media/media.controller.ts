@@ -7,6 +7,7 @@ import { RemoveMediasDto } from "./dto/remove-medias.dto";
 import { UploadMediaDto } from "./dto/upload-media.dto";
 import { UpdateKeywordsDto } from "./dto/update-keywords.dto";
 import { CreateMediaDto } from "./dto/create-media.dto";
+import { DirectoryDto } from "src/paths/dto/directory.dto";
 
 @Controller('media')
 export class MediaController{
@@ -45,8 +46,15 @@ export class MediaController{
 
     // загрузить медиафайлы из каталога
     @Post('loadmedia')
-    public loadMediaFromDirectory(@Body() directory: LoadMediaDto){
+    public loadMediaFromDirectory(@Body() directory: DirectoryDto){
         this.mediaService.loadMediaFromDirectory(directory.path);
+    }
+
+    // НОВОЕ
+    // НЕ ТЕСТИЛ
+    @Delete('removedirectorymedia')
+    public removeMediaFromDirectory(@Body() directory: DirectoryDto){
+        this.mediaService.removeDirectoryMedia(directory.path)
     }
 
     // добавить новые файлы из каталогов
