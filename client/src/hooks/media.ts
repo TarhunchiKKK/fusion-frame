@@ -3,6 +3,36 @@ import { IMedia } from "../models";
 import { AxiosError } from "axios";
 import { MediaService } from "../services/media.service";
 
+function trimMediaDates(media: IMedia[]): IMedia[] {
+    for (let m of media){
+        m.creationDate = m.creationDate.substring(0, 10)
+        m.path = '../src/images/Picture1.jfif'
+    }
+    return media
+}
+
+
+function splitMediaByDate(media: IMedia[]): IMedia[][]{    
+    media = trimMediaDates(media)
+
+
+    let dates: string[] = []
+    for(let m of media){
+        if (!dates.includes(m.creationDate)){
+            dates.push(m.creationDate)
+        }
+    }
+   
+    // массив медиа, разбитый по времени создания
+    let splitedMedia: IMedia[][] = []
+    for(let date of dates){
+        let mediaByDate: IMedia[] = media.filter(m => m.creationDate === date);
+        splitedMedia.push(mediaByDate)
+    }
+
+    return splitedMedia
+}
+
 
 export function useMedia(keywords: string[] = []) {
     const [media, setMedia] = useState<IMedia[]>([])
@@ -36,8 +66,9 @@ export function useMedia(keywords: string[] = []) {
         fetchMedia()
     }, [])
 
-    console.log("Media in useMedia:")
-    console.log(media)
 
-    return { media, error, loading }
+    // массив медиа, разбитый по времени создания
+    let mediaByDate: IMedia[][] = splitMediaByDate(media);
+
+    return { mediaByDate, error, loading }
 }
