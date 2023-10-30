@@ -53,7 +53,7 @@ export  function MediaPage(){
 
 
                 { searchModal &&  <SearchModal searchedObjects={"Media"} setValueToSearch={setValueToSearch} close={() => setSearchModal(false)}></SearchModal>}
-                { pathsModal && <PathsModal close={() => setPathsModal(false)}></PathsModal> }
+                { pathsModal && <PathsModal close={() => { setPathsModal(false); setValueToSearch('');} }></PathsModal> }
 
             </main>
             { keywordsToSearch.length != 0 && <img src="/icons/arrow_left.svg" title="Назад" className="fixed top-5 left-[70px] p-1 w-10 h-10 bg-red-400 hover:bg-red-500 rounded-full" onClick={() => setValueToSearch('')}></img> }

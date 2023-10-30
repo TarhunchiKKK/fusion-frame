@@ -5,7 +5,7 @@ import { useState } from "react"
 
 interface IPathProps{
     path: IPath
-    onRemove: (id: number) => void
+    onRemove: (path: IPath) => void
 }
 
 
@@ -16,7 +16,7 @@ export function Path({ path, onRemove }: IPathProps){
 
     function removePathHandler(){
         removePath()
-        onRemove(path.id)
+        onRemove(path)
         setIsRemoved(true)
     }
 

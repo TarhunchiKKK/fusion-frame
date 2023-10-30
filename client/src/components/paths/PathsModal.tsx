@@ -37,7 +37,7 @@ export function PathsModal({ close }: PathModalProps){
             let newPath: IPath = await PathService.addPath(path)
 
             setPaths([...paths, newPath])
-            //await MediaService.loadMediaFromDirectory(path)
+            await MediaService.loadMediaFromDirectory(path)
             setPath('')
             setPathsCount(pathsCount + 1)
         } catch(err: unknown){
@@ -62,8 +62,9 @@ export function PathsModal({ close }: PathModalProps){
         }        
     }
 
-    function onRemovePath(id: number){
-        setPaths(paths.filter(p => p.id != id))
+    async function onRemovePath(path: IPath){
+        await MediaService.removeDirectoryMedia(path.path)
+        setPaths(paths.filter(p => p.id != path.id))
         setPathsCount(pathsCount - 1)
     }
 
@@ -81,10 +82,6 @@ export function PathsModal({ close }: PathModalProps){
                 { loading && <Loader></Loader> }
                 { error && <ErrorMessage error={error}></ErrorMessage> }
 
-                {/* { pathsCount != 0 && 
-                    <div className="flex flex-col justify-around mx-auto border w-11/12 pb-2 mt-2 mb-3 bg-gray-200 rounded-lg">           
-                        { paths.map(p => <Path path={p} onRemove={onRemovePath} key={p.id}></Path>) }
-                    </div> } */}
                 <div className="flex flex-col justify-around mx-auto border w-11/12 pb-2 mt-2 mb-3 bg-gray-200 rounded-lg">           
                         { paths.map(p => <Path path={p} onRemove={onRemovePath} key={p.id}></Path>) }
                 </div>

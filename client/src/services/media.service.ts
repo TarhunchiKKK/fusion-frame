@@ -6,7 +6,6 @@ import { useState } from "react";
 
 export const MediaService = {
     async getAll(): Promise<IMedia[]>{
-        //const { data } = await axios.get<IMedia[]>('http://localhost:3001/media/get')
         const { data } = await API.get<IMedia[]>('media/get')
         return data
     },
@@ -17,12 +16,6 @@ export const MediaService = {
     },
 
     async findByKeywords(keywords: string[]): Promise<IMedia[]>{
-        let keywordsDto: IKeywordsDto = { keywords: keywords }
-        console.log("keywords in MediaService.findByKeywords: ")
-        console.log(keywordsDto)
-        // const { data } = await API.get<IMedia[]>('media/search', {
-        //     data: keywordsDto,
-        // })
         const { data } = await API.get<IMedia[]>('media/search', {
             params: {
                 keywords: keywords,
@@ -43,7 +36,7 @@ export const MediaService = {
 
     async loadMediaFromDirectory(path: string): Promise<void>{
         let loadMediaDto: ILoadMediaDto = { path: path}
-        await API.post('media/', loadMediaDto)
+        await API.post('media/loadmedia', loadMediaDto)
     },
 
     async removeDirectoryMedia(path: string): Promise<void>{
