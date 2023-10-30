@@ -26,7 +26,8 @@ function keywordsIntersection(a: string[], b: string[]): boolean{
 @Injectable()
 export class MediaService{
 
-    private ImageStore: string = path.join(__dirname, '../../../client/public/images/')
+    // private ImageStore: string = path.join(__dirname, '../../../client/public/images/')
+    private ImageStore: string = path.join(__dirname, '../../../storage/')
 
     // форматы фото и видео файлов
     private formats: string[] = [

@@ -23,3 +23,7 @@
 
 /**/test.ts
 /**/test.py
+
+/storage/*
+!/storage/README.md
+
