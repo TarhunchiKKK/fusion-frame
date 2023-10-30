@@ -115,6 +115,24 @@ let MediaService = class MediaService {
         });
         await this.mediaRepository.save(media);
     }
+    async removeDirectoryMedia(directory) {
+        let files = fs.readdirSync(directory).filter(file => {
+            return this.formats.includes(path.extname(path.join(directory, file)));
+        });
+        files = files.map(file => path.join(directory, file));
+        let media = await this.mediaRepository.find();
+        let mediaToRemove = [];
+        for (let m of media) {
+            if (files.includes(m.path)) {
+                mediaToRemove.push(m);
+                fs.rm(this.ImageStore + m.name, (err) => {
+                    if (err)
+                        console.log(err);
+                });
+            }
+        }
+        await this.mediaRepository.remove(mediaToRemove);
+    }
     async updateMediaFromDirectories(files) {
         let media = [];
         for (let file of files) {

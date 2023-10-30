@@ -1,6 +1,5 @@
-import axios from "axios"
 import { MediaGroup } from "../components/media/MediaGroup"
-import { IMedia, ISearchValue, getDefaultMedia } from "../models"
+import { IMedia, getDefaultMedia } from "../models"
 import { useMedia } from "../hooks/media"
 import { Loader } from "../components/other/Loader"
 import { ErrorMessage } from "../components/other/ErrorMesage"
@@ -12,64 +11,52 @@ import { PathsModal } from "../components/paths/PathsModal"
 
 
 
-function getKeywordsToSearch(valueToSearch: ISearchValue): string[]{
-    if(valueToSearch.value == '') return []
-    let keywords: string[] = valueToSearch.value.split(';')
-    for(let i = 0; i < keywords.length; i++){
-        keywords[i] = keywords[i].trim()
-    }
-    return keywords
-}
-
-function SetSearchValueClosure(searchValue: ISearchValue){
-    const inner = (value: string) =>{
-        searchValue.value = value
-    }
-    return inner
-}
-
-
 
 export  function MediaPage(){
-    let valueToSearch: ISearchValue = { value: '' }
-
-    let keywordsToSearch: string[] = getKeywordsToSearch(valueToSearch)
-
-    const setKeywordsToSearch = SetSearchValueClosure(valueToSearch)     
-    
-    const { mediaByDate, error, loading } = useMedia(keywordsToSearch)
-
+    const [keywordsToSearch, setKeywordsToSearch] = useState<string[]>([])
     const [currentMedia, setCurrentMedia] = useState<IMedia>(getDefaultMedia())
-   
 
     const [mediaModal, setMediaModal] = useState<boolean>(false)
-
-
     const [searchModal, setSearchModal] = useState<boolean>(false)
     const [pathsModal, setPathsModal] = useState<boolean>(false)
 
+    const setValueToSearch = (value: string) => {
+        let keywords: string[]  = []
+        if(value != '') {
+            keywords = value.split(';')
+            for(let i = 0; i < keywords.length; i++){
+                keywords[i] = keywords[i].trim()
+            }
+        }
+        
+        setKeywordsToSearch(keywords)
+        fetchMedia(keywords)
+    }
 
+    const { mediaByDate, error, loading, fetchMedia  } = useMedia(keywordsToSearch)
+   
+   
     return(
         <>
             { error && <ErrorMessage error={error}></ErrorMessage> }
 
             <Header openSearchModal={() => setSearchModal(true)} openPathsModal={() => setPathsModal(true)}></Header>
 
-            {/* { loading &&  } */}
+            { loading && <Loader></Loader> }
 
             <main className="mx-auto px-0">
                 <div className="flex bg-indigo-600 flex-col pt-6">
-                    { loading && <Loader></Loader> }
                     { mediaByDate.map(m => <MediaGroup media={m} creationDate={new Date(m[0].creationDate)} openMediaModal={() => setMediaModal(true)} setCurrentMedia={setCurrentMedia} key={m[0].id}></MediaGroup>) }
                 </div>
 
                 { mediaModal && <MediaModal id={currentMedia.id} close={() => setMediaModal(false)}></MediaModal>}
 
-                { keywordsToSearch.length != 0 && <div className="fixed top-1/2 left-1/2 w-15 h-15 bg-red-400 rounded-full" onClick={() => keywordsToSearch = []}></div> }
 
-                { searchModal &&  <SearchModal searchedObjects={"Media"} setValueToSearch={setKeywordsToSearch} close={() => setSearchModal(false)}></SearchModal>}
+                { searchModal &&  <SearchModal searchedObjects={"Media"} setValueToSearch={setValueToSearch} close={() => setSearchModal(false)}></SearchModal>}
                 { pathsModal && <PathsModal close={() => setPathsModal(false)}></PathsModal> }
+
             </main>
+            { keywordsToSearch.length != 0 && <img src="/icons/arrow_left.svg" title="Назад" className="fixed top-5 left-[70px] p-1 w-10 h-10 bg-red-400 hover:bg-red-500 rounded-full" onClick={() => setValueToSearch('')}></img> }
         </>  
     )
 }

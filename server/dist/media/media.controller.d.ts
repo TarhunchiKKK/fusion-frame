@@ -1,20 +1,20 @@
 import { MediaService } from "./media.service";
-import { KeywordsDto } from "./dto/keywords.dto";
 import { Media } from "./entities/media.entity";
-import { LoadMediaDto } from "./dto/load-media.dto.ts";
 import { RemoveMediasDto } from "./dto/remove-medias.dto";
 import { UploadMediaDto } from "./dto/upload-media.dto";
 import { UpdateKeywordsDto } from "./dto/update-keywords.dto";
 import { CreateMediaDto } from "./dto/create-media.dto";
+import { DirectoryDto } from "src/paths/dto/directory.dto";
 export declare class MediaController {
     private mediaService;
     constructor(mediaService: MediaService);
     getAll(): Promise<Media[]>;
     getOne(id: number): Promise<Media>;
-    findByKeywords(keywords: KeywordsDto): Promise<Media[]>;
+    findByKeywords(keywords: string[]): Promise<Media[]>;
     updateKeywords(updateKeywordsDto: UpdateKeywordsDto): Promise<void>;
     getLatestDate(): Promise<Date>;
-    loadMediaFromDirectory(directory: LoadMediaDto): void;
+    loadMediaFromDirectory(directory: DirectoryDto): void;
+    removeMediaFromDirectory(directory: DirectoryDto): void;
     updateMediaFromDirectories(uploadMediaDto: UploadMediaDto): void;
     removeOne(id: number): void;
     removeMany(removeMediaDto: RemoveMediasDto): void;

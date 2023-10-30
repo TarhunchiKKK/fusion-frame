@@ -18,8 +18,15 @@ export const MediaService = {
 
     async findByKeywords(keywords: string[]): Promise<IMedia[]>{
         let keywordsDto: IKeywordsDto = { keywords: keywords }
+        console.log("keywords in MediaService.findByKeywords: ")
+        console.log(keywordsDto)
+        // const { data } = await API.get<IMedia[]>('media/search', {
+        //     data: keywordsDto,
+        // })
         const { data } = await API.get<IMedia[]>('media/search', {
-            data:keywordsDto,
+            params: {
+                keywords: keywords,
+            }
         })
         return data
     },

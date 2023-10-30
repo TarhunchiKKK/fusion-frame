@@ -13,6 +13,8 @@ function trimMediaDates(media: IMedia[]): IMedia[] {
 
 
 function splitMediaByDate(media: IMedia[]): IMedia[][]{    
+
+    
     media = trimMediaDates(media)
 
 
@@ -38,8 +40,9 @@ export function useMedia(keywords: string[] = []) {
     const [media, setMedia] = useState<IMedia[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>('')
+    
 
-    async function fetchMedia(){
+    async function fetchMedia(keywords: string[]){
         try{
             setError('')
             setLoading(true)
@@ -47,10 +50,13 @@ export function useMedia(keywords: string[] = []) {
             let data: IMedia[] = []
             if (keywords.length == 0) {
                 data = await MediaService.getAll()
+                console.log("MediaService.getAll()")
             }
             else {
                 data = await MediaService.findByKeywords(keywords)
+                console.log("MediaService.findByKeywords()")
             }
+
 
             setMedia(data)
             setLoading(false)
@@ -61,12 +67,12 @@ export function useMedia(keywords: string[] = []) {
     }
 
     useEffect(() => {
-        fetchMedia()
+        fetchMedia(keywords)
     }, [])
 
 
     // массив медиа, разбитый по времени создания
     let mediaByDate: IMedia[][] = splitMediaByDate(media);
 
-    return { mediaByDate, error, loading }
+    return { mediaByDate, error, loading, fetchMedia }
 }

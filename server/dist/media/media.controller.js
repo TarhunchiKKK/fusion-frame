@@ -15,12 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MediaController = void 0;
 const common_1 = require("@nestjs/common");
 const media_service_1 = require("./media.service");
-const keywords_dto_1 = require("./dto/keywords.dto");
-const load_media_dto_ts_1 = require("./dto/load-media.dto.ts");
 const remove_medias_dto_1 = require("./dto/remove-medias.dto");
 const upload_media_dto_1 = require("./dto/upload-media.dto");
 const update_keywords_dto_1 = require("./dto/update-keywords.dto");
 const create_media_dto_1 = require("./dto/create-media.dto");
+const directory_dto_1 = require("../paths/dto/directory.dto");
 let MediaController = class MediaController {
     constructor(mediaService) {
         this.mediaService = mediaService;
@@ -32,7 +31,9 @@ let MediaController = class MediaController {
         return this.mediaService.getOne(id);
     }
     findByKeywords(keywords) {
-        return this.mediaService.findByKeywords(keywords.keywords);
+        console.error("Keywords in controller: ");
+        console.log(keywords);
+        return this.mediaService.findByKeywords(keywords);
     }
     async updateKeywords(updateKeywordsDto) {
         this.mediaService.updateKeywords(updateKeywordsDto.id, updateKeywordsDto.keywords);
@@ -42,6 +43,9 @@ let MediaController = class MediaController {
     }
     loadMediaFromDirectory(directory) {
         this.mediaService.loadMediaFromDirectory(directory.path);
+    }
+    removeMediaFromDirectory(directory) {
+        this.mediaService.removeDirectoryMedia(directory.path);
     }
     updateMediaFromDirectories(uploadMediaDto) {
         this.mediaService.updateMediaFromDirectories(uploadMediaDto.paths);
@@ -75,9 +79,9 @@ __decorate([
 ], MediaController.prototype, "getOne", null);
 __decorate([
     (0, common_1.Get)('search'),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Query)('keywords')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [keywords_dto_1.KeywordsDto]),
+    __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", Promise)
 ], MediaController.prototype, "findByKeywords", null);
 __decorate([
@@ -97,9 +101,16 @@ __decorate([
     (0, common_1.Post)('loadmedia'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [load_media_dto_ts_1.LoadMediaDto]),
+    __metadata("design:paramtypes", [directory_dto_1.DirectoryDto]),
     __metadata("design:returntype", void 0)
 ], MediaController.prototype, "loadMediaFromDirectory", null);
+__decorate([
+    (0, common_1.Delete)('removedirectorymedia'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [directory_dto_1.DirectoryDto]),
+    __metadata("design:returntype", void 0)
+], MediaController.prototype, "removeMediaFromDirectory", null);
 __decorate([
     (0, common_1.Post)('uploadmedia'),
     __param(0, (0, common_1.Body)()),

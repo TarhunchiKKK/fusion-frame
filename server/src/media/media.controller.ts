@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req } from "@nestjs/common";
 import { MediaService } from "./media.service";
 import { KeywordsDto } from "./dto/keywords.dto"
 import { Media } from "./entities/media.entity";
@@ -28,8 +28,14 @@ export class MediaController{
 
     // получить медиафайлы по ключевым словам
     @Get('search')
-    public findByKeywords(@Body() keywords: KeywordsDto): Promise<Media[]>{
-        return this.mediaService.findByKeywords(keywords.keywords);
+    // public findByKeywords(@Body() keywords: KeywordsDto): Promise<Media[]>{
+    public findByKeywords(@Query('keywords') keywords: string[]): Promise<Media[]>{
+
+        console.error("Keywords in controller: ")
+        console.log(keywords)
+        //console.log(keywords.keywords)
+
+        return this.mediaService.findByKeywords(keywords);
     }
 
     // обновить ключевые слова для медиафайла
@@ -90,3 +96,7 @@ export class MediaController{
         this.mediaService.clear();
     }
 }
+
+
+
+

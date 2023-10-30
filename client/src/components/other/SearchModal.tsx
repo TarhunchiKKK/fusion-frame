@@ -15,6 +15,9 @@ export function SearchModal({  searchedObjects, setValueToSearch, close }: Searc
     const placeholder: string = searchedObjects == 'Media' ? "  Ключевые сова через ';'" : "  Название альбома"
 
     function submitHandler(event: React.FormEvent){
+        console.log("Value to search:")
+        console.log(value)
+        
         setValueToSearch(value)
         close()
     }
@@ -37,7 +40,7 @@ export function SearchModal({  searchedObjects, setValueToSearch, close }: Searc
                         <input type="text" onChange={changeHandler} placeholder={placeholder} className="mx-auto w-full h-8 rounded-xl border-2 border-blue-700 active:border-blue-700"/>
                         { error && <ErrorMessage error={error}></ErrorMessage> }
                         <div className="flex flex-row justify-center mt-2">
-                            <button type="submit" className="w-1/2 h-8 border-2 rounded-xl text-white bg-red-600 hover:bg-red-400">Найти</button>
+                            <button type="submit"  onClick={submitHandler} className="w-1/2 h-8 border-2 rounded-xl text-white bg-red-600 hover:bg-red-400">Найти</button>
                         </div>
                     </form>
                 </div>
