@@ -8,6 +8,8 @@ import { UpdateAlbumDto } from "./dto/update-album.dto";
 import { AddOneMediaDto } from "./dto/add-one-media.dto";
 import { AddManyMediaDto } from "./dto/add-many-media.dto";
 import { RemoveMediaFromAlbumDto } from "./dto/remove-media-from-album.dto";
+import { AlbumNamesDto } from "./dto/album-names.dto";
+import { AlbumIdsDto } from "./dto/album-ids.dto";
 
 @Controller('albums')
 export class AlbumController{
@@ -24,6 +26,22 @@ export class AlbumController{
     public getOne(@Param('id') id: number): Promise<Album>{
         return this.albumService.getOne(id);
     }
+
+    @Get('count')
+    public getCount():Promise<number>{
+        return this.albumService.getCount();
+    }
+
+    @Get('ids')
+    public getAlbumIds(): Promise<AlbumIdsDto>{
+        return this.albumService.getAlbumIds();
+    }
+
+    @Get('names')
+    public getAlbumNames(): Promise<AlbumNamesDto>{
+        return this.albumService.getAlbumNames();
+    }
+
 
     // получить альбомы (БЕЗ ИХ МЕДИАФАЙЛОВ) по имени
     @Get('search')

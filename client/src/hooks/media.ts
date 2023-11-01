@@ -3,7 +3,7 @@ import { IMedia } from "../models";
 import { AxiosError } from "axios";
 import { MediaService } from "../services/media.service";
 
-function trimMediaDates(media: IMedia[]): IMedia[] {
+export function trimMediaDates(media: IMedia[]): IMedia[] {
     for (let m of media){
         m.creationDate = m.creationDate.substring(0, 10)
         m.path = '../src/images/Picture1.jfif'
@@ -12,9 +12,7 @@ function trimMediaDates(media: IMedia[]): IMedia[] {
 }
 
 
-function splitMediaByDate(media: IMedia[]): IMedia[][]{    
-
-    
+export function splitMediaByDate(media: IMedia[]): IMedia[][]{    
     media = trimMediaDates(media)
 
 
@@ -50,11 +48,9 @@ export function useMedia(keywords: string[] = []) {
             let data: IMedia[] = []
             if (keywords.length == 0) {
                 data = await MediaService.getAll()
-                console.log("MediaService.getAll()")
             }
             else {
                 data = await MediaService.findByKeywords(keywords)
-                console.log("MediaService.findByKeywords()")
             }
 
 

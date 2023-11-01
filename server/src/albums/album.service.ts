@@ -4,6 +4,8 @@ import { Album } from "./entities/album.entity";
 import { Repository } from "typeorm";
 import { CreateAlbumDto } from "./dto/create-album.dto";
 import { Media } from "src/media/entities/media.entity";
+import { AlbumNamesDto } from "./dto/album-names.dto";
+import { AlbumIdsDto } from "./dto/album-ids.dto";
 
 @Injectable()
 export class AlbumService{
@@ -35,6 +37,21 @@ export class AlbumService{
             }
         });
     }
+
+    public async getCount(): Promise<number>{
+        return this.albumRepository.count()
+    }
+
+    public async getAlbumIds(): Promise<AlbumIdsDto>{
+        let albumIds: number[] = (await this.albumRepository.find()).map(album => album.id)
+        return { albumIds: albumIds }
+    }
+
+    public async getAlbumNames(): Promise<AlbumNamesDto>{
+        let albumNames: string[] = (await this.albumRepository.find()).map(album => album.name)
+        return { albumNames: albumNames }
+    }
+
 
     // поиск альбомов по названию
     public async findByName(name: string): Promise<Album[]> {

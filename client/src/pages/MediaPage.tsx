@@ -40,7 +40,7 @@ export  function MediaPage(){
         <>
             { error && <ErrorMessage error={error}></ErrorMessage> }
 
-            <Header openSearchModal={() => setSearchModal(true)} openPathsModal={() => setPathsModal(true)}></Header>
+            <Header haveIcons={true} openSearchModal={() => setSearchModal(true)} openPathsModal={() => setPathsModal(true)}></Header>
 
             { loading && <Loader></Loader> }
 

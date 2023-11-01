@@ -1,5 +1,5 @@
 import { API } from "../api/axios.api";
-import { IAddManyMediaDto, IAddOneMediaDto, IAlbum, ICreateAlbumDto, IMedia, ISearchAlbumDto, IUpdateAlbumDto } from "../models";
+import { IAddManyMediaDto, IAddOneMediaDto, IAlbum, IAlbumNamesDto, ICreateAlbumDto, IMedia, ISearchAlbumDto, IUpdateAlbumDto } from "../models";
 
 export const AlbumService = {
     async getAll(): Promise<IAlbum[]> {
@@ -9,6 +9,16 @@ export const AlbumService = {
 
     async getOne(id: number): Promise<IAlbum> {
         const { data } = await API.get<IAlbum>(`albums/get/${id}`)
+        return data
+    },
+
+    async getCount(): Promise<number>{
+        const { data } = await API.get<number>('albums/count')
+        return data
+    },
+
+    async getAlbumNames(): Promise<IAlbumNamesDto>{
+        const { data } = await API.get<IAlbumNamesDto>('albums/names')
         return data
     },
 

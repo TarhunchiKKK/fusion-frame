@@ -16,14 +16,12 @@
 /docs/diagrams/*.bak*
 
 
-
-
 /server/src/FileSystemManager.ts
 /**/.metals
 
 /**/test.ts
 /**/test.py
 
-/storage/*
-!/storage/README.md
+/client/public/storage/*
+!/client/public/storage/README.md
 

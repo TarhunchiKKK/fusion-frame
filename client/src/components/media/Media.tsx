@@ -15,7 +15,7 @@ export function Media({media, openMediaModal, setCurrentMedia}: MediaProps){
 
     return(
         <div className="relative w-full sm:h-72 md:h-60 lg:h-52 xl:h-44">
-            <img src = {"/images/" + media.name} onClick={() => { setCurrentMedia(media); openMediaModal(); }} className="w-full h-full"></img>
+            <img src = {"/storage/" + media.name} onClick={() => { setCurrentMedia(media); openMediaModal(); }} className="w-full h-full"></img>
             {/* <div className="w-6 h-6 rounded-full border-2 border-white absolute right-1 bottom-1"></div> */}
 
             {/* {modal && <MediaModal id={media.id} close={() => setModal(false)}></MediaModal>} */}

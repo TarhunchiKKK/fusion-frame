@@ -6,23 +6,23 @@ import { AlbumService } from "../services/album.service"
 
 
 // получение альбомов
-export function useAlbums(name: string = ''){
+export function useAlbums(albumName: string = ''){
     const [albums, setAlbums] = useState<IAlbum[]>([])                                 // альбомы
     const [loading, setLoading] = useState(false)                                      // флаг загрузки альбомов
     const [error, setError] = useState('')                                             // ошибка загрузки
 
     // загрузка альбомов
-    async function fetchAlbums(){
+    async function fetchAlbums(albumName: string){
         try{
             setError('')
             setLoading(true)
 
             let data: IAlbum[] = []
-            if (name == ''){
+            if (albumName == ''){
                 data = await AlbumService.getAll()
             }
             else {
-                data = await AlbumService.getByName(name)
+                data = await AlbumService.getByName(albumName)
             }
 
             setAlbums(data)
@@ -34,8 +34,8 @@ export function useAlbums(name: string = ''){
     }
 
     useEffect(() => {
-        fetchAlbums()
+        fetchAlbums(albumName)
     }, [])
 
-    return { albums, error, loading }
+    return { albums, error, loading, fetchAlbums }
 }

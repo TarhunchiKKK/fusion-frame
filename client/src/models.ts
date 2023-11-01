@@ -34,6 +34,16 @@ export interface IAlbum{
     media: IMedia[]
 }
 
+export function getDefaultAlbum(): IAlbum{
+    return {
+        id: -1,
+        name: '',
+        mediaCount: 0,
+        size: 0,
+        media: []
+    }
+}
+
 export interface IMediaGroup{
     media: IMedia[]
     creationDate: Date
@@ -75,6 +85,9 @@ export interface IRemoveMediaFromAlbumDto{
     media: IMedia
 }
 
+export interface IAlbumNamesDto{
+    albumNammes: string[]
+}
 
 
 

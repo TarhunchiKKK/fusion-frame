@@ -33,7 +33,7 @@ function keywordsIntersection(a, b) {
 let MediaService = class MediaService {
     constructor(mediaRepository) {
         this.mediaRepository = mediaRepository;
-        this.ImageStore = path.join(__dirname, '../../../storage/');
+        this.ImageStore = path.join(__dirname, '../../../client/public/storage/');
         this.formats = [
             '.svg', '.png', '.jpg', '.jpeg', '.gif', '.raw', '.tlff', '.jfif', '.webp',
             '.mp4', '.avi', '.wmv'
