@@ -40,7 +40,8 @@ export const AlbumService = {
         return data
     },
 
-    async updateAlbumName(updateAlbumDto: IUpdateAlbumDto): Promise<void>{
+    async updateAlbumName(id: number, albumName: string): Promise<void>{
+        let updateAlbumDto: IUpdateAlbumDto = { id: id, name: albumName }
         await API.put('albums/updatename', updateAlbumDto)
     },
 

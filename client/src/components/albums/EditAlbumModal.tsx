@@ -6,16 +6,15 @@ import {AxiosError} from "axios";
 import {AlbumsRoutesContext} from "../../context/AlbumsRoutesContext";
 
 interface CreateAlbumModalProps{
-    onCreate: () => void
+    album: IAlbum
     close: () => void
 }
 
-export function CreateAlbumModal({ onCreate, close }: CreateAlbumModalProps ){
+export function EditAlbumModal({ album, close }: CreateAlbumModalProps ){
     const [albumName, setAlbumName] = useState('')
     const [error, setError] = useState('')
 
-
-    const { addAlbumRoute } = useContext(AlbumsRoutesContext)
+    const { addAlbumRoute, removeAlbumRoute } = useContext(AlbumsRoutesContext)
 
     async function submitHandler(event: React.FormEvent){
         event.preventDefault()
@@ -30,14 +29,13 @@ export function CreateAlbumModal({ onCreate, close }: CreateAlbumModalProps ){
         }
 
         try{
-            let createdAlbum: IAlbum = await AlbumService.create(value)
-            addAlbumRoute(createdAlbum)
-            onCreate()
+            await AlbumService.updateAlbumName(album.id, value)
+            // removeAlbumRoute(album)
+            // addAlbumRoute({ ...album, name: value })
         } catch(e: unknown){
             setError((e as AxiosError).message)
         }
 
-        setAlbumName('')
         close()
     }
 
@@ -53,13 +51,13 @@ export function CreateAlbumModal({ onCreate, close }: CreateAlbumModalProps ){
                     <span className="font-bold ml-6">Создание альбома</span>
                     <img src="/icons/exit.svg" onClick={close} title="Закрыть" className="w-8 h-8 mr-2 rounded-full hover:bg-gray-300"/>
                 </div>
-                    
+
                 <div className="mx-auto w-11/12 mt-2">
                     <form action="" onSubmit={submitHandler}>
                         <input type="text" onChange={changeHandler} placeholder="  Название альбома" className="mx-auto w-full h-8 rounded-xl border-2 border-blue-700 active:border-blue-700"/>
                         { error && <ErrorMessage error={error}></ErrorMessage> }
                         <div className="flex flex-row justify-center mt-2">
-                            <button type="submit" className="w-1/2 h-8 border-2 rounded-xl text-white bg-red-600 hover:bg-red-400">Создать</button>
+                            <button type="submit" className="w-1/2 h-8 border-2 rounded-xl text-white bg-red-600 hover:bg-red-400">Изменить</button>
                         </div>
                     </form>
                 </div>

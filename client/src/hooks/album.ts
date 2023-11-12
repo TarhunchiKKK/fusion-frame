@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { IAlbum, IMedia } from "../models";
+import {getDefaultAlbum, IAlbum, IMedia} from "../models";
 import { AlbumService } from "../services/album.service";
 import { MediaService } from "../services/media.service";
 import { AxiosError } from "axios";
 
 export function useAlbum(id: number){
-    const [name, setName] = useState<string>('')
-    const [media, setMedia] = useState<IMedia[]>([])
+    const [album, setAlbum] = useState<IAlbum>(getDefaultAlbum())
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>('')
 
@@ -16,9 +15,9 @@ export function useAlbum(id: number){
             setLoading(true)
 
             let album: IAlbum = await AlbumService.getOne(id)
-            
-            setName(album.name)
-            setMedia(album.media)
+
+            setAlbum(album)
+
             setLoading(false)
         } catch (error: unknown) {
             setLoading(false)
@@ -30,5 +29,5 @@ export function useAlbum(id: number){
         fetchAlbum()
     }, [])
 
-    return { name, media,error, loading }
+    return { album, error, loading, fetchAlbum }
 }

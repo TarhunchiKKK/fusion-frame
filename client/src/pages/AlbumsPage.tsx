@@ -4,12 +4,10 @@ import { useAlbums } from "../hooks/albums"
 import { Loader } from "../components/other/Loader"
 import { ErrorMessage } from "../components/other/ErrorMesage"
 import { Header } from "../components/other/Header"
-import {useContext, useState} from "react"
+import { useState} from "react"
 import { PathsModal } from "../components/paths/PathsModal"
 import { SearchModal } from "../components/other/SearchModal"
 import { Album } from "../components/albums/Album"
-import {useRoutes} from "react-router-dom";
-import {AlbumsContext} from "../context/AlbumsContext";
 import {CreateAlbumModal} from "../components/albums/CreateAlbumModal";
 
 function SetSearchValueClosure(searchValue: ISearchValue){
