@@ -15,9 +15,6 @@ export function SearchModal({  searchedObjects, setValueToSearch, close }: Searc
     const placeholder: string = searchedObjects == 'Media' ? "  Ключевые сова через ';'" : "  Название альбома"
 
     function submitHandler(event: React.FormEvent){
-        console.log("Value to search:")
-        console.log(value)
-        
         setValueToSearch(value)
         close()
     }

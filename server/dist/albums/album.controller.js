@@ -16,7 +16,6 @@ exports.AlbumController = void 0;
 const common_1 = require("@nestjs/common");
 const album_service_1 = require("./album.service");
 const create_album_dto_1 = require("./dto/create-album.dto");
-const search_album_dto_1 = require("./dto/search-album.dto");
 const update_album_dto_1 = require("./dto/update-album.dto");
 const add_one_media_dto_1 = require("./dto/add-one-media.dto");
 const add_many_media_dto_1 = require("./dto/add-many-media.dto");
@@ -40,8 +39,8 @@ let AlbumController = class AlbumController {
     getAlbumNames() {
         return this.albumService.getAlbumNames();
     }
-    getByName(searchAlbumDto) {
-        return this.albumService.findByName(searchAlbumDto.name);
+    getByName(albumName) {
+        return this.albumService.findByName(albumName);
     }
     create(createAlbumDto) {
         return this.albumService.create(createAlbumDto);
@@ -99,9 +98,9 @@ __decorate([
 ], AlbumController.prototype, "getAlbumNames", null);
 __decorate([
     (0, common_1.Get)('search'),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Query)('albumName')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [search_album_dto_1.SearchAlbumDto]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AlbumController.prototype, "getByName", null);
 __decorate([

@@ -37,5 +37,5 @@ export function useAlbums(albumName: string = ''){
         fetchAlbums(albumName)
     }, [])
 
-    return { albums, error, loading, fetchAlbums }
+    return { albums, setAlbums, error, loading, fetchAlbums }
 }

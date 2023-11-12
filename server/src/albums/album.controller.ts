@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Put, Query} from "@nestjs/common";
 import { AlbumService } from "./album.service";
 import { Album } from "./entities/album.entity";
 import { CreateAlbumDto } from "./dto/create-album.dto";
@@ -57,8 +57,9 @@ export class AlbumController{
 
     // получить альбомы (БЕЗ ИХ МЕДИАФАЙЛОВ) по имени
     @Get('search')
-    public getByName(@Body() searchAlbumDto: SearchAlbumDto): Promise<Album[]>{
-        return this.albumService.findByName(searchAlbumDto.name);
+    // public getByName(@Body() searchAlbumDto: SearchAlbumDto): Promise<Album[]>{
+    public getByName(@Query('albumName') albumName: string): Promise<Album[]>{
+        return this.albumService.findByName(albumName);
     }
 
     // создать альбом

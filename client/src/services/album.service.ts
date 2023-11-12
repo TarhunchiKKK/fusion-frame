@@ -22,10 +22,14 @@ export const AlbumService = {
         return data
     },
 
-    async getByName(name: string): Promise<IAlbum[]> {
-        let searchAlbumDto: ISearchAlbumDto = { name: name }
+    async getByName(albumName: string): Promise<IAlbum[]> {
+        // let searchAlbumDto: ISearchAlbumDto = { name: name }
+        // console.log("On frontend: ", name)
         const { data } = await API.get<IAlbum[]>('albums/search', {
-            data: searchAlbumDto
+            // params: searchAlbumDto
+            params: {
+                albumName: albumName
+            }
         })
         return data
     },

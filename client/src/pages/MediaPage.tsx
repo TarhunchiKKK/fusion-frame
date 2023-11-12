@@ -51,8 +51,8 @@ export  function MediaPage(){
 
                 { mediaModal && <MediaModal id={currentMedia.id} close={() => setMediaModal(false)}></MediaModal>}
 
-
                 { searchModal &&  <SearchModal searchedObjects={"Media"} setValueToSearch={setValueToSearch} close={() => setSearchModal(false)}></SearchModal>}
+
                 { pathsModal && <PathsModal close={() => { setPathsModal(false); setValueToSearch('');} }></PathsModal> }
 
             </main>
