@@ -31,7 +31,7 @@ let AlbumService = class AlbumService {
                 media: false,
             }
         });
-        return albums.sort((a, b) => a.name < b.name ? 1 : -1);
+        return albums.sort((a, b) => a.name > b.name ? 1 : -1);
     }
     async getOne(id) {
         return await this.albumRepository.findOne({
@@ -42,6 +42,17 @@ let AlbumService = class AlbumService {
                 media: true,
             }
         });
+    }
+    async getCount() {
+        return this.albumRepository.count();
+    }
+    async getAlbumIds() {
+        let albumIds = (await this.albumRepository.find()).map(album => album.id);
+        return { albumIds: albumIds };
+    }
+    async getAlbumNames() {
+        let albumNames = (await this.albumRepository.find()).map(album => album.name);
+        return { albumNames: albumNames };
     }
     async findByName(name) {
         let count = await this.albumRepository.count();

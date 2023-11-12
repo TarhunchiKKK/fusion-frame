@@ -6,11 +6,16 @@ import { UpdateAlbumDto } from "./dto/update-album.dto";
 import { AddOneMediaDto } from "./dto/add-one-media.dto";
 import { AddManyMediaDto } from "./dto/add-many-media.dto";
 import { RemoveMediaFromAlbumDto } from "./dto/remove-media-from-album.dto";
+import { AlbumNamesDto } from "./dto/album-names.dto";
+import { AlbumIdsDto } from "./dto/album-ids.dto";
 export declare class AlbumController {
     private readonly albumService;
     constructor(albumService: AlbumService);
     getAll(): Promise<Album[]>;
     getOne(id: number): Promise<Album>;
+    getCount(): Promise<number>;
+    getAlbumIds(): Promise<AlbumIdsDto>;
+    getAlbumNames(): Promise<AlbumNamesDto>;
     getByName(searchAlbumDto: SearchAlbumDto): Promise<Album[]>;
     create(createAlbumDto: CreateAlbumDto): Promise<Album>;
     updateAlbumName(updateAlbumDto: UpdateAlbumDto): void;

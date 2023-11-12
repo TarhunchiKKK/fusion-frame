@@ -49,7 +49,7 @@ export function AlbumMedia({ albumId }: AlbumMediaProps){
 
             <Header haveIcons={false} openSearchModal={() => {}} openPathsModal={() =>{}}></Header>
             
-            <AlbumHeader name={album.name} exit={() => {}}></AlbumHeader>
+            <AlbumHeader albumName={album.name}></AlbumHeader>
 
             { loading && <Loader></Loader> }
 

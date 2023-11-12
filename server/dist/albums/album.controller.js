@@ -31,6 +31,15 @@ let AlbumController = class AlbumController {
     getOne(id) {
         return this.albumService.getOne(id);
     }
+    getCount() {
+        return this.albumService.getCount();
+    }
+    getAlbumIds() {
+        return this.albumService.getAlbumIds();
+    }
+    getAlbumNames() {
+        return this.albumService.getAlbumNames();
+    }
     getByName(searchAlbumDto) {
         return this.albumService.findByName(searchAlbumDto.name);
     }
@@ -70,6 +79,24 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], AlbumController.prototype, "getOne", null);
+__decorate([
+    (0, common_1.Get)('count'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AlbumController.prototype, "getCount", null);
+__decorate([
+    (0, common_1.Get)('ids'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AlbumController.prototype, "getAlbumIds", null);
+__decorate([
+    (0, common_1.Get)('names'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AlbumController.prototype, "getAlbumNames", null);
 __decorate([
     (0, common_1.Get)('search'),
     __param(0, (0, common_1.Body)()),

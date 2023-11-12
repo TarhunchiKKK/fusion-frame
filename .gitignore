@@ -25,3 +25,6 @@
 /client/public/storage/*
 !/client/public/storage/README.md
 
+
+/**/*.spec.*
+

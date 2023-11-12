@@ -41,7 +41,7 @@ export function AlbumsPage(){
 
             { loading && <Loader></Loader> }
 
-            <div className="fixed left-1/2 bottom-4 rounded-full w-3 h-3 bg-red-500">
+            <div className="fixed left-1/2 bottom-4 rounded-full w-10 h-10 bg-red-500">
                 <img className="w-100 h-100" src="../icons/plus.svg" alt="" />
             </div>
 
@@ -58,7 +58,7 @@ export function AlbumsPage(){
                 { pathsModal && <PathsModal close={() => setPathsModal(false)}></PathsModal> }
             </main>
 
-            { albumNameToSearch != '' && <img src="/icons/arrow_left.svg" title="Назад" className="fixed top-5 left-[70px] p-1 w-10 h-10 bg-red-400 hover:bg-red-500 rounded-full" onClick={() => setValueToSearch('')}></img> }
+            { albumNameToSearch != '' && <img src="/icons/arrow_left.svg" title="Назад" className="fixed top-5 left-[70px] p-1 w-15 h-10 bg-red-400 hover:bg-red-500 rounded-full" onClick={() => setValueToSearch('')}></img> }
         </>
     )
 }

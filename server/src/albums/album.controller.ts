@@ -27,6 +27,12 @@ export class AlbumController{
         return this.albumService.getOne(id);
     }
 
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////
     @Get('count')
     public getCount():Promise<number>{
         return this.albumService.getCount();
@@ -41,6 +47,12 @@ export class AlbumController{
     public getAlbumNames(): Promise<AlbumNamesDto>{
         return this.albumService.getAlbumNames();
     }
+//////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 
     // получить альбомы (БЕЗ ИХ МЕДИАФАЙЛОВ) по имени

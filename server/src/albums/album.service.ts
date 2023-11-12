@@ -23,7 +23,7 @@ export class AlbumService{
                 media: false,               
             }
         });
-        return albums.sort((a, b) => a.name < b.name? 1: -1);
+        return albums.sort((a, b) => a.name > b.name? 1: -1);
     }
 
     // получить конкретный альбом
