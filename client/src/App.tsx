@@ -14,7 +14,7 @@ function App() {
         <Routes>
             <Route path="/" element={<MediaPage></MediaPage>}></Route>
             <Route path="/albums" element={<AlbumsPage></AlbumsPage>}></Route>
-            { albums.map((album, i) => <Route path={"/albums/" + album.name} element={<AlbumMediaPage albumId={album.id} key={i}></AlbumMediaPage>} key={i}></Route>) }
+            { albums.map((album, i) => <Route path={"/albums/" + album.id} element={<AlbumMediaPage albumId={album.id} key={i}></AlbumMediaPage>} key={i}></Route>) }
         </Routes>
     )
 }
