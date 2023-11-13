@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import {AlbumsState} from "./context/AlbumsRoutesContext";
 import {IAlbum} from "./models";
 import {AlbumService} from "./services/album.service";
@@ -21,13 +21,12 @@ async function uploadMedia(){
 await uploadMedia()
 
 root.render(
-  <BrowserRouter>
+  <HashRouter>
     <React.StrictMode>
       <AlbumsState>
         <App />
       </AlbumsState>
     </React.StrictMode>
-  </BrowserRouter>
-  
+    </HashRouter>  
 );
 
