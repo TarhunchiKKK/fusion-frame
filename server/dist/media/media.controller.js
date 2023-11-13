@@ -31,8 +31,6 @@ let MediaController = class MediaController {
         return this.mediaService.getOne(id);
     }
     findByKeywords(keywords) {
-        console.error("Keywords in controller: ");
-        console.log(keywords);
         return this.mediaService.findByKeywords(keywords);
     }
     async updateKeywords(updateKeywordsDto) {
@@ -51,6 +49,7 @@ let MediaController = class MediaController {
         this.mediaService.updateMediaFromDirectories(uploadMediaDto.paths);
     }
     removeOne(id) {
+        console.log(`Remove id = ${id}`);
         this.mediaService.removeOne(id);
     }
     removeMany(removeMediaDto) {

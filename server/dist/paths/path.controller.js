@@ -81,7 +81,7 @@ __decorate([
 ], PathController.prototype, "openDirectoryInExplorer", null);
 __decorate([
     (0, common_1.Get)('check'),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Query)('latestDate')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [date_dto_1.DateDto]),
     __metadata("design:returntype", Promise)

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IMedia } from "../models";
 import { AxiosError } from "axios";
 import { MediaService } from "../services/media.service";
+import { PathService } from "../services/path.service";
 
 export function trimMediaDates(media: IMedia[]): IMedia[] {
     for (let m of media){
@@ -44,6 +45,7 @@ export function useMedia(keywords: string[] = []) {
         try{
             setError('')
             setLoading(true)
+            
 
             let data: IMedia[] = []
             if (keywords.length == 0) {

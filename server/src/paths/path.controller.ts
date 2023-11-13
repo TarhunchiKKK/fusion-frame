@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query } from "@nestjs/common";
 import { Path } from "./entities/path.entity";
 import { PathService } from "./path.service";
 import { CreatePathDto } from "./dto/create-path.dto";
@@ -41,7 +41,7 @@ export class PathController{
 
     // проверить хранимые каталоги на новые файлы
     @Get('check')
-    public checkForNewFiles(@Body() dateDto: DateDto): Promise<string[]> {
+    public checkForNewFiles(@Query('latestDate') dateDto: DateDto): Promise<string[]> {
         let latestDate: Date = new Date(dateDto.creationDate);
         return this.pathService.checkForNewFiles(latestDate);
     }

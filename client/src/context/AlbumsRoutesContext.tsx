@@ -28,7 +28,6 @@ export const AlbumsState = ({ children }: { children: React.ReactNode }) => {
 
 
     async function fetchAlbums () {
-        console.log("Fetch")
         try{
             const data: IAlbum[] = await AlbumService.getAll()
             setAlbums(data)

@@ -27,8 +27,13 @@ export const PathService = {
         await API.post('paths/openinexplorer', directoryDto)
     },
 
-    async checkForNewFiles(dateDto: IDateDto): Promise<string[]> {
-        const { data } = await API.get<string[]>('paths/check')
+    async checkForNewFiles(latestDate: Date): Promise<string[]> {
+        let dateDto: IDateDto = { creationDate: latestDate.toString() };
+        const { data } = await API.get<string[]>('paths/check', {
+            params:{
+                latestDate: dateDto,
+            }
+        })
         return data
     }
 }

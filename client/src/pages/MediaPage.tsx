@@ -8,6 +8,8 @@ import { useState } from "react"
 import { MediaModal } from "../components/media/MediaModal"
 import { SearchModal } from "../components/other/SearchModal"
 import { PathsModal } from "../components/paths/PathsModal"
+import { MediaService } from "../services/media.service"
+import { PathService } from "../services/path.service"
 
 
 
@@ -22,7 +24,7 @@ export  function MediaPage(){
 
     const setValueToSearch = (value: string) => {
         let keywords: string[]  = []
-        if(value != '') {
+        if(value !== '') {
             keywords = value.split(';')
             for(let i = 0; i < keywords.length; i++){
                 keywords[i] = keywords[i].trim()
@@ -49,16 +51,16 @@ export  function MediaPage(){
                     { mediaByDate.map(m => <MediaGroup media={m} creationDate={new Date(m[0].creationDate)} openMediaModal={() => setMediaModal(true)} setCurrentMedia={setCurrentMedia} key={m[0].id}></MediaGroup>) }
                 </div>
 
-                { mediaByDate.length == 0 && <p className="mx-auto text-2xl"></p> }
+                { mediaByDate.length === 0 && <p className="mx-auto text-2xl"></p> }
 
-                { mediaModal && <MediaModal id={currentMedia.id} close={() => setMediaModal(false)}></MediaModal>}
+                { mediaModal && <MediaModal id={currentMedia.id} close={() => { setMediaModal(false); setValueToSearch(keywordsToSearch.join(';'));} }></MediaModal>}
 
                 { searchModal &&  <SearchModal searchedObjects={"Media"} setValueToSearch={setValueToSearch} close={() => setSearchModal(false)}></SearchModal>}
 
-                { pathsModal && <PathsModal close={() => { setPathsModal(false); setValueToSearch('');} }></PathsModal> }
+                { pathsModal && <PathsModal close={() => { setPathsModal(false); setValueToSearch(keywordsToSearch.join(';'));} }></PathsModal> }
 
             </main>
-            { keywordsToSearch.length != 0 && <img src="/icons/arrow_left.svg" title="Назад" className="fixed top-5 left-[70px] p-1 w-10 h-10 bg-red-400 hover:bg-red-500 rounded-full" onClick={() => setValueToSearch('')}></img> }
+            { keywordsToSearch.length !== 0 && <img src="/icons/arrow_left.svg" alt="Назад" className="fixed top-5 left-[70px] p-1 w-10 h-10 bg-red-400 hover:bg-red-500 rounded-full" onClick={() => setValueToSearch('')}></img> }
         </>  
     )
 }

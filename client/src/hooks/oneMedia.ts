@@ -27,5 +27,5 @@ export function useOneMedia(id: number) {
         fetchOneMedia()
     }, [])
 
-    return { media, error, loading }
+    return { media, error, loading, fetchOneMedia }
 }

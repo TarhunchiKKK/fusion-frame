@@ -55,7 +55,7 @@ export function AlbumMediaPage({ albumId }: AlbumMediaProps){
 
                 { mediaByDate.length == 0 && <p className="mx-auto text-2xl"></p> }
 
-                { mediaModal && <MediaModal id={currentMedia.id} close={() => setMediaModal(false)}></MediaModal>}
+                { mediaModal && <MediaModal id={currentMedia.id} close={() => {setMediaModal(false); fetchAlbum();}}></MediaModal>}
 
                 { editAlbumModal && <EditAlbumModal album={album} close={() => { setEditAlbumModal(false); fetchAlbum()}}></EditAlbumModal> }
             </main>

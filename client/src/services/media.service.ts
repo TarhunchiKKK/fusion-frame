@@ -46,7 +46,8 @@ export const MediaService = {
         })
     },
 
-    async updateMediaFromDirectories(uploadMediaDto: IUploadMediaDto): Promise<void>{
+    async updateMediaFromDirectories(directories: string[], latestDate: Date): Promise<void>{
+        let uploadMediaDto: IUploadMediaDto = { paths: directories, latestDate: latestDate }
         await API.post('media/uploadmedia', uploadMediaDto)
     },
 

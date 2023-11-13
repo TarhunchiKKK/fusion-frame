@@ -28,13 +28,7 @@ export class MediaController{
 
     // получить медиафайлы по ключевым словам
     @Get('search')
-    // public findByKeywords(@Body() keywords: KeywordsDto): Promise<Media[]>{
     public findByKeywords(@Query('keywords') keywords: string[]): Promise<Media[]>{
-
-        console.error("Keywords in controller: ")
-        console.log(keywords)
-        //console.log(keywords.keywords)
-
         return this.mediaService.findByKeywords(keywords);
     }
 
@@ -72,6 +66,7 @@ export class MediaController{
     // удалить медиафайл
     @Delete('delete/:id')
     public removeOne(@Param('id') id: number){
+        console.log(`Remove id = ${id}`);
         this.mediaService.removeOne(id);
     }
 
