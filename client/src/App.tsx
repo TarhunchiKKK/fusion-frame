@@ -12,9 +12,6 @@ import { PathService } from './services/path.service'
 
 
 function App() {
-
-    
-
     const { albums, addAlbumRoute, removeAlbumRoute } = useContext(AlbumsRoutesContext)
 
     return (

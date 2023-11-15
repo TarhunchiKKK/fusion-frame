@@ -7,7 +7,7 @@ import { RemoveMediasDto } from "./dto/remove-medias.dto";
 import { UploadMediaDto } from "./dto/upload-media.dto";
 import { UpdateKeywordsDto } from "./dto/update-keywords.dto";
 import { CreateMediaDto } from "./dto/create-media.dto";
-import { DirectoryDto } from "src/paths/dto/directory.dto";
+import { DirectoryDto } from "../paths/dto/directory.dto";
 
 @Controller('media')
 export class MediaController{

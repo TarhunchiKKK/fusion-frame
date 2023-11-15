@@ -48,7 +48,7 @@ export class PathService{
     } 
 
     public async addPath(createPathDto: CreatePathDto): Promise<Path>{
-        const directory = createPathDto.path;
+        const directory: string = createPathDto.path;
         const exist = await this.pathRepository.findOne({
             where:{
                 path: directory,

@@ -2,7 +2,6 @@ import {Body, Controller, Delete, Get, Param, Post, Put, Query} from "@nestjs/co
 import { AlbumService } from "./album.service";
 import { Album } from "./entities/album.entity";
 import { CreateAlbumDto } from "./dto/create-album.dto";
-import { Media } from "src/media/entities/media.entity";
 import { SearchAlbumDto } from "./dto/search-album.dto";
 import { UpdateAlbumDto } from "./dto/update-album.dto";
 import { AddOneMediaDto } from "./dto/add-one-media.dto";
