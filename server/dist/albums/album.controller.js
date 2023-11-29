@@ -60,9 +60,6 @@ let AlbumController = class AlbumController {
     removeMediaFromAlbum(removeMediaFromAlbumDto) {
         this.albumService.removeMediaFromAlbum(removeMediaFromAlbumDto.albumId, removeMediaFromAlbumDto.media);
     }
-    async clear() {
-        this.albumService.clear();
-    }
 };
 exports.AlbumController = AlbumController;
 __decorate([
@@ -145,12 +142,6 @@ __decorate([
     __metadata("design:paramtypes", [remove_media_from_album_dto_1.RemoveMediaFromAlbumDto]),
     __metadata("design:returntype", void 0)
 ], AlbumController.prototype, "removeMediaFromAlbum", null);
-__decorate([
-    (0, common_1.Post)('clear'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], AlbumController.prototype, "clear", null);
 exports.AlbumController = AlbumController = __decorate([
     (0, common_1.Controller)('albums'),
     __metadata("design:paramtypes", [album_service_1.AlbumService])

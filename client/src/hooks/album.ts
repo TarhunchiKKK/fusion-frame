@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {getDefaultAlbum, IAlbum, IMedia} from "../models";
 import { AlbumService } from "../services/album.service";
-import { MediaService } from "../services/media.service";
 import { AxiosError } from "axios";
 
 export function useAlbum(id: number){

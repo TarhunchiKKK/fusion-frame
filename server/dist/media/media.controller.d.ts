@@ -3,8 +3,7 @@ import { Media } from "./entities/media.entity";
 import { RemoveMediasDto } from "./dto/remove-medias.dto";
 import { UploadMediaDto } from "./dto/upload-media.dto";
 import { UpdateKeywordsDto } from "./dto/update-keywords.dto";
-import { CreateMediaDto } from "./dto/create-media.dto";
-import { DirectoryDto } from "src/paths/dto/directory.dto";
+import { DirectoryDto } from "../paths/dto/directory.dto";
 export declare class MediaController {
     private mediaService;
     constructor(mediaService: MediaService);
@@ -18,6 +17,4 @@ export declare class MediaController {
     updateMediaFromDirectories(uploadMediaDto: UploadMediaDto): void;
     removeOne(id: number): void;
     removeMany(removeMediaDto: RemoveMediasDto): void;
-    create(createMediaDto: CreateMediaDto): Promise<void>;
-    clear(): Promise<void>;
 }

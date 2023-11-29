@@ -8,8 +8,6 @@ import { useState } from "react"
 import { MediaModal } from "../components/media/MediaModal"
 import { SearchModal } from "../components/other/SearchModal"
 import { PathsModal } from "../components/paths/PathsModal"
-import { MediaService } from "../services/media.service"
-import { PathService } from "../services/path.service"
 
 
 
@@ -60,6 +58,7 @@ export  function MediaPage(){
                 { pathsModal && <PathsModal close={() => { setPathsModal(false); setValueToSearch(keywordsToSearch.join(';'));} }></PathsModal> }
 
             </main>
+            
             { keywordsToSearch.length !== 0 && <img src="/icons/arrow_left.svg" alt="Назад" className="fixed top-5 left-[70px] p-1 w-10 h-10 bg-red-400 hover:bg-red-500 rounded-full" onClick={() => setValueToSearch('')}></img> }
         </>  
     )

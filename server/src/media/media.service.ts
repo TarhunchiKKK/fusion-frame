@@ -1,16 +1,10 @@
-import { BadRequestException, Inject, Injectable, forwardRef } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { Media } from "./entities/media.entity";
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateMediaDto } from "./dto/create-media.dto";
 
 const fs = require('fs');
 const path = require('path');
-const child_process = require('child_process');
-
-
-
-// const ImageStore: string = __dirname.substring(0, __dirname.length - 10) + 'client\\public'
 
 function keywordsIntersection(a: string[], b: string[]): boolean{
     for(let word1 of a){
@@ -111,31 +105,25 @@ export class MediaService{
         let media: Media[] = files.map(file =>{
             let m: Media = new Media();
             let stat = fs.statSync(file);
-            //m.path = file.replaceAll('/', '\\');
             m.path = file
 
-            // new
             let lastSlashIndex: number = m.path.lastIndexOf('\\');
             m.name = m.path.substring(lastSlashIndex + 1)
             
             fs.copyFile(m.path, this.ImageStore + m.name, (err) => {
                 if(err) console.error(err)
             })
-            // new
 
             m.size = stat.size;
             m.creationDate = stat.birthtime;
             m.duration = undefined;
             m.keywords = [];
-            //m.albums = [];
             return m;
         });
 
         await this.mediaRepository.save(media);
     }
 
-    // НОВОЕ
-    // НЕ ТЕСТИЛ
     public async removeDirectoryMedia(directory: string){
         // получить файлы, которые являются фото или видео
         let files: string[] = fs.readdirSync(directory).filter(file =>{
@@ -166,16 +154,13 @@ export class MediaService{
             let m: Media = new Media();
             let stat = fs.statSync(file);
 
-            //m.path = file.replaceAll('/', '\\');
             m.path = file
 
-            // new
             let lastSlashIndex: number = m.path.lastIndexOf('\\');
             m.name = m.path.substring(lastSlashIndex + 1)
             fs.copyFile(m.path, this.ImageStore + m.name, (err) => {
                 if (err) console.error(err)
             })
-            // new
 
             m.size = stat.size;
             m.creationDate = stat.birthtime;
@@ -193,14 +178,13 @@ export class MediaService{
                 id: id,
             }
         })
-        // mnew
+
         fs.rm(media.path, (err) => {
             if (err) console.error(err)
         })
         fs.rm(this.ImageStore + media.name, (err) => {
             if (err) console.error(err)
         })
-        // new 
 
         await this.mediaRepository.delete(id);
     }
@@ -208,7 +192,6 @@ export class MediaService{
     public async removeMany(ids: number[]){
         let media: Media[] = (await this.mediaRepository.find()).filter(m => ids.includes(m.id));
 
-        // new
         for(let m of media){
             fs.rm(m.path, (err) => {
                 if (err) console.error(err)
@@ -217,28 +200,8 @@ export class MediaService{
                 if (err) console.error(err)
             })
         }
-        // new 
 
         await this.mediaRepository.remove(media);
     }
-
-
-
-    // POSTMAN
-    public async create(createMediaDto: CreateMediaDto){
-        let media: Media = new Media();
-
-        media.path = createMediaDto.path;
-        media.creationDate = new Date(2023, 12, 12, 0 , 0 , 0 , 0);
-        media.size = createMediaDto.size;
-        media.keywords = createMediaDto.keywords;
-        media.duration = createMediaDto.duration;
-
-        await this.mediaRepository.save(media);
-    }
-
-    public async clear(){
-        this.mediaRepository.clear();
-     }
 }
 

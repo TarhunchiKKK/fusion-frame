@@ -1,6 +1,5 @@
 import { Media } from "./entities/media.entity";
 import { Repository } from 'typeorm';
-import { CreateMediaDto } from "./dto/create-media.dto";
 export declare class MediaService {
     private mediaRepository;
     private ImageStore;
@@ -16,6 +15,4 @@ export declare class MediaService {
     updateMediaFromDirectories(files: string[]): Promise<void>;
     removeOne(id: number): Promise<void>;
     removeMany(ids: number[]): Promise<void>;
-    create(createMediaDto: CreateMediaDto): Promise<void>;
-    clear(): Promise<void>;
 }

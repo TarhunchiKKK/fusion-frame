@@ -33,7 +33,7 @@ export function EditKeywordsModal({ close, media, editKeywords }: EditKeywordsMo
                 absolute top-1/3 left-1/2 -translate-x-1/2 rounded-xl bg-white">
                 <div className="flex flex-row justify-end w-full">
                     <span className="font-bold ml-6">Ключевые слова</span>
-                    <img src="/icons/exit.svg" onClick={close} className="w-8 h-8 rounded-full hover:bg-gray-300" />
+                    <img src="/icons/exit.svg" alt="Закрыть" onClick={close} className="w-8 h-8 rounded-full hover:bg-gray-300" />
                 </div>
                 <div className="mx-auto w-11/12 mb-2">
                     <span>{media.keywords.join('; ')}</span>

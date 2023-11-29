@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { BrowserRouter, HashRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import {AlbumsState} from "./context/AlbumsRoutesContext";
-import {IAlbum} from "./models";
-import {AlbumService} from "./services/album.service";
 import { MediaService } from './services/media.service';
 import { PathService } from './services/path.service';
 

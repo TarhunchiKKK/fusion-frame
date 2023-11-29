@@ -1,12 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { MediaService } from "./media.service";
-import { KeywordsDto } from "./dto/keywords.dto"
 import { Media } from "./entities/media.entity";
-import { LoadMediaDto } from "./dto/load-media.dto.ts";
 import { RemoveMediasDto } from "./dto/remove-medias.dto";
 import { UploadMediaDto } from "./dto/upload-media.dto";
 import { UpdateKeywordsDto } from "./dto/update-keywords.dto";
-import { CreateMediaDto } from "./dto/create-media.dto";
 import { DirectoryDto } from "../paths/dto/directory.dto";
 
 @Controller('media')
@@ -50,8 +47,6 @@ export class MediaController{
         this.mediaService.loadMediaFromDirectory(directory.path);
     }
 
-    // НОВОЕ
-    // НЕ ТЕСТИЛ
     @Delete('removedirectorymedia')
     public removeMediaFromDirectory(@Body() directory: DirectoryDto){
         this.mediaService.removeDirectoryMedia(directory.path)
@@ -66,7 +61,6 @@ export class MediaController{
     // удалить медиафайл
     @Delete('delete/:id')
     public removeOne(@Param('id') id: number){
-        console.log(`Remove id = ${id}`);
         this.mediaService.removeOne(id);
     }
 
@@ -74,21 +68,6 @@ export class MediaController{
     @Delete('delete')
     public removeMany(@Body() removeMediaDto: RemoveMediasDto){
         this.mediaService.removeMany(removeMediaDto.ids);
-    }
-
-
-
-
-
-    // ДЛЯ ТЕСТОВ
-    @Post('add')
-    public async create(@Body() createMediaDto: CreateMediaDto){
-        this.mediaService.create(createMediaDto);
-    }
-
-    @Post('clear')
-    public async clear(){
-        this.mediaService.clear();
     }
 }
 

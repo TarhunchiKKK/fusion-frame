@@ -1,9 +1,8 @@
 /**/package-lock.json
 /**/dist/
 /**/node_modules/
-/**/.metals/
-
-/docs/diagrams/*.bak*
+/**/.idea/
+/**/.vscode/
 
 /client/public/storage/*
 !/client/public/storage/README.md

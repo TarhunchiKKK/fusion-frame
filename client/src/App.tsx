@@ -1,18 +1,13 @@
-import {Route, Routes, useRoutes} from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { MediaPage } from './pages/MediaPage'
 import { AlbumsPage } from './pages/AlbumsPage'
-import {useContext, useEffect, useState} from 'react'
-import { AlbumService } from './services/album.service'
+import { useContext } from 'react'
 import { AlbumMediaPage } from './pages/AlbumMediaPage'
-import { IAlbum } from './models'
 import {AlbumsRoutesContext} from "./context/AlbumsRoutesContext";
-import { MediaService } from './services/media.service'
-import { PathService } from './services/path.service'
-
 
 
 function App() {
-    const { albums, addAlbumRoute, removeAlbumRoute } = useContext(AlbumsRoutesContext)
+    const { albums } = useContext(AlbumsRoutesContext)
 
     return (
         <Routes>

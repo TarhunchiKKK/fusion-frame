@@ -1,4 +1,4 @@
-import { Album } from 'src/albums/entities/album.entity';
+import { Album } from '../../albums/entities/album.entity';
 export declare class Media {
     id: number;
     path: string;

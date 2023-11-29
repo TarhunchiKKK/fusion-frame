@@ -10,8 +10,8 @@ interface MediaModalProps{
 }
 
 export function MediaModal({ id, close }: MediaModalProps){
-    let { media, error, loading , fetchOneMedia} = useOneMedia(id)
-    const { editKeywords, addToAlbum, removeMedia } = useMediaModalFunctions(media)
+    let { media } = useOneMedia(id)
+    const { editKeywords, removeMedia } = useMediaModalFunctions(media)
 
     const [editKeywordsModal, setEditKeywordsModal] = useState<boolean>(false)
     const [chooseAlbumModal, setChooseAlbumModal] = useState<boolean>(false)

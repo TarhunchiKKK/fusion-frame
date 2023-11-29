@@ -19,7 +19,6 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const fs = require('fs');
 const path = require('path');
-const child_process = require('child_process');
 function keywordsIntersection(a, b) {
     for (let word1 of a) {
         for (let word2 of b) {
@@ -182,18 +181,6 @@ let MediaService = class MediaService {
             });
         }
         await this.mediaRepository.remove(media);
-    }
-    async create(createMediaDto) {
-        let media = new media_entity_1.Media();
-        media.path = createMediaDto.path;
-        media.creationDate = new Date(2023, 12, 12, 0, 0, 0, 0);
-        media.size = createMediaDto.size;
-        media.keywords = createMediaDto.keywords;
-        media.duration = createMediaDto.duration;
-        await this.mediaRepository.save(media);
-    }
-    async clear() {
-        this.mediaRepository.clear();
     }
 };
 exports.MediaService = MediaService;

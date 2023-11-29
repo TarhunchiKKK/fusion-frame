@@ -12,5 +12,4 @@ export declare class PathController {
     openExplorer(): string;
     openDirectoryInExplorer(directoryDto: DirectoryDto): void;
     checkForNewFiles(dateDto: DateDto): Promise<string[]>;
-    clear(): Promise<void>;
 }

@@ -136,9 +136,6 @@ let AlbumService = class AlbumService {
         album.media = album.media.filter(m => m.id != media.id);
         await this.albumRepository.save(album);
     }
-    async clear() {
-        this.albumRepository.clear();
-    }
 };
 exports.AlbumService = AlbumService;
 exports.AlbumService = AlbumService = __decorate([

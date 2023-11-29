@@ -19,5 +19,4 @@ export declare class AlbumService {
     addOneMediaToAlbum(id: number, media: Media): Promise<void>;
     addManyMediaToAlbum(id: number, media: Media[]): Promise<void>;
     removeMediaFromAlbum(albumId: number, media: Media): Promise<void>;
-    clear(): Promise<void>;
 }

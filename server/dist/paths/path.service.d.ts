@@ -12,5 +12,4 @@ export declare class PathService {
     checkForNewFiles(latestDate: Date): Promise<string[]>;
     openExplorer(): string;
     openDirectoryInExplorer(directory: string): Promise<void>;
-    clear(): Promise<void>;
 }

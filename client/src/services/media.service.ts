@@ -1,8 +1,5 @@
-import { Collection } from "typescript";
 import { API } from "../api/axios.api";
-import { IMedia, IKeywordsDto, IUpdateKeywordsDto, ILoadMediaDto, IUploadMediaDto, IRemoveMediasDto, IDirectoryDto} from "../models";
-import axios from "axios";
-import { useState } from "react";
+import { IMedia, IUpdateKeywordsDto, ILoadMediaDto, IUploadMediaDto, IRemoveMediasDto, IDirectoryDto } from "../models";
 
 export const MediaService = {
     async getAll(): Promise<IMedia[]>{

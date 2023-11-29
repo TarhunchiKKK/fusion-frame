@@ -103,9 +103,6 @@ let PathService = class PathService {
             console.log(err);
         }
     }
-    async clear() {
-        this.pathRepository.clear();
-    }
 };
 exports.PathService = PathService;
 exports.PathService = PathService = __decorate([

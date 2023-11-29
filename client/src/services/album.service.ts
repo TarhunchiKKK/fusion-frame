@@ -1,5 +1,5 @@
 import { API } from "../api/axios.api";
-import { IAddManyMediaDto, IAddOneMediaDto, IAlbum, IAlbumNamesDto, ICreateAlbumDto, IMedia, ISearchAlbumDto, IUpdateAlbumDto } from "../models";
+import { IAddOneMediaDto, IAlbum, ICreateAlbumDto, IMedia, IUpdateAlbumDto } from "../models";
 
 export const AlbumService = {
     async getAll(): Promise<IAlbum[]> {
@@ -12,21 +12,8 @@ export const AlbumService = {
         return data
     },
 
-    async getCount(): Promise<number>{
-        const { data } = await API.get<number>('albums/count')
-        return data
-    },
-
-    async getAlbumNames(): Promise<IAlbumNamesDto>{
-        const { data } = await API.get<IAlbumNamesDto>('albums/names')
-        return data
-    },
-
     async getByName(albumName: string): Promise<IAlbum[]> {
-        // let searchAlbumDto: ISearchAlbumDto = { name: name }
-        // console.log("On frontend: ", name)
         const { data } = await API.get<IAlbum[]>('albums/search', {
-            // params: searchAlbumDto
             params: {
                 albumName: albumName
             }
@@ -54,10 +41,6 @@ export const AlbumService = {
         await API.post('albums/addonemedia', addMediaDto)
     },
 
-    async addManyMediaToAlbum(addMediaDto: IAddManyMediaDto): Promise<void> {
-        await API.post('albums/addmanymedia', addMediaDto)
-    },
-
     async removeMediaFromAlbum(albumId: number, media: IMedia): Promise<void> {
         await API.delete('albums/removemedia', {
             data: {
@@ -65,6 +48,5 @@ export const AlbumService = {
                 media: media
             }
         })
-        
     }
 }

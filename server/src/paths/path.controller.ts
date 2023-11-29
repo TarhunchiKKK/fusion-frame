@@ -45,15 +45,4 @@ export class PathController{
         let latestDate: Date = new Date(dateDto.creationDate);
         return this.pathService.checkForNewFiles(latestDate);
     }
-
-
-
-
-
-
-    // POSTMAN
-    @Post('clear')
-    public async clear(){
-        this.pathService.clear();
-    }
 }

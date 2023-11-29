@@ -1,6 +1,4 @@
 import React, {createContext, useEffect, useState} from "react";
-import {Route} from "react-router-dom";
-import {AlbumMediaPage} from "../pages/AlbumMediaPage";
 import {IAlbum} from "../models";
 import {AlbumService} from "../services/album.service";
 

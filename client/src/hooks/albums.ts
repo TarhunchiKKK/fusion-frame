@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react"
-import axios, { AxiosError } from "axios"
+import { AxiosError } from "axios"
 import { IAlbum } from "../models"
 import { AlbumService } from "../services/album.service"
-
-
 
 // получение альбомов
 export function useAlbums(albumName: string = ''){
@@ -18,7 +16,7 @@ export function useAlbums(albumName: string = ''){
             setLoading(true)
 
             let data: IAlbum[] = []
-            if (albumName == ''){
+            if (albumName === ''){
                 data = await AlbumService.getAll()
             }
             else {

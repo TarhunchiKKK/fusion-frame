@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useAlbums } from "../../hooks/albums"
 import { IMedia } from "../../models"
 import { AlbumName } from "./AlbumName"
@@ -9,7 +8,7 @@ interface ChooseAlbumModalProps{
 }
 
 export function ChooseAlbumModal({ media, close }: ChooseAlbumModalProps){
-    const { albums, error, loading } = useAlbums()
+    const { albums } = useAlbums()
     
     return(
         <>

@@ -41,9 +41,6 @@ let PathController = class PathController {
         let latestDate = new Date(dateDto.creationDate);
         return this.pathService.checkForNewFiles(latestDate);
     }
-    async clear() {
-        this.pathService.clear();
-    }
 };
 exports.PathController = PathController;
 __decorate([
@@ -86,12 +83,6 @@ __decorate([
     __metadata("design:paramtypes", [date_dto_1.DateDto]),
     __metadata("design:returntype", Promise)
 ], PathController.prototype, "checkForNewFiles", null);
-__decorate([
-    (0, common_1.Post)('clear'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], PathController.prototype, "clear", null);
 exports.PathController = PathController = __decorate([
     (0, common_1.Controller)('paths'),
     __metadata("design:paramtypes", [path_service_1.PathService])

@@ -2,7 +2,6 @@ import {Body, Controller, Delete, Get, Param, Post, Put, Query} from "@nestjs/co
 import { AlbumService } from "./album.service";
 import { Album } from "./entities/album.entity";
 import { CreateAlbumDto } from "./dto/create-album.dto";
-import { SearchAlbumDto } from "./dto/search-album.dto";
 import { UpdateAlbumDto } from "./dto/update-album.dto";
 import { AddOneMediaDto } from "./dto/add-one-media.dto";
 import { AddManyMediaDto } from "./dto/add-many-media.dto";
@@ -27,11 +26,6 @@ export class AlbumController{
     }
 
 
-
-
-
-
-//////////////////////////////////////////////////////////////////////
     @Get('count')
     public getCount():Promise<number>{
         return this.albumService.getCount();
@@ -46,17 +40,10 @@ export class AlbumController{
     public getAlbumNames(): Promise<AlbumNamesDto>{
         return this.albumService.getAlbumNames();
     }
-//////////////////////////////////////////////////////////////////////
-
-
-
-
-
 
 
     // получить альбомы (БЕЗ ИХ МЕДИАФАЙЛОВ) по имени
     @Get('search')
-    // public getByName(@Body() searchAlbumDto: SearchAlbumDto): Promise<Album[]>{
     public getByName(@Query('albumName') albumName: string): Promise<Album[]>{
         return this.albumService.findByName(albumName);
     }
@@ -92,20 +79,8 @@ export class AlbumController{
     }
 
 
-
-    // НЕ ТЕСТИЛ
     @Delete('removemedia')
     public removeMediaFromAlbum(@Body() removeMediaFromAlbumDto: RemoveMediaFromAlbumDto){
         this.albumService.removeMediaFromAlbum(removeMediaFromAlbumDto.albumId, removeMediaFromAlbumDto.media);
-    }
-
-
-
-
-
-    // POSTMAN
-    @Post('clear')
-    public async clear(){
-        this.albumService.clear();
     }
 }

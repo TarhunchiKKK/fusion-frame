@@ -18,7 +18,6 @@ const media_service_1 = require("./media.service");
 const remove_medias_dto_1 = require("./dto/remove-medias.dto");
 const upload_media_dto_1 = require("./dto/upload-media.dto");
 const update_keywords_dto_1 = require("./dto/update-keywords.dto");
-const create_media_dto_1 = require("./dto/create-media.dto");
 const directory_dto_1 = require("../paths/dto/directory.dto");
 let MediaController = class MediaController {
     constructor(mediaService) {
@@ -54,12 +53,6 @@ let MediaController = class MediaController {
     }
     removeMany(removeMediaDto) {
         this.mediaService.removeMany(removeMediaDto.ids);
-    }
-    async create(createMediaDto) {
-        this.mediaService.create(createMediaDto);
-    }
-    async clear() {
-        this.mediaService.clear();
     }
 };
 exports.MediaController = MediaController;
@@ -131,19 +124,6 @@ __decorate([
     __metadata("design:paramtypes", [remove_medias_dto_1.RemoveMediasDto]),
     __metadata("design:returntype", void 0)
 ], MediaController.prototype, "removeMany", null);
-__decorate([
-    (0, common_1.Post)('add'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_media_dto_1.CreateMediaDto]),
-    __metadata("design:returntype", Promise)
-], MediaController.prototype, "create", null);
-__decorate([
-    (0, common_1.Post)('clear'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], MediaController.prototype, "clear", null);
 exports.MediaController = MediaController = __decorate([
     (0, common_1.Controller)('media'),
     __metadata("design:paramtypes", [media_service_1.MediaService])

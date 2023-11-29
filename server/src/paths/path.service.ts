@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, forwardRef } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { CreatePathDto } from "./dto/create-path.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -8,14 +8,6 @@ const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process');
 
-// function replaceSymbol(str: string, old_symbol: string, new_symbol: string) {
-//     let new_str: string = "";
-//     for(let c of str){
-//         if(c == old_symbol) new_str += new_symbol;
-//         else new_str += c;
-//     }
-//     return new_str;
-// }
 
 @Injectable()
 export class PathService{
@@ -39,11 +31,6 @@ export class PathService{
 
     public async findAll(): Promise<Path[]>{
         let count: number = await this.pathRepository.count();
-        // чтобы не было екзепшена при добавлении каталога
-        // if(count ==  0) {
-        //     throw new BadRequestException('Np paths');
-        // }
-
         return await this.pathRepository.find({});
     } 
 
@@ -69,7 +56,6 @@ export class PathService{
             return await this.pathRepository.save(new_path);
         }
 
-        // А НУЖНО ЛИ ГЕНЕРИТЬ ЕКЗЕПШН
         else{
             throw new BadRequestException('Path is not exist');
         }
@@ -113,7 +99,6 @@ export class PathService{
     }
 
 
-
     public async openDirectoryInExplorer(directory: string){
         // путь приходит из базы, поэтому его не надо проверять на существование
         try{
@@ -124,17 +109,5 @@ export class PathService{
         } catch(err){
             console.log(err);
         }
-    }
-
-
-
-
-
-
-
-
-    // POSTMAN
-    public async clear(){
-        this.pathRepository.clear();
     }
 }

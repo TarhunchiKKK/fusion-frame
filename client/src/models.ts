@@ -12,7 +12,7 @@ export interface IMedia{
 }
 
 export function getDefaultMedia(): IMedia{
-    let media: IMedia = {
+    return {
         id: -1,
         name: '',
         path: '',
@@ -22,7 +22,6 @@ export function getDefaultMedia(): IMedia{
         duration: undefined,
         albums: []
     }
-    return media
 }
 
 
@@ -44,11 +43,6 @@ export function getDefaultAlbum(): IAlbum{
     }
 }
 
-export interface IMediaGroup{
-    media: IMedia[]
-    creationDate: Date
-}
-
 export interface IPath{
     id: number
     path: string
@@ -61,10 +55,6 @@ export interface ICreateAlbumDto{
     name: string
 }
 
-export interface ISearchAlbumDto{
-    name: string
-}
-
 export interface IUpdateAlbumDto{
     id: number
     name: string
@@ -73,27 +63,6 @@ export interface IUpdateAlbumDto{
 export interface IAddOneMediaDto{
     id: number
     media: IMedia
-}
-
-export interface IAddManyMediaDto{
-    id: number
-    media: IMedia[]
-}
-
-export interface IRemoveMediaFromAlbumDto{
-    albumId: number
-    media: IMedia
-}
-
-export interface IAlbumNamesDto{
-    albumNammes: string[]
-}
-
-
-
-
-export interface IKeywordsDto{
-    keywords: string[]
 }
 
 export interface ILoadMediaDto{
@@ -114,10 +83,6 @@ export interface IUploadMediaDto{
     latestDate: Date
 }
 
-
-
-
-
 export interface ICreatePathDto{
     path: string
 }
@@ -126,13 +91,7 @@ export interface IDirectoryDto{
     path: string
 }
 
-
 export interface IDateDto{
     creationDate: string;
 }
 
-
-
-export interface ISearchValue{
-    value: string
-}

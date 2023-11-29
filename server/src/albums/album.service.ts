@@ -76,7 +76,6 @@ export class AlbumService{
             },
         });
 
-        // А НУЖНО ЛИ ГЕНЕРИТЬ ЕКЗЕПШН
         if(exist == null){
             throw new BadRequestException('Album with such name already exists');
         }
@@ -141,7 +140,6 @@ export class AlbumService{
     }
 
 
-
     public async removeMediaFromAlbum(albumId: number, media: Media){
         let album: Album = await this.albumRepository.findOne({
             where:{
@@ -157,15 +155,5 @@ export class AlbumService{
         
         album.media = album.media.filter(m => m.id != media.id)
         await this.albumRepository.save(album)
-    }
-
-
-
-
-
-
-    // POSTMAN
-    public async clear(){
-        this.albumRepository.clear();
     }
 }
