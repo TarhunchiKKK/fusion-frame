@@ -1,5 +1,11 @@
-/client/node_modules/
-/client/package-lock.json
+/**/package-lock.json
+/**/dist/
+/**/node_modules/
+/**/.idea/
+/**/.vscode/
 
-/server/node_modules/
-/server/package-lock.json
+/client/public/storage/*
+!/client/public/storage/README.md
+
+
+
